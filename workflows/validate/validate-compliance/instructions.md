@@ -24,7 +24,7 @@
 <action>Encerrar workflow pois validação não pode ser executada sem conhecimento</action>
 </check>
 
-<template-output>validation_rules_loaded</template-output>
+<action>Store validation rules count as internal variable</action>
 </step>
 
 <step n="2" goal="Coletar parâmetros de validação">
@@ -53,10 +53,10 @@
 <action>- Severidades: {{severity_levels}}</action>
 <action>- Auto-fix: {{auto_fix}}</action>
 
-<template-output>project_path</template-output>
-<template-output>project_name</template-output>
-<template-output>severity_levels</template-output>
-<template-output>auto_fix</template-output>
+<action>Store project_path as internal variable</action>
+<action>Store project_name as internal variable</action>
+<action>Store severity_levels as internal variable</action>
+<action>Store auto_fix as internal variable</action>
 </step>
 
 <step n="3" goal="Detectar tipo de projeto">
@@ -89,10 +89,10 @@
 <action>Informar {user_name}: Tipo de projeto detectado: {{project_type}}</action>
 <action>Listar arquivos relevantes encontrados no projeto</action>
 
-<template-output>project_type</template-output>
-<template-output>hasDockerCompose</template-output>
-<template-output>hasSettings</template-output>
-<template-output>hasEnvIo</template-output>
+<action>Store project_type as internal variable</action>
+<action>Store hasDockerCompose as internal variable</action>
+<action>Store hasSettings as internal variable</action>
+<action>Store hasEnvIo as internal variable</action>
 </step>
 
 <step n="4" goal="Validar docker-compose.yaml">
@@ -142,8 +142,8 @@
 <action>- "partial": apenas erros MEDIUM/LOW</action>
 <action>- "non-compliant": erros CRITICAL ou HIGH presentes</action>
 
-<template-output>docker_compose_errors</template-output>
-<template-output>docker_compose_status</template-output>
+<action>Store docker_compose_errors as internal variable</action>
+<action>Store docker_compose_status as internal variable</action>
 </step>
 
 <step n="5" goal="Validar arquivos .env">
@@ -166,8 +166,8 @@
 <action>Armazenar todos os erros em {{env_files_errors}} (array)</action>
 <action>Calcular status da categoria (compliant/partial/non-compliant)</action>
 
-<template-output>env_files_errors</template-output>
-<template-output>env_files_status</template-output>
+<action>Store env_files_errors as internal variable</action>
+<action>Store env_files_status as internal variable</action>
 </step>
 
 <step n="6" goal="Validar .embrapa/settings.json">
@@ -191,8 +191,8 @@
 <action>Armazenar erros em {{settings_errors}} (array)</action>
 <action>Calcular status da categoria</action>
 
-<template-output>settings_errors</template-output>
-<template-output>settings_status</template-output>
+<action>Store settings_errors as internal variable</action>
+<action>Store settings_status as internal variable</action>
 </step>
 
 <step n="7" goal="Validar integrações">
@@ -212,8 +212,8 @@
 <action>Armazenar erros em {{integrations_errors}} (array)</action>
 <action>Calcular status da categoria</action>
 
-<template-output>integrations_errors</template-output>
-<template-output>integrations_status</template-output>
+<action>Store integrations_errors as internal variable</action>
+<action>Store integrations_status as internal variable</action>
 </step>
 
 <step n="8" goal="Calcular compliance score">
@@ -244,13 +244,13 @@
 <action>Informar {user_name}: Score de conformidade calculado: {{compliance_score}}</action>
 <action>Informar resumo: {{total_errors}} erros (C:{{critical_count}}, H:{{high_count}}, M:{{medium_count}}, L:{{low_count}})</action>
 
-<template-output>all_errors</template-output>
-<template-output>critical_count</template-output>
-<template-output>high_count</template-output>
-<template-output>medium_count</template-output>
-<template-output>low_count</template-output>
-<template-output>total_errors</template-output>
-<template-output>compliance_score</template-output>
+<action>Store all_errors as internal variable</action>
+<action>Store critical_count as internal variable</action>
+<action>Store high_count as internal variable</action>
+<action>Store medium_count as internal variable</action>
+<action>Store low_count as internal variable</action>
+<action>Store total_errors as internal variable</action>
+<action>Store compliance_score as internal variable</action>
 </step>
 
 <step n="9" goal="Gerar relatório JSON">
@@ -300,7 +300,7 @@
 <action>Salvar JSON completo em {validation_report_json}</action>
 <action>Informar {user_name}: Relatório JSON salvo em {{validation_report_json}}</action>
 
-<template-output>report_json_path</template-output>
+<action>Store report_json_path as internal variable</action>
 </step>
 
 <step n="10" goal="Gerar relatório Markdown">
@@ -316,7 +316,7 @@
 <action>Salvar Markdown completo em {validation_report_md}</action>
 <action>Informar {user_name}: Relatório Markdown salvo em {{validation_report_md}}</action>
 
-<template-output>report_md_path</template-output>
+<action>Store report_md_path as internal variable</action>
 </step>
 
 <step n="11" goal="Apresentar sugestões de correção">
