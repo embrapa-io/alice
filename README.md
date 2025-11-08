@@ -2,13 +2,25 @@
 last-redoc-date: 2025-11-04
 ---
 
-# Módulo Embrapa I/O
+# Módulo Embrapa I/O do BMAD Method
 
-**Purpose**: Módulo de conhecimento BMAD que garante conformidade de aplicações com a plataforma Embrapa I/O através de workflows de setup, templates adaptáveis, e validação rigorosa contra 38 regras específicas.
+**Purpose**: Módulo de conhecimento para o [BMAD Method](https://github.com/bmad-code-org/BMAD-METHOD) que garante conformidade de aplicações com a plataforma [Embrapa I/O](https://embrapa.io) por meio de _workflows_ de setup, templates adaptáveis, e validação rigorosa contra 38 regras específicas.
 
-**Overview**: Este módulo de conhecimento não cria aplicações diretamente - ele instrui outros agentes BMAD sobre como gerar projetos conformes com a plataforma Embrapa I/O independente de linguagem ou framework. Fornece workflows reutilizáveis para geração de arquivos essenciais (`.env.io`, `docker-compose.yaml`, `.embrapa/settings.json`, `LICENSE`), templates especializados por stack tecnológica (Node.js, Vue.js, React, PHP Laravel, .NET), e sistema completo de validação baseado nas 4 Verdades Fundamentais da plataforma.
+**Overview**: Este módulo de conhecimento não cria aplicações diretamente - ele instrui outros agentes BMAD sobre como gerar projetos conformes com a plataforma **Embrapa I/O**, independente de linguagem ou framework. Fornece _workflows_ reutilizáveis para geração de arquivos essenciais (`.env.io`, `docker-compose.yaml`, `.embrapa/settings.json`, `LICENSE`), templates especializados por stack tecnológica (Node.js, Vue.js, React, PHP Laravel, .NET), e sistema completo de validação baseado nas 4 Verdades Fundamentais da plataforma.
 
 O diferencial está na abordagem agnóstica de stack: detecta automaticamente a tecnologia utilizada e adapta configurações apropriadas sem necessidade de módulos específicos por linguagem. Workflows podem ser invocados por qualquer agente BMAD durante criação ou adaptação de projetos, garantindo que todas as aplicações sigam padrões rigorosos de nomenclatura, estruturação Docker, variáveis de ambiente, e integrações de serviços (Sentry, Matomo, healthchecks).
+
+## Instalation
+
+Primeiramente, [instale o _framework_ do **BMAD Method**](https://github.com/bmad-code-org/BMAD-METHOD) em seu projeto.
+
+Em seguida, faça:
+
+```bash
+git clone https://github.com/embrapa-io/bmad.git bmad/embrapa-io
+```
+
+Isto irá instalar o módulo dentro da instância do BMAD. Basta então iniciar seu assistente de codificação em IA (Claude Code, Gemini CLI, OpenCode, GitHub Copilot, Codex, etc) e chamar o [agente do BMAD](https://github.com/bmad-code-org/BMAD-METHOD/blob/main/src/modules/bmm/docs/agents-guide.md) de sua preferência. Ao elaborar os _prompts_, solicite que o assistente mantenha o _compliance_ com o **Embrapa I/O** por meio do módulo `embrapa-io`.
 
 ## Workflows
 
