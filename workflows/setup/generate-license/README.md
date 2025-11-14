@@ -1,5 +1,5 @@
 ---
-last-redoc-date: 2025-11-04
+last-redoc-date: 2025-11-14
 ---
 
 # Generate LICENSE Workflow
@@ -14,7 +14,7 @@ Se o arquivo LICENSE já existir, será sobrescrito silenciosamente - comportame
 
 ```xml
 <invoke-workflow>
-  <path>{project-root}/bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</path>
+  <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</path>
   <description>Gera LICENSE da Embrapa (execução silenciosa)</description>
 </invoke-workflow>
 ```

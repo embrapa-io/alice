@@ -1,5 +1,5 @@
 ---
-last-redoc-date: 2025-11-04
+last-redoc-date: 2025-11-14
 ---
 
 # Generate Docker Compose Workflow
@@ -16,7 +16,7 @@ A dependência do arquivo `.env.io` (gerado pelo workflow `generate-env-io`) é 
 
 ```xml
 <invoke-workflow>
-  <path>{project-root}/bmad/embrapa-io/workflows/setup/generate-docker-compose/workflow.yaml</path>
+  <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-docker-compose/workflow.yaml</path>
   <description>Gera docker-compose.yaml conforme com Embrapa I/O</description>
 </invoke-workflow>
 ```
@@ -37,7 +37,7 @@ A dependência do arquivo `.env.io` (gerado pelo workflow `generate-env-io`) é 
 
 ## Configuration
 
-- **base_template_path**: `{project-root}/bmad/embrapa-io/templates/docker-compose/base.yaml`
+- **base_template_path**: `{project-root}/.bmad/embrapa-io/templates/docker-compose/base.yaml`
 - **Template adaptável** para diferentes stacks com configurações específicas de imagem, porta, volumes e healthchecks
 - **Validação em Step 5** garante conformidade antes de salvar arquivo final
 

@@ -2,14 +2,14 @@
 category: "validate"
 
 # Critical variables from config_source
-config_source: "{project-root}/bmad/embrapa-io/config.yaml"
+config_source: "{project-root}/.bmad/embrapa-io/config.yaml"
 output_folder: "{config_source}:output_folder"
 user_name: "{config_source}:user_name"
 communication_language: "{config_source}:communication_language"
 date: system-generated
 
 # Workflow paths
-installed_path: "{project-root}/bmad/embrapa-io/workflows/validate/validate-compliance"
+installed_path: "{project-root}/.bmad/embrapa-io/workflows/validate/validate-compliance"
 template: false  # Action workflow - generates reports dynamically
 instructions: "{installed_path}/instructions.md"
 validation: "{installed_path}/checklist.md"
@@ -26,12 +26,12 @@ web_bundle:
   version: "2.0.0"
 
   web_bundle_files:
-    - "bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml"
-    - "bmad/embrapa-io/workflows/validate/validate-compliance/instructions.md"
-    - "bmad/embrapa-io/workflows/validate/validate-compliance/checklist.md"
-    - "bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md"
-    - "bmad/embrapa-io/knowledge/embrapa-io-validation.md"
-    - "bmad/embrapa-io/knowledge/embrapa-io-workflows.md"
-    - "bmad/embrapa-io/knowledge/embrapa-io-deployment.md"
-    - "bmad/embrapa-io/knowledge/embrapa-io-stacks.md"
-    - "bmad/embrapa-io/knowledge/embrapa-io-integrations.md"
+    - ".bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml"
+    - ".bmad/embrapa-io/workflows/validate/validate-compliance/instructions.md"
+    - ".bmad/embrapa-io/workflows/validate/validate-compliance/checklist.md"
+    - ".bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md"
+    - ".bmad/embrapa-io/knowledge/embrapa-io-validation.md"
+    - ".bmad/embrapa-io/knowledge/embrapa-io-workflows.md"
+    - ".bmad/embrapa-io/knowledge/embrapa-io-deployment.md"
+    - ".bmad/embrapa-io/knowledge/embrapa-io-stacks.md"
+    - ".bmad/embrapa-io/knowledge/embrapa-io-integrations.md"
