@@ -30,8 +30,8 @@ Este é um workflow **INTERATIVO** que requer input do usuário.
 - **Application Description**: Breve descrição em uma linha
 - **Maintainer Name**: Nome do mantenedor principal
 - **Maintainer Email**: Email do mantenedor (validado)
-- **Maintainer Phone**: Telefone opcional
-- **Custom Variables**: Opcionalmente adicionar variáveis além das padrão da stack
+- **Maintainer Phone**: Telefone opcional (formato obrigatório: "+[DDI] (DDD) X XXXX-XXXX")
+- **Custom Variables**: Opcionalmente adicionar variáveis além das padrão da stack (com validação de tipo)
 
 ## Outputs
 
@@ -46,9 +46,17 @@ Este é um workflow **INTERATIVO** que requer input do usuário.
 
 ## Variable Types Supported
 
-- **TEXT**: Valores texto simples
-- **PORT**: Números de porta (validados)
-- **SECRET**: Valores sensíveis (mascarados em logs)
-- **PASSWORD**: Senhas (mascaradas em logs)
-- **VOLUME**: Paths de volumes Docker
-- **EMPTY**: Placeholder vazio para preenchimento futuro
+**Tipos com atributo 'value' OBRIGATÓRIO:**
+- **TEXT**: Valores texto simples (ex: `{"name": "BASE_URL", "type": "TEXT", "value": "http://localhost"}`)
+- **VOLUME**: Sufixo de volumes Docker sem prefixo (ex: `{"name": "MONGODB_VOLUME", "type": "VOLUME", "value": "mongodb"}`)
+
+**Tipos SEM atributo 'value' (apenas name e type):**
+- **PORT**: Números de porta (ex: `{"name": "APP_PORT", "type": "PORT"}`)
+- **SECRET**: Valores sensíveis mascarados (ex: `{"name": "JWT_SECRET", "type": "SECRET"}`)
+- **PASSWORD**: Senhas mascaradas (ex: `{"name": "DB_PASSWORD", "type": "PASSWORD"}`)
+- **EMPTY**: Placeholder vazio (ex: `{"name": "OPTIONAL_VAR", "type": "EMPTY"}`)
+
+**Regras críticas:**
+- ✅ TEXT e VOLUME: Incluir atributo 'value'
+- ❌ PASSWORD, SECRET, PORT, EMPTY: Omitir atributo 'value'
+- 🔧 VOLUME: value contém apenas sufixo (ex: "mongodb" ao invés de "${IO_PROJECT}_${IO_APP}_${IO_STAGE}_mongodb")

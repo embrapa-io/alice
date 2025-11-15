@@ -36,7 +36,25 @@
 <action>Validar formato de email</action>
 <action>Armazenar como {{maintainer_email}}</action>
 
-<ask optional="true">{user_name}, qual o telefone do mantenedor (opcional)?</ask>
+<ask optional="true">{user_name}, qual o telefone do mantenedor (opcional)?
+Formato obrigatório: "+[DDI] (DDD) X XXXX-XXXX"
+Exemplo: "+55 (67) 9 8111-8060"</ask>
+
+<check if="telefone fornecido">
+<action>Validar formato do telefone:</action>
+<action>- Deve começar com "+"</action>
+<action>- Deve ter espaço após DDI</action>
+<action>- DDD entre parênteses com espaço antes e depois</action>
+<action>- Formato: "+[DDI] (DDD) X XXXX-XXXX"</action>
+<action>- Regex: `^\+\d{1,3} \(\d{2}\) \d \d{4}-\d{4}$`</action>
+
+<check if="formato inválido">
+<action>Informar erro: "Formato inválido. Use: +[DDI] (DDD) X XXXX-XXXX"</action>
+<action>Exemplo: "+55 (67) 9 8111-8060"</action>
+<action>Solicitar telefone novamente</action>
+</check>
+</check>
+
 <action>Armazenar como {{maintainer_phone}}</action>
 </step>
 
@@ -61,13 +79,65 @@
 <action>Coletar variáveis adicionais:</action>
 <ask>Nome da variável:</ask>
 <ask>Tipo (TEXT, PORT, SECRET, PASSWORD, VOLUME, EMPTY):</ask>
-<ask>Valor padrão (deixe vazio se não aplicável):</ask>
+
+<action>🚨 REGRA CRÍTICA - Atributo 'value' por tipo:</action>
+<action>- TEXT: 'value' OBRIGATÓRIO (valor textual)</action>
+<action>- VOLUME: 'value' OBRIGATÓRIO (sufixo sem prefixo ${IO_PROJECT}_${IO_APP}_${IO_STAGE}_)</action>
+<action>- PASSWORD: 'value' DEVE SER OMITIDO</action>
+<action>- SECRET: 'value' DEVE SER OMITIDO</action>
+<action>- PORT: 'value' DEVE SER OMITIDO</action>
+<action>- EMPTY: 'value' DEVE SER OMITIDO</action>
+
+<check if="tipo == TEXT">
+<ask>Valor padrão (obrigatório para TEXT):</ask>
+<action>Armazenar como {{variable_value}}</action>
+</check>
+
+<check if="tipo == VOLUME">
+<ask>Sufixo do volume (apenas a parte final, ex: 'servicedata' para ${IO_PROJECT}_${IO_APP}_${IO_STAGE}_servicedata):</ask>
+<action>Validar que sufixo contém apenas lowercase e números (regex: ^[a-z0-9]+$)</action>
+<action>Armazenar como {{variable_value}}</action>
+<action>Exemplo: se .env tem "SERVICE_VOLUME=${IO_PROJECT}_${IO_APP}_${IO_STAGE}_mongodb"</action>
+<action>Então o sufixo é apenas: "mongodb"</action>
+</check>
+
+<check if="tipo == PASSWORD OR tipo == SECRET OR tipo == PORT OR tipo == EMPTY">
+<action>Atributo 'value' será OMITIDO (não aplicável para este tipo)</action>
+<action>Variável terá apenas 'name' e 'type'</action>
+</check>
+
 <ask>Adicionar mais variáveis? (s/n)</ask>
 </check>
 </step>
 
 <step n="4" goal="Gerar settings.json">
 <action>Construir objeto JSON com estrutura Embrapa I/O:</action>
+
+<action>🚨 REGRA CRÍTICA - Estrutura das variáveis:</action>
+
+**Para cada variável, incluir atributos conforme o tipo:**
+
+**Tipo TEXT:**
+```json
+{ "name": "BASE_URL", "type": "TEXT", "value": "http://localhost:3000" }
+```
+
+**Tipo VOLUME:**
+```json
+{ "name": "MONGODB_VOLUME", "type": "VOLUME", "value": "mongodb" }
+```
+⚠️ Note: value contém APENAS o sufixo, sem `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_`
+
+**Tipos PASSWORD, SECRET, PORT, EMPTY:**
+```json
+{ "name": "APP_PORT", "type": "PORT" }
+{ "name": "DB_PASSWORD", "type": "PASSWORD" }
+{ "name": "JWT_SECRET", "type": "SECRET" }
+{ "name": "OPTIONAL_VAR", "type": "EMPTY" }
+```
+⚠️ Note: atributo 'value' é OMITIDO (não incluir no JSON)
+
+**Estrutura completa do settings.json:**
 
 ```json
 {
@@ -92,6 +162,11 @@
   "orchestrators": ["DockerCompose"]
 }
 ```
+
+<action>Para cada variável em variables.default, variables.alpha, variables.beta, variables.release:</action>
+<action>- Incluir SEMPRE: "name" e "type"</action>
+<action>- Incluir "value" APENAS se tipo == TEXT ou tipo == VOLUME</action>
+<action>- Se tipo == VOLUME, value = sufixo sem prefixo (ex: "mongodb" ao invés de "${IO_PROJECT}_${IO_APP}_${IO_STAGE}_mongodb")</action>
 
 <template-output>settings_json_content</template-output>
 </step>
