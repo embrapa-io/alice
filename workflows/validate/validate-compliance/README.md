@@ -4,9 +4,9 @@ last-redoc-date: 2025-11-14
 
 # Validate Compliance Workflow
 
-Workflow interativo de validação completa que verifica conformidade de projetos com as 44 regras da plataforma Embrapa I/O (incluindo NO-FALLBACK e Volumes via .env), gerando relatórios detalhados em JSON e Markdown.
+Workflow interativo de validação completa que verifica conformidade de projetos com as 46 regras da plataforma Embrapa I/O (incluindo NO-FALLBACK, Volumes via .env, Portas via .env, e Linter obrigatório), gerando relatórios detalhados em JSON e Markdown.
 
-Este é o workflow mais abrangente do módulo, carregando seis arquivos de conhecimento antes de iniciar validações: `embrapa-io-fundamentals.md` (4 Verdades Fundamentais), `embrapa-io-validation.md` (44 regras organizadas), `embrapa-io-workflows.md`, `embrapa-io-deployment.md`, `embrapa-io-stacks.md`, e `embrapa-io-integrations.md`. Executa validações sistemáticas em `docker-compose.yaml` (16 regras incluindo volumes via .env), arquivos `.env.io` e `.env.io.example` (10 regras incluindo variáveis de volume), `.embrapa/settings.json` (8 regras), integrações de serviços (6 regras), e validação NO-FALLBACK no codebase (4 regras CRÍTICAS).
+Este é o workflow mais abrangente do módulo, carregando seis arquivos de conhecimento antes de iniciar validações: `embrapa-io-fundamentals.md` (4 Verdades Fundamentais), `embrapa-io-validation.md` (46 regras organizadas), `embrapa-io-workflows.md`, `embrapa-io-deployment.md`, `embrapa-io-stacks.md`, e `embrapa-io-integrations.md`. Executa validações sistemáticas em `docker-compose.yaml` (17 regras incluindo volumes e portas via .env), arquivos `.env.io` e `.env.io.example` (10 regras incluindo variáveis de volume), `.embrapa/settings.json` (8 regras), integrações de serviços (6 regras), validação NO-FALLBACK no codebase (4 regras CRÍTICAS), e validação de Linter configurado (2 regras de qualidade).
 
 O diferencial está na capacidade de filtrar validações por nível de severidade (CRITICAL, HIGH, MEDIUM, LOW ou ALL), detecção automática de tipo de projeto (NEW, EXISTING, ALREADY_COMPLIANT), e opção de aplicar correções automáticas quando possível. Para projetos novos sem Docker Compose, o workflow encerra com sugestões de workflows `generate-*` apropriados. Gera dois relatórios: JSON estruturado para processamento programático e Markdown formatado para leitura humana, ambos com timestamp e nome do projeto.
 
@@ -36,15 +36,15 @@ Este é um workflow **INTERATIVO** com opções de configuração.
 - **Console Output**:
   - Tipo de projeto detectado (NEW, EXISTING, ALREADY_COMPLIANT)
   - Arquivos relevantes encontrados
-  - Resultados das 38 validações organizados por categoria
+  - Resultados das 46 validações organizados por categoria
   - Contadores de problemas por severidade
   - Recomendações corretivas priorizadas
 - **Knowledge Loaded**: 6 arquivos de conhecimento da plataforma
 
 ## Validation Categories
 
-### Docker Compose (16 regras)
-Valida conformidade com as 4 Verdades Fundamentais e melhores práticas Docker, incluindo volumes via variáveis do .env.
+### Docker Compose (17 regras)
+Valida conformidade com as 4 Verdades Fundamentais e melhores práticas Docker, incluindo volumes via variáveis do .env e portas sem hardcode.
 
 ### Environment Files (10 regras)
 Verifica estrutura e valores de `.env.io` e `.env.io.example`, incluindo variáveis de volume.
@@ -57,6 +57,9 @@ Verifica configurações de Sentry, Matomo e outros serviços.
 
 ### NO-FALLBACK Code Validation (4 regras CRÍTICAS)
 Escaneia codebase (JS/TS, Python, Shell, Docker Compose) detectando padrões proibidos de fallback em variáveis de ambiente.
+
+### Linter Configuration (2 regras de qualidade)
+Verifica presença de Linter configurado (ESLint, PHP_CodeSniffer, Ruff, golangci-lint, RuboCop, etc) e comandos lint/lint:fix definidos.
 
 ## Severity Levels
 

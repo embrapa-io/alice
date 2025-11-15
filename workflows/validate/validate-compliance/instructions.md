@@ -119,9 +119,10 @@
 <action>- 1.13: Volume de backup existe e está configurado</action>
 <action>- 1.14: Volumes de serviços (exceto backup) usam variáveis do .env (formato: name: ${SERVICE_VOLUME})</action>
 
-<action>Validações LOW (IDs 1.15-1.16):</action>
+<action>Validações LOW (IDs 1.15-1.17):</action>
 <action>- 1.15: Serviços CLI estão presentes (backup, restore, sanitize)</action>
 <action>- 1.16: Volume de backup tem nome hardcoded: ${IO_PROJECT}_${IO_APP}_${IO_STAGE}_backup (não usa variável do .env)</action>
+<action>- 1.17: 🚨 CRÍTICO - Portas do host (lado esquerdo) JAMAIS hardcoded, sempre via variável (formato: "${PORT_VAR}:container_port")</action>
 
 <action>Para cada erro encontrado, criar objeto estruturado:</action>
 
@@ -276,9 +277,118 @@
 <action>Store no_fallback_status as internal variable</action>
 </step>
 
+<step n="7.6" goal="Validar presença de Linter configurado (REGRA DE QUALIDADE)">
+<action>🔍 Esta é uma validação de QUALIDADE da plataforma Embrapa I/O</action>
+
+<action>Detectar linguagem/framework do projeto:</action>
+<action>- Procurar package.json → JavaScript/TypeScript</action>
+<action>- Procurar composer.json → PHP</action>
+<action>- Procurar requirements.txt/pyproject.toml → Python</action>
+<action>- Procurar go.mod → Go</action>
+<action>- Procurar Gemfile → Ruby</action>
+<action>- Procurar pom.xml/build.gradle → Java</action>
+<action>- Procurar *.csproj → .NET</action>
+<action>- Procurar Cargo.toml → Rust</action>
+
+<action>Armazenar linguagem detectada como {{detected_language}}</action>
+
+**Validações MEDIUM (IDs 6.1-6.2):**
+
+<action>ID 6.1: Verificar se Linter está instalado (dependências):</action>
+
+<check if="detected_language == JavaScript/TypeScript">
+<action>Verificar se package.json possui eslint nas devDependencies ou dependencies</action>
+<action>Se não encontrado, criar erro:</action>
+```json
+{
+  "id": "6.1",
+  "severity": "MEDIUM",
+  "category": "linter",
+  "message": "ESLint não configurado. JavaScript/TypeScript requer Linter.",
+  "location": "package.json",
+  "solution": "npm install --save-dev eslint eslint-config-standard",
+  "auto_fixable": false,
+  "explanation": "Plataforma Embrapa I/O exige Linter para qualidade de código."
+}
+```
+</check>
+
+<check if="detected_language == PHP">
+<action>Verificar se composer.json possui squizlabs/php_codesniffer ou phpstan</action>
+<action>Se não encontrado, criar erro com sugestão: composer require --dev squizlabs/php_codesniffer</action>
+</check>
+
+<check if="detected_language == Python">
+<action>Verificar se requirements.txt ou pyproject.toml possui ruff, flake8, pylint ou black</action>
+<action>Se não encontrado, criar erro com sugestão: pip install ruff</action>
+</check>
+
+<check if="detected_language == Go">
+<action>Verificar se existe .golangci.yml ou Makefile com golangci-lint</action>
+<action>Se não encontrado, criar WARNING (Go possui gofmt built-in mas golangci-lint recomendado)</action>
+</check>
+
+<check if="detected_language == Ruby">
+<action>Verificar se Gemfile possui rubocop</action>
+<action>Se não encontrado, criar erro com sugestão: gem install rubocop</action>
+</check>
+
+<check if="detected_language == Java">
+<action>Verificar se pom.xml possui checkstyle ou spotbugs plugin</action>
+<action>Se não encontrado, criar erro</action>
+</check>
+
+<check if="detected_language == .NET">
+<action>Verificar se *.csproj possui StyleCop.Analyzers ou possui .editorconfig</action>
+<action>Se não encontrado, criar erro</action>
+</check>
+
+<check if="detected_language == Rust">
+<action>Rust possui Clippy built-in - marcar como conforme automaticamente</action>
+</check>
+
+<action>ID 6.2: Verificar se comandos lint e lint:fix estão definidos:</action>
+
+<check if="detected_language == JavaScript/TypeScript">
+<action>Verificar se package.json possui scripts "lint" e "lint:fix" (ou "fix")</action>
+<action>Se não encontrado, criar erro:</action>
+```json
+{
+  "id": "6.2",
+  "severity": "LOW",
+  "category": "linter",
+  "message": "Scripts lint/lint:fix não definidos em package.json",
+  "location": "package.json:scripts",
+  "solution": "Adicionar: \"lint\": \"eslint .\", \"lint:fix\": \"eslint . --fix\"",
+  "auto_fixable": false
+}
+```
+</check>
+
+<check if="detected_language == PHP">
+<action>Verificar se composer.json possui scripts "lint" e "lint:fix"</action>
+<action>Se não encontrado, criar erro com sugestão de scripts phpcs/phpcbf</action>
+</check>
+
+<check if="detected_language == Python">
+<action>Verificar se pyproject.toml possui [tool.scripts] ou se existe Makefile com target lint</action>
+<action>Se não encontrado, criar WARNING</action>
+</check>
+
+<action>Informar {user_name} em {communication_language}:</action>
+<action>Se Linter encontrado: ✅ Linter configurado - {{linter_name}}</action>
+<action>Se Linter não encontrado: ⚠️ WARNING - Linter não configurado para {{detected_language}}</action>
+
+<action>Armazenar erros em {{linter_errors}} (array)</action>
+<action>Calcular status da categoria</action>
+
+<action>Store linter_errors as internal variable</action>
+<action>Store linter_status as internal variable</action>
+</step>
+
 <step n="8" goal="Calcular compliance score">
 <action>Consolidar todos os erros encontrados:</action>
-<action>{{all_errors}} = docker_compose_errors + env_files_errors + settings_errors + integrations_errors + no_fallback_errors</action>
+<action>{{all_errors}} = docker_compose_errors + env_files_errors + settings_errors + integrations_errors + no_fallback_errors + linter_errors</action>
 
 <action>Contar erros por severidade:</action>
 <action>- {{critical_count}}: count onde severity == "CRITICAL"</action>
@@ -350,6 +460,14 @@
     },
     "integrations": {
       "status": "{{integrations_status}}",
+      "errors": [...]
+    },
+    "no_fallback": {
+      "status": "{{no_fallback_status}}",
+      "errors": [...]
+    },
+    "linter": {
+      "status": "{{linter_status}}",
       "errors": [...]
     }
   },

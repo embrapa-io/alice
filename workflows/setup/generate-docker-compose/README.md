@@ -25,14 +25,16 @@ A dependência do arquivo `.env.io` (gerado pelo workflow `generate-env-io`) é 
 
 - **Stack Detection**: Automática através de arquivos de projeto (pode ser sobrescrita manualmente)
 - **Application Port**: Porta principal da aplicação (validada entre 1024-65535)
+- **Additional Ports**: Portas adicionais se aplicável (MQTT, WebSocket, Metrics, etc)
 - **Healthcheck Endpoint**: Caminho do endpoint de health (padrão: `/health`)
 - **Database Type**: MongoDB, PostgreSQL, MySQL, SQL Server, ou nenhum
 - **CLI Services**: Opcional - inclusão de serviços backup/restore/sanitize com profiles
 
 ## Outputs
 
-- **File**: `{project-root}/docker-compose.yaml`
-- **Validation**: Conformidade automática com as 4 Verdades Fundamentais
+- **File**: `{project-root}/docker-compose.yaml` (com portas via variáveis do .env)
+- **File**: `{project-root}/.env` (criado/atualizado com variáveis de porta e volume)
+- **Validation**: Conformidade automática com as 4 Verdades Fundamentais + regra de portas via .env
 - **Scripts**: Opcionalmente gera `scripts/docker-helpers.sh` com comandos úteis para criação de network e volumes
 
 ## Configuration

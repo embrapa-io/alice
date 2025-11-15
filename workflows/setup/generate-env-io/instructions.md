@@ -198,6 +198,93 @@ services:
     # - PORT=${PORT:-3000}  # ❌ INCORRETO
 ```
 
+**📌 Regra: Portas JAMAIS Hardcoded**:
+- ✅ SEMPRE use variáveis do .env para portas no docker-compose.yaml
+- ❌ NUNCA hardcode portas do host (lado esquerdo do mapeamento)
+- ✅ CORRETO: `"${APP_PORT}:3000"` (host via variável, container pode ser fixo)
+- ❌ INCORRETO: `"3000:3000"` (host hardcoded)
+- ❌ INCORRETO: `"80:80"` (ambos hardcoded)
+
+**Exemplos de variáveis de porta no .env:**
+```bash
+# Application Ports (host side)
+APP_PORT=3000
+PORT_WEB=80
+PORT_MQTT=1883
+PORT_METRICS=9090
+```
+
+**📌 Regra: Linter Obrigatório**:
+
+A plataforma Embrapa I/O exige que projetos implementem uma solução de Linter para garantir qualidade e consistência de código.
+
+**Se você ainda não tem Linter configurado, implemente conforme sua linguagem:**
+
+**JavaScript/TypeScript - ESLint com JavaScript Standard Style:**
+```bash
+npm install --save-dev eslint eslint-config-standard
+```
+
+```json
+// package.json
+{
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  }
+}
+```
+
+**PHP - PHP_CodeSniffer com PSR-12:**
+```bash
+composer require --dev squizlabs/php_codesniffer
+```
+
+```json
+// composer.json
+{
+  "scripts": {
+    "lint": "phpcs --standard=PSR12 .",
+    "lint:fix": "phpcbf --standard=PSR12 ."
+  }
+}
+```
+
+**Python - Ruff (moderno e rápido):**
+```bash
+pip install ruff
+```
+
+```toml
+# pyproject.toml
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "W", "I"]
+
+[tool.scripts]
+lint = "ruff check ."
+"lint:fix" = "ruff check . --fix"
+```
+
+**Go - golangci-lint:**
+```bash
+go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+```
+
+```makefile
+# Makefile
+lint:
+	golangci-lint run
+```
+
+**Outros padrões recomendados:**
+- **Ruby**: RuboCop
+- **Java**: Checkstyle ou SpotBugs
+- **.NET**: StyleCop ou Roslyn Analyzers
+- **Rust**: Clippy (built-in)
+
+**⚠️ AVISO**: Projetos sem Linter configurado receberão WARNING de conformidade com Embrapa I/O.
+
 **📌 Outras Regras da Plataforma Embrapa I/O**:
 - COMPOSE_PROJECT_NAME: SEMPRE concatenação `${IO_PROJECT}_${IO_APP}_development`
 - IO_STAGE: SEMPRE `development` no ambiente local
@@ -205,7 +292,7 @@ services:
 - COMPOSE_PROFILES: SEMPRE `development` no ambiente local
 - IO_SERVER: SEMPRE `localhost` no ambiente local
 
-<action>Perguntar se {user_name} deseja ajuda adicional com configuração do .gitignore</action>
+<action>Perguntar se {user_name} deseja ajuda adicional com configuração do .gitignore ou Linter</action>
 </step>
 
 </workflow>
