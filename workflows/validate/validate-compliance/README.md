@@ -4,9 +4,9 @@ last-redoc-date: 2025-11-14
 
 # Validate Compliance Workflow
 
-Workflow interativo de validação completa que verifica conformidade de projetos com as 38 regras da plataforma Embrapa I/O, gerando relatórios detalhados em JSON e Markdown.
+Workflow interativo de validação completa que verifica conformidade de projetos com as 44 regras da plataforma Embrapa I/O (incluindo NO-FALLBACK e Volumes via .env), gerando relatórios detalhados em JSON e Markdown.
 
-Este é o workflow mais abrangente do módulo, carregando seis arquivos de conhecimento antes de iniciar validações: `embrapa-io-fundamentals.md` (4 Verdades Fundamentais), `embrapa-io-validation.md` (38 regras organizadas), `embrapa-io-workflows.md`, `embrapa-io-deployment.md`, `embrapa-io-stacks.md`, e `embrapa-io-integrations.md`. Executa validações sistemáticas em `docker-compose.yaml` (14 regras), arquivos `.env.io` e `.env.io.example` (10 regras), `.embrapa/settings.json` (8 regras), e integrações de serviços (6 regras).
+Este é o workflow mais abrangente do módulo, carregando seis arquivos de conhecimento antes de iniciar validações: `embrapa-io-fundamentals.md` (4 Verdades Fundamentais), `embrapa-io-validation.md` (44 regras organizadas), `embrapa-io-workflows.md`, `embrapa-io-deployment.md`, `embrapa-io-stacks.md`, e `embrapa-io-integrations.md`. Executa validações sistemáticas em `docker-compose.yaml` (16 regras incluindo volumes via .env), arquivos `.env.io` e `.env.io.example` (10 regras incluindo variáveis de volume), `.embrapa/settings.json` (8 regras), integrações de serviços (6 regras), e validação NO-FALLBACK no codebase (4 regras CRÍTICAS).
 
 O diferencial está na capacidade de filtrar validações por nível de severidade (CRITICAL, HIGH, MEDIUM, LOW ou ALL), detecção automática de tipo de projeto (NEW, EXISTING, ALREADY_COMPLIANT), e opção de aplicar correções automáticas quando possível. Para projetos novos sem Docker Compose, o workflow encerra com sugestões de workflows `generate-*` apropriados. Gera dois relatórios: JSON estruturado para processamento programático e Markdown formatado para leitura humana, ambos com timestamp e nome do projeto.
 
@@ -43,17 +43,20 @@ Este é um workflow **INTERATIVO** com opções de configuração.
 
 ## Validation Categories
 
-### Docker Compose (14 regras)
-Valida conformidade com as 4 Verdades Fundamentais e melhores práticas Docker.
+### Docker Compose (16 regras)
+Valida conformidade com as 4 Verdades Fundamentais e melhores práticas Docker, incluindo volumes via variáveis do .env.
 
 ### Environment Files (10 regras)
-Verifica estrutura e valores de `.env.io` e `.env.io.example`.
+Verifica estrutura e valores de `.env.io` e `.env.io.example`, incluindo variáveis de volume.
 
 ### Settings JSON (8 regras)
 Valida estrutura e completude de `.embrapa/settings.json`.
 
 ### Service Integrations (6 regras)
 Verifica configurações de Sentry, Matomo e outros serviços.
+
+### NO-FALLBACK Code Validation (4 regras CRÍTICAS)
+Escaneia codebase (JS/TS, Python, Shell, Docker Compose) detectando padrões proibidos de fallback em variáveis de ambiente.
 
 ## Severity Levels
 

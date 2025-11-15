@@ -137,6 +137,68 @@
    - Valores locais servem para simular comportamento da plataforma
 
 **📌 Regras da Plataforma Embrapa I/O**:
+
+**🚨 REGRA CRÍTICA: NO-FALLBACK OBRIGATÓRIO**
+
+**NUNCA use valores fallback nas variáveis de ambiente:**
+- ❌ INCORRETO: `const port = process.env.PORT || 3000`
+- ❌ INCORRETO: `${PORT:-3000}` em shell scripts
+- ❌ INCORRETO: Qualquer padrão `${VAR:-default}`
+- ✅ CORRETO: `const port = process.env.PORT` (sem fallback)
+- ✅ CORRETO: `${PORT}` (sem fallback)
+
+**Por que NO-FALLBACK?**
+- Se a variável não estiver definida, o código DEVE falhar explicitamente
+- Isso garante que problemas de configuração sejam detectados imediatamente
+- Evita comportamento silencioso com valores padrão incorretos
+- A plataforma Embrapa I/O sempre injeta TODAS as variáveis - se não houver, há problema de configuração
+
+**Implementação correta no código:**
+
+**Node.js/JavaScript:**
+```javascript
+// CORRETO: Sem fallback, falha se não definido
+const port = process.env.PORT;
+const dbUrl = process.env.DATABASE_URL;
+const sentryDsn = process.env.SENTRY_DSN;
+
+// Validação explícita (opcional mas recomendado)
+if (!port) {
+  throw new Error('PORT environment variable is required');
+}
+```
+
+**Python:**
+```python
+# CORRETO: Sem fallback, falha se não definido
+import os
+port = os.environ['PORT']  # KeyError se não existir
+db_url = os.environ['DATABASE_URL']
+```
+
+**Bash/Shell:**
+```bash
+# CORRETO: Sem fallback
+PORT=${PORT}
+DATABASE_URL=${DATABASE_URL}
+
+# Validação explícita (opcional)
+: ${PORT:?PORT is required}
+```
+
+**Docker Compose (env_file):**
+```yaml
+# CORRETO: Apenas referência, sem fallback
+services:
+  app:
+    environment:
+      - PORT=${PORT}
+      - DATABASE_URL=${DATABASE_URL}
+    # Nunca usar:
+    # - PORT=${PORT:-3000}  # ❌ INCORRETO
+```
+
+**📌 Outras Regras da Plataforma Embrapa I/O**:
 - COMPOSE_PROJECT_NAME: SEMPRE concatenação `${IO_PROJECT}_${IO_APP}_development`
 - IO_STAGE: SEMPRE `development` no ambiente local
 - IO_VERSION: Formato `0.YY.M-dev.1` (YY=ano 2 dígitos, M=mês sem zero)

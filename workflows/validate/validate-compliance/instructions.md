@@ -10,9 +10,9 @@
 
 <step n="1" goal="Carregar conhecimento necessário">
 <action>Carregar e compreender os seguintes arquivos de conhecimento:</action>
-<action>- {project-root}/bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md → As 4 verdades fundamentais da plataforma</action>
-<action>- {project-root}/bmad/embrapa-io/knowledge/embrapa-io-validation.md → Todas as 38 regras de validação organizadas</action>
-<action>- {project-root}/bmad/embrapa-io/knowledge/embrapa-io-workflows.md → Adaptação por tipo de projeto</action>
+<action>- {project-root}/.bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md → As 4 verdades fundamentais da plataforma</action>
+<action>- {project-root}/.bmad/embrapa-io/knowledge/embrapa-io-validation.md → Todas as 44 regras de validação organizadas (incluindo NO-FALLBACK e Volumes)</action>
+<action>- {project-root}/.bmad/embrapa-io/knowledge/embrapa-io-workflows.md → Adaptação por tipo de projeto</action>
 
 <check if="arquivos carregados com sucesso">
 <action>Informar {user_name}: Conhecimento da plataforma Embrapa I/O carregado</action>
@@ -113,13 +113,15 @@
 <action>- 1.9: Todos os serviços possuem 'restart: unless-stopped'</action>
 <action>- 1.10: Todos os serviços possuem 'healthcheck' configurado</action>
 
-<action>Validações MEDIUM (IDs 1.11-1.13):</action>
+<action>Validações MEDIUM (IDs 1.11-1.14):</action>
 <action>- 1.11: Portas são definidas via variáveis de ambiente (${PORT:-3000})</action>
 <action>- 1.12: Serviços CLI possuem profiles corretos (cli, development)</action>
 <action>- 1.13: Volume de backup existe e está configurado</action>
+<action>- 1.14: Volumes de serviços (exceto backup) usam variáveis do .env (formato: name: ${SERVICE_VOLUME})</action>
 
-<action>Validações LOW (ID 1.14):</action>
-<action>- 1.14: Serviços CLI estão presentes (backup, restore, sanitize)</action>
+<action>Validações LOW (IDs 1.15-1.16):</action>
+<action>- 1.15: Serviços CLI estão presentes (backup, restore, sanitize)</action>
+<action>- 1.16: Volume de backup tem nome hardcoded: ${IO_PROJECT}_${IO_APP}_${IO_STAGE}_backup (não usa variável do .env)</action>
 
 <action>Para cada erro encontrado, criar objeto estruturado:</action>
 
@@ -146,22 +148,24 @@
 <action>Store docker_compose_status as internal variable</action>
 </step>
 
-<step n="5" goal="Validar arquivos .env">
-<action>Executar 8 validações conforme embrapa-io-validation.md seção "Validação 2 - Arquivos .env"</action>
+<step n="5" goal="Validar arquivos .env e variáveis de volume">
+<action>Executar validações conforme embrapa-io-validation.md seção "Validação 2 - Arquivos .env"</action>
 
 <action>Validações CRITICAL (IDs 2.1-2.3):</action>
 <action>- 2.1: Arquivo .env.io.example existe no diretório raiz</action>
 <action>- 2.2: Arquivo .env.example existe no diretório raiz</action>
 <action>- 2.3: Não há duplicação de variáveis entre .env.io e .env</action>
 
-<action>Validações HIGH (IDs 2.4-2.6):</action>
+<action>Validações HIGH (IDs 2.4-2.7):</action>
 <action>- 2.4: Variáveis obrigatórias presentes (IO_PROJECT, IO_APP, IO_STAGE, IO_VERSION, IO_DEPLOYER)</action>
 <action>- 2.5: Valores sem espaços ou aspas desnecessárias</action>
 <action>- 2.6: Variáveis seguem convenção UPPER_SNAKE_CASE</action>
+<action>- 2.7: Variáveis de volume presentes no .env para todos os volumes (exceto backup) declarados no docker-compose.yaml</action>
 
-<action>Validações MEDIUM (IDs 2.7-2.8):</action>
-<action>- 2.7: .gitignore ignora arquivos .env mas não .env.*.example</action>
-<action>- 2.8: Variáveis sensíveis possuem comentários de documentação</action>
+<action>Validações MEDIUM (IDs 2.8-2.10):</action>
+<action>- 2.8: .gitignore ignora arquivos .env mas não .env.*.example</action>
+<action>- 2.9: Variáveis sensíveis possuem comentários de documentação</action>
+<action>- 2.10: Variáveis de volume seguem padrão: ${IO_PROJECT}_${IO_APP}_${IO_STAGE}_[a-z0-9]+</action>
 
 <action>Armazenar todos os erros em {{env_files_errors}} (array)</action>
 <action>Calcular status da categoria (compliant/partial/non-compliant)</action>
@@ -216,9 +220,65 @@
 <action>Store integrations_status as internal variable</action>
 </step>
 
+<step n="7.5" goal="Validar NO-FALLBACK no codebase (REGRA CRÍTICA)">
+<action>🚨 Esta é uma validação CRÍTICA da plataforma Embrapa I/O</action>
+
+<action>Escanear arquivos de código do projeto em busca de padrões de fallback proibidos:</action>
+
+**Validações CRITICAL (IDs 5.1-5.4):**
+
+<action>ID 5.1: Buscar padrões JavaScript/TypeScript de fallback:</action>
+<action>- Buscar regex: `process\.env\.\w+\s*\|\|`</action>
+<action>- Buscar regex: `process\.env\.\w+\s*\?\?`</action>
+<action>- Padrão proibido: `process.env.PORT || 3000`</action>
+<action>- Arquivos: *.js, *.ts, *.jsx, *.tsx</action>
+
+<action>ID 5.2: Buscar padrões Python de fallback:</action>
+<action>- Buscar regex: `os\.environ\.get\(['"]\w+['"],\s*.+\)`</action>
+<action>- Buscar regex: `os\.getenv\(['"]\w+['"],\s*.+\)`</action>
+<action>- Padrão proibido: `os.environ.get('PORT', 3000)`</action>
+<action>- Arquivos: *.py</action>
+
+<action>ID 5.3: Buscar padrões Shell/Bash de fallback:</action>
+<action>- Buscar regex: `\$\{\w+:-[^}]+\}`</action>
+<action>- Padrão proibido: `${PORT:-3000}`</action>
+<action>- Arquivos: *.sh, *.bash, Dockerfile, docker-compose.yaml</action>
+
+<action>ID 5.4: Buscar padrões Docker Compose de fallback:</action>
+<action>- Buscar no docker-compose.yaml: padrão `${VAR:-default}`</action>
+<action>- Padrão proibido em environment ou ports</action>
+<action>- Arquivo: docker-compose.yaml</action>
+
+**Ações para cada ocorrência encontrada:**
+<action>Criar erro estruturado com:</action>
+```json
+{
+  "id": "5.X",
+  "severity": "CRITICAL",
+  "category": "no-fallback",
+  "message": "Fallback detectado em variável de ambiente: {VAR_NAME}",
+  "location": "{file_path}:{line_number}",
+  "pattern_found": "{código encontrado}",
+  "solution": "Remover fallback. Use apenas: {correção sugerida}",
+  "auto_fixable": false,
+  "explanation": "Plataforma Embrapa I/O sempre injeta variáveis. Fallback mascara erros de configuração."
+}
+```
+
+<action>Informar {user_name} em {communication_language}:</action>
+<action>Se nenhum fallback encontrado: ✅ Código conforme - sem fallbacks detectados</action>
+<action>Se fallbacks encontrados: 🚨 CRÍTICO - {count} fallbacks proibidos detectados</action>
+
+<action>Armazenar erros em {{no_fallback_errors}} (array)</action>
+<action>Calcular status da categoria</action>
+
+<action>Store no_fallback_errors as internal variable</action>
+<action>Store no_fallback_status as internal variable</action>
+</step>
+
 <step n="8" goal="Calcular compliance score">
 <action>Consolidar todos os erros encontrados:</action>
-<action>{{all_errors}} = docker_compose_errors + env_files_errors + settings_errors + integrations_errors</action>
+<action>{{all_errors}} = docker_compose_errors + env_files_errors + settings_errors + integrations_errors + no_fallback_errors</action>
 
 <action>Contar erros por severidade:</action>
 <action>- {{critical_count}}: count onde severity == "CRITICAL"</action>
