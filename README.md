@@ -12,12 +12,12 @@ O diferencial está na abordagem agnóstica de stack: detecta automaticamente a 
 
 ## Instalation
 
-Primeiramente, [instale o _framework_ do **BMAD Method**](https://github.com/bmad-code-org/BMAD-METHOD) em seu projeto.
+Primeiramente, [instale o _framework_ do **BMAD Method**](https://github.com/bmad-code-org/BMAD-METHOD) em seu projeto (utilize a **Versão 6**).
 
 Em seguida, faça:
 
 ```bash
-git clone https://github.com/embrapa-io/bmad.git bmad/embrapa-io
+git clone https://github.com/embrapa-io/bmad.git .bmad/embrapa-io
 ```
 
 Isto irá instalar o módulo dentro da instância do BMAD. Basta então iniciar seu assistente de codificação em IA (Claude Code, Gemini CLI, OpenCode, GitHub Copilot, Codex, etc) e chamar o [agente do BMAD](https://github.com/bmad-code-org/BMAD-METHOD/blob/main/src/modules/bmm/docs/agents-guide.md) de sua preferência. Ao elaborar os _prompts_, solicite que o assistente mantenha o _compliance_ com o **Embrapa I/O** por meio do módulo `embrapa-io`.
