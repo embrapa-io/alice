@@ -10,7 +10,7 @@ last-redoc-date: 2025-11-04
 
 O diferencial está na abordagem agnóstica de stack: detecta automaticamente a tecnologia utilizada e adapta configurações apropriadas sem necessidade de módulos específicos por linguagem. Workflows podem ser invocados por qualquer agente BMAD durante criação ou adaptação de projetos, garantindo que todas as aplicações sigam padrões rigorosos de nomenclatura, estruturação Docker, variáveis de ambiente, e integrações de serviços (Sentry, Matomo, healthchecks).
 
-## Instalation
+## Getting Started
 
 Primeiramente, [instale o _framework_ do **BMAD Method**](https://github.com/bmad-code-org/BMAD-METHOD) em seu projeto (utilize a **Versão 6**).
 
