@@ -45,9 +45,16 @@
 - [ ] Preferencialmente email @embrapa.br
 
 ### COMPOSE_PROJECT_NAME
-- [ ] Calculado automaticamente como `{IO_PROJECT}-{IO_APP}`
-- [ ] Usa apenas lowercase, números, hífen
-- [ ] Exemplo: se IO_PROJECT=api-catalogo e IO_APP=backend → COMPOSE_PROJECT_NAME=api-catalogo-backend
+- [ ] Calculado automaticamente como `{IO_PROJECT}_{IO_APP}_development`
+- [ ] Usa apenas lowercase, números, underscore
+- [ ] Exemplo: se IO_PROJECT=api-catalogo e IO_APP=backend → COMPOSE_PROJECT_NAME=api-catalogo_backend_development
+
+### 🚨 Valores Sem Aspas e Espaços (CRÍTICO)
+- [ ] Nenhum valor contém aspas simples (`'`)
+- [ ] Nenhum valor contém aspas duplas (`"`)
+- [ ] Nenhum valor contém espaços (` `)
+- [ ] Valores com caracteres especiais estão codificados (Base64, URL encoding, ou substituição)
+- [ ] Formato sempre: `KEY=valor_sem_espacos_ou_aspas`
 
 ## ✅ Integração com Git
 
@@ -97,8 +104,16 @@
 - ❌ `.env.io` versionado (valores reais não devem ir para git)
 - ✅ Apenas `.env.io` no .gitignore (correto)
 
+### 🚨 Valores com Aspas ou Espaços (CRÍTICO)
+- ❌ `MY_VAR="valor com espaços"` (aspas e espaços não permitidos)
+- ❌ `MY_VAR='valor'` (aspas simples não permitidas)
+- ❌ `MY_VAR=valor com espaços` (espaços não permitidos)
+- ✅ `MY_VAR=valor_sem_espacos` (correto)
+- ✅ `MY_VAR=TWV1IFZhbG9y` (Base64 para valores complexos - correto)
+- ✅ `MY_VAR=valor%20encoded` (URL encoding - correto)
+
 ---
 
-**Checklist Version**: 1.0.0
-**Última atualização**: 2025-10-21
+**Checklist Version**: 1.1.0
+**Última atualização**: 2025-11-25
 **Módulo**: embrapa-io/setup/generate-env-io

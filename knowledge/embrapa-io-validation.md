@@ -166,9 +166,16 @@ SOLUTION: "Adicionar variável obrigatória ao .env.io.example"
 
 #### 2.5 Valor com espaços ou aspas em .env
 ```
-SEVERITY: HIGH
+SEVERITY: CRITICAL
 MESSAGE: "Variável '[var_name]' contém espaços ou aspas (não permitido)"
-SOLUTION: "Remover aspas e espaços ou criptografar valor em Base64"
+SOLUTION: "Remover aspas e espaços. Para valores complexos, usar: Base64 (recomendado), URL encoding, ou substituição de caracteres"
+EXAMPLES:
+  INVALID: MY_VAR="valor com espaços"
+  INVALID: MY_VAR='valor'
+  INVALID: MY_VAR=valor com espaços
+  VALID: MY_VAR=valor_sem_espacos
+  VALID: MY_VAR=TWV1IFZhbG9y (Base64)
+  VALID: MY_VAR=valor%20encoded (URL encoding)
 ```
 
 #### 2.6 Convenção de nomenclatura incorreta
@@ -258,9 +265,9 @@ SOLUTION: "Usar um dos tipos válidos de variável"
 
 #### 3.7 Variável com espaços ou aspas
 ```
-SEVERITY: MEDIUM
+SEVERITY: HIGH
 MESSAGE: "Variável '[name]' contém espaços ou aspas no valor"
-SOLUTION: "Remover espaços e aspas dos valores das variáveis"
+SOLUTION: "Remover espaços e aspas. Para valores complexos, usar: Base64 (recomendado), URL encoding, ou substituição de caracteres"
 ```
 
 #### 3.8 References vazio

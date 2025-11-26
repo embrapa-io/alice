@@ -138,6 +138,70 @@
 
 **📌 Regras da Plataforma Embrapa I/O**:
 
+**🚨 REGRA CRÍTICA: VALORES SEM ASPAS E ESPAÇOS**
+
+**NUNCA use aspas (simples ou duplas) ou espaços nos valores de variáveis de ambiente:**
+- ❌ INCORRETO: `MY_VAR="valor com espaços"`
+- ❌ INCORRETO: `MY_VAR='valor'`
+- ❌ INCORRETO: `MY_VAR=valor com espaços`
+- ❌ INCORRETO: `MY_VAR="valor"`
+- ✅ CORRETO: `MY_VAR=valor_sem_espacos`
+- ✅ CORRETO: `MY_VAR=valor-com-hifens`
+- ✅ CORRETO: `MY_VAR=dG9rZW5fZW5jb2RlZA==` (Base64)
+
+**Por que esta regra?**
+- A plataforma Embrapa I/O injeta variáveis diretamente no container
+- Aspas e espaços causam problemas de parsing em shells e Docker
+- Valores são interpretados literalmente, sem processamento de aspas
+- Consistência entre ambientes local, alpha, beta e release
+
+**Como lidar com valores que precisam de espaços ou caracteres especiais:**
+
+**Opção 1 - Codificação Base64 (RECOMENDADO):**
+```bash
+# Codificar valor com espaços/caracteres especiais
+echo -n "Meu Valor Com Espaços" | base64
+# Resultado: TWV1IFZhbG9yIENvbSBFc3Bhw6dvcw==
+
+# No .env:
+MY_VAR=TWV1IFZhbG9yIENvbSBFc3Bhw6dvcw==
+
+# No código (decodificar):
+# Node.js:
+const value = Buffer.from(process.env.MY_VAR, 'base64').toString('utf-8');
+
+# Python:
+import base64
+value = base64.b64decode(os.environ['MY_VAR']).decode('utf-8')
+
+# PHP:
+$value = base64_decode(getenv('MY_VAR'));
+```
+
+**Opção 2 - Substituição de caracteres:**
+```bash
+# Usar underscore ou hífen no lugar de espaços
+MY_LABEL=Meu_Projeto_Especial
+MY_LABEL=meu-projeto-especial
+
+# No código, substituir de volta se necessário
+label = process.env.MY_LABEL.replace(/_/g, ' ');
+```
+
+**Opção 3 - URL Encoding:**
+```bash
+# Codificar caracteres especiais
+MY_VAR=Meu%20Valor%20Com%20Espa%C3%A7os
+
+# No código (decodificar):
+const value = decodeURIComponent(process.env.MY_VAR);
+```
+
+**⚠️ IMPORTANTE**: Esta regra se aplica a TODOS os arquivos .env:
+- `.env.io` e `.env.io.example`
+- `.env` e `.env.example`
+- Qualquer arquivo de variáveis de ambiente do projeto
+
 **🚨 REGRA CRÍTICA: NO-FALLBACK OBRIGATÓRIO**
 
 **NUNCA use valores fallback nas variáveis de ambiente:**
@@ -324,6 +388,10 @@ O arquivo `.env.io` contém SEMPRE as mesmas variáveis, que são injetadas pela
 5. **SENTRY_DSN**: Sempre placeholder `GET_IN_DASHBOARD` inicialmente
 6. **MATOMO_TOKEN**: Sempre vazio inicialmente
 7. **Validação de email**: Deve terminar com @embrapa.br
+8. **🚨 VALORES SEM ASPAS E ESPAÇOS**: Nenhum valor de variável pode conter:
+   - Aspas simples (`'`) ou duplas (`"`)
+   - Espaços (` `)
+   - Se necessário, usar Base64, URL encoding, ou substituição de caracteres
 
 ## 🔧 Uso por Agentes
 

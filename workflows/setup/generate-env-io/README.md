@@ -1,5 +1,5 @@
 ---
-last-redoc-date: 2025-11-14
+last-redoc-date: 2025-11-25
 ---
 
 # Generate Environment Variables Workflow
@@ -46,6 +46,7 @@ Placeholders como `SENTRY_DSN=GET_IN_DASHBOARD` e `MATOMO_ID=522` são incluído
 - Email: Deve terminar com @embrapa.br
 - IO_VERSION: Sempre formato `0.YY.M-dev.1` onde YY=ano-2000, M=mês sem zero (1-12)
 - COMPOSE_PROJECT_NAME: Sempre `${IO_PROJECT}_${IO_APP}_development`
+- **🚨 Valores sem aspas e espaços**: Nenhum valor de variável pode conter aspas (simples ou duplas) ou espaços. Para valores complexos, usar Base64, URL encoding, ou substituição de caracteres
 
 ## Quality
 
