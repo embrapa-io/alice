@@ -1,7 +1,7 @@
 # Generate docker-compose.yaml - Instruções de Geração
 
-<critical>The workflow execution engine is governed by: {project-root}/bmad/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and processed: {project-root}/bmad/embrapa-io/workflows/setup/generate-docker-compose/workflow.yaml</critical>
+<critical>The workflow execution engine is governed by: {project-root}/.bmad/core/tasks/workflow.xml</critical>
+<critical>You MUST have already loaded and processed: {project-root}/.bmad/embrapa-io/workflows/setup/generate-docker-compose/workflow.yaml</critical>
 <critical>Communicate in {communication_language} throughout the workflow</critical>
 
 <workflow>

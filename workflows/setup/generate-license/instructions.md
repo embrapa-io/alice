@@ -1,7 +1,7 @@
 # Generate LICENSE - Instruções de Geração Automática
 
-<critical>The workflow execution engine is governed by: {project-root}/bmad/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and processed: {project-root}/bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</critical>
+<critical>The workflow execution engine is governed by: {project-root}/.bmad/core/tasks/workflow.xml</critical>
+<critical>You MUST have already loaded and processed: {project-root}/.bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</critical>
 <critical>This is an AUTONOMOUS workflow - executes silently without user interaction</critical>
 <critical>Communicate in {communication_language} for final confirmation only</critical>
 
@@ -83,7 +83,7 @@ Este workflow deve ser invocado automaticamente durante setup inicial do projeto
 ```xml
 <step n="X" goal="Gerar arquivo LICENSE da Embrapa">
   <invoke-workflow>
-    <path>{project-root}/bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</path>
+    <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</path>
     <description>Cria LICENSE com copyright da Embrapa (execução silenciosa)</description>
   </invoke-workflow>
 </step>

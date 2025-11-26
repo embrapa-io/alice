@@ -1,7 +1,7 @@
 # Generate .embrapa/settings.json - Instruções
 
-<critical>The workflow execution engine is governed by: {project-root}/bmad/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and processed: {project-root}/bmad/embrapa-io/workflows/setup/generate-settings-json/workflow.yaml</critical>
+<critical>The workflow execution engine is governed by: {project-root}/.bmad/core/tasks/workflow.xml</critical>
+<critical>You MUST have already loaded and processed: {project-root}/.bmad/embrapa-io/workflows/setup/generate-settings-json/workflow.yaml</critical>
 <critical>Communicate in {communication_language} throughout the workflow</critical>
 
 <workflow>
@@ -60,9 +60,9 @@ Exemplo: "+55 (67) 9 8111-8060"</ask>
 
 <step n="3" goal="Definir variáveis de ambiente">
 <action>Carregar template base conforme stack detectada:</action>
-- Se Node.js backend: Ler {project-root}/bmad/embrapa-io/templates/settings/settings-nodejs.json
-- Se Frontend (React/Vue): Ler {project-root}/bmad/embrapa-io/templates/settings/settings-frontend.json
-- Outro: Ler {project-root}/bmad/embrapa-io/templates/settings/settings-base.json
+- Se Node.js backend: Ler {project-root}/.bmad/embrapa-io/templates/settings/settings-nodejs.json
+- Se Frontend (React/Vue): Ler {project-root}/.bmad/embrapa-io/templates/settings/settings-frontend.json
+- Outro: Ler {project-root}/.bmad/embrapa-io/templates/settings/settings-base.json
 
 <action>Extrair variáveis padrão do template carregado</action>
 

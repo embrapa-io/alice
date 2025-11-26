@@ -1,7 +1,7 @@
 # Generate .env.io - Instruções de Geração Interativa
 
-<critical>The workflow execution engine is governed by: {project-root}/bmad/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and processed: {project-root}/bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</critical>
+<critical>The workflow execution engine is governed by: {project-root}/.bmad/core/tasks/workflow.xml</critical>
+<critical>You MUST have already loaded and processed: {project-root}/.bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</critical>
 <critical>This is an INTERACTIVE workflow - requires user input</critical>
 <critical>Communicate in {communication_language} throughout execution</critical>
 
@@ -332,7 +332,7 @@ Este workflow deve ser invocado durante setup inicial de projetos Embrapa I/O:
 ```xml
 <step n="X" goal="Gerar variáveis de ambiente Embrapa I/O">
   <invoke-workflow>
-    <path>{project-root}/bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</path>
+    <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</path>
     <description>Cria .env.io e .env.io.example com variáveis da plataforma (workflow interativo)</description>
   </invoke-workflow>
 </step>

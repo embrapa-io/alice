@@ -36,25 +36,25 @@ Para setup completo de um novo projeto:
 ```xml
 <step n="1" goal="Gerar variáveis de ambiente">
   <invoke-workflow>
-    <path>{project-root}/bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</path>
+    <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</path>
   </invoke-workflow>
 </step>
 
 <step n="2" goal="Gerar licença">
   <invoke-workflow>
-    <path>{project-root}/bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</path>
+    <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</path>
   </invoke-workflow>
 </step>
 
 <step n="3" goal="Gerar settings">
   <invoke-workflow>
-    <path>{project-root}/bmad/embrapa-io/workflows/setup/generate-settings-json/workflow.yaml</path>
+    <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-settings-json/workflow.yaml</path>
   </invoke-workflow>
 </step>
 
 <step n="4" goal="Gerar docker-compose">
   <invoke-workflow>
-    <path>{project-root}/bmad/embrapa-io/workflows/setup/generate-docker-compose/workflow.yaml</path>
+    <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-docker-compose/workflow.yaml</path>
   </invoke-workflow>
 </step>
 ```

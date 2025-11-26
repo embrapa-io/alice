@@ -28,10 +28,10 @@ Qualquer agente que precise criar ou modificar aplicações para Embrapa I/O dev
 
 ```yaml
 knowledge_base:
-  embrapa_io_fundamentals: "{project-root}/bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md"
-  embrapa_io_stacks: "{project-root}/bmad/embrapa-io/knowledge/embrapa-io-stacks.md"
-  embrapa_io_integrations: "{project-root}/bmad/embrapa-io/knowledge/embrapa-io-integrations.md"
-  embrapa_io_validation: "{project-root}/bmad/embrapa-io/knowledge/embrapa-io-validation.md"
+  embrapa_io_fundamentals: "{project-root}/.bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md"
+  embrapa_io_stacks: "{project-root}/.bmad/embrapa-io/knowledge/embrapa-io-stacks.md"
+  embrapa_io_integrations: "{project-root}/.bmad/embrapa-io/knowledge/embrapa-io-integrations.md"
+  embrapa_io_validation: "{project-root}/.bmad/embrapa-io/knowledge/embrapa-io-validation.md"
 ```
 
 ### 2. Invocação Automática de Workflows
@@ -43,7 +43,7 @@ Durante a criação de uma aplicação, o agente deve **invocar automaticamente*
 ```xml
 <step n="X" goal="Gerar arquivos de variáveis da plataforma">
   <invoke-workflow>
-    <path>{project-root}/bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</path>
+    <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</path>
     <description>Gera .env.io e .env.io.example com variáveis da plataforma Embrapa I/O</description>
   </invoke-workflow>
 </step>
@@ -64,7 +64,7 @@ Os arquivos `.env.io` e `.env.io.example` são criados automaticamente com:
 ```xml
 <step n="Y" goal="Gerar arquivo LICENSE da Embrapa">
   <invoke-workflow>
-    <path>{project-root}/bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</path>
+    <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</path>
     <description>Cria LICENSE com copyright da Embrapa</description>
   </invoke-workflow>
 </step>
@@ -89,10 +89,10 @@ O módulo fornece templates para estruturas obrigatórias:
 
 ```yaml
 templates:
-  docker_compose_base: "{project-root}/bmad/embrapa-io/templates/docker-compose/base.yaml"
-  settings_base: "{project-root}/bmad/embrapa-io/templates/settings/settings-base.json"
-  settings_nodejs: "{project-root}/bmad/embrapa-io/templates/settings/settings-nodejs.json"
-  settings_frontend: "{project-root}/bmad/embrapa-io/templates/settings/settings-frontend.json"
+  docker_compose_base: "{project-root}/.bmad/embrapa-io/templates/docker-compose/base.yaml"
+  settings_base: "{project-root}/.bmad/embrapa-io/templates/settings/settings-base.json"
+  settings_nodejs: "{project-root}/.bmad/embrapa-io/templates/settings/settings-nodejs.json"
+  settings_frontend: "{project-root}/.bmad/embrapa-io/templates/settings/settings-frontend.json"
 ```
 
 **Como usar os templates:**
@@ -117,7 +117,7 @@ Após criar a aplicação, o agente deve **validar conformidade**:
 ```xml
 <step n="Z" goal="Validar conformidade com Embrapa I/O">
   <invoke-workflow>
-    <path>{project-root}/bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</path>
+    <path>{project-root}/.bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</path>
     <description>Valida se a aplicação está conforme com todas as regras do Embrapa I/O</description>
   </invoke-workflow>
 </step>
@@ -169,7 +169,7 @@ Ao criar uma aplicação, o agente deve assegurar:
 
   <step n="2" goal="Gerar arquivo LICENSE">
     <invoke-workflow>
-      <path>{project-root}/bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</path>
+      <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</path>
     </invoke-workflow>
     <!-- Workflow executado silenciosamente -->
     <!-- Cria LICENSE com copyright da Embrapa automaticamente -->
@@ -177,7 +177,7 @@ Ao criar uma aplicação, o agente deve assegurar:
 
   <step n="3" goal="Gerar variáveis da plataforma Embrapa I/O">
     <invoke-workflow>
-      <path>{project-root}/bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</path>
+      <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</path>
     </invoke-workflow>
     <!-- Workflow solicita IO_PROJECT, IO_APP, IO_DEPLOYER -->
     <!-- Cria .env.io e .env.io.example automaticamente -->
@@ -221,7 +221,7 @@ Ao criar uma aplicação, o agente deve assegurar:
 
   <step n="9" goal="Validar conformidade">
     <invoke-workflow>
-      <path>{project-root}/bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</path>
+      <path>{project-root}/.bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</path>
     </invoke-workflow>
     <!-- Valida todas as regras e gera relatório -->
   </step>

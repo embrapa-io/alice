@@ -1,7 +1,7 @@
 # Validate Compliance - Instruções de Validação Completa
 
-<critical>The workflow execution engine is governed by: {project-root}/bmad/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and processed: {project-root}/bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</critical>
+<critical>The workflow execution engine is governed by: {project-root}/.bmad/core/tasks/workflow.xml</critical>
+<critical>You MUST have already loaded and processed: {project-root}/.bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</critical>
 <critical>This is an INTERACTIVE workflow - requires user input and generates reports</critical>
 <critical>Communicate in {communication_language} throughout execution</critical>
 <critical>Read knowledge files before starting validation</critical>
@@ -11,7 +11,7 @@
 <step n="1" goal="Carregar conhecimento necessário">
 <action>Carregar e compreender os seguintes arquivos de conhecimento:</action>
 <action>- {project-root}/.bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md → As 4 verdades fundamentais da plataforma</action>
-<action>- {project-root}/.bmad/embrapa-io/knowledge/embrapa-io-validation.md → Todas as 44 regras de validação organizadas (incluindo NO-FALLBACK e Volumes)</action>
+<action>- {project-root}/.bmad/embrapa-io/knowledge/embrapa-io-validation.md → Todas as 38 regras de validação organizadas (incluindo NO-FALLBACK e Volumes)</action>
 <action>- {project-root}/.bmad/embrapa-io/knowledge/embrapa-io-workflows.md → Adaptação por tipo de projeto</action>
 
 <check if="arquivos carregados com sucesso">
@@ -633,7 +633,7 @@ Este workflow deve ser invocado para validar conformidade de projetos:
 ```xml
 <step n="X" goal="Validar conformidade Embrapa I/O">
   <invoke-workflow>
-    <path>{project-root}/bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</path>
+    <path>{project-root}/.bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</path>
     <description>Valida projeto contra 38 regras Embrapa I/O e gera relatórios (workflow interativo)</description>
   </invoke-workflow>
 </step>

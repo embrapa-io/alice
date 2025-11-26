@@ -61,22 +61,22 @@ Executar workflows setup em sequência para criar estrutura completa:
 ```xml
 <!-- 1. Gerar variáveis de ambiente (obrigatório primeiro) -->
 <invoke-workflow>
-  <path>{project-root}/bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</path>
+  <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</path>
 </invoke-workflow>
 
 <!-- 2. Gerar licença -->
 <invoke-workflow>
-  <path>{project-root}/bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</path>
+  <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</path>
 </invoke-workflow>
 
 <!-- 3. Gerar settings (requer .env.io) -->
 <invoke-workflow>
-  <path>{project-root}/bmad/embrapa-io/workflows/setup/generate-settings-json/workflow.yaml</path>
+  <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-settings-json/workflow.yaml</path>
 </invoke-workflow>
 
 <!-- 4. Gerar docker-compose (requer .env.io) -->
 <invoke-workflow>
-  <path>{project-root}/bmad/embrapa-io/workflows/setup/generate-docker-compose/workflow.yaml</path>
+  <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-docker-compose/workflow.yaml</path>
 </invoke-workflow>
 ```
 
@@ -86,7 +86,7 @@ Executar validação completa para verificar conformidade:
 
 ```xml
 <invoke-workflow>
-  <path>{project-root}/bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</path>
+  <path>{project-root}/.bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</path>
 </invoke-workflow>
 ```
 
