@@ -11,7 +11,7 @@
 <step n="1" goal="Carregar conhecimento necessário">
 <action>Carregar e compreender os seguintes arquivos de conhecimento:</action>
 <action>- {project-root}/.bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md → As 4 verdades fundamentais da plataforma</action>
-<action>- {project-root}/.bmad/embrapa-io/knowledge/embrapa-io-validation.md → Todas as 38 regras de validação organizadas (incluindo NO-FALLBACK e Volumes)</action>
+<action>- {project-root}/.bmad/embrapa-io/knowledge/embrapa-io-validation.md → Todas as 47 regras de validação organizadas (incluindo NO-FALLBACK, Volumes via .env, Portas via .env, e Linter)</action>
 <action>- {project-root}/.bmad/embrapa-io/knowledge/embrapa-io-workflows.md → Adaptação por tipo de projeto</action>
 
 <check if="arquivos carregados com sucesso">

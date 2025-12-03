@@ -1,3 +1,7 @@
+---
+last-redoc-date: 2025-12-03
+---
+
 # Checklist de Validação - Generate LICENSE
 
 ## ✅ Arquivo LICENSE
