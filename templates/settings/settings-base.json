@@ -8,7 +8,7 @@
     { "label": "Express Framework", "url": "https://expressjs.com/" }
   ],
   "maintainers": [
-    { "name": "Camilo Carromeu", "email": "camilo.carromeu@embrapa.br", "phone": "+55(67)9-8111-8060" }
+    { "name": "Camilo Carromeu", "email": "camilo.carromeu@embrapa.br", "phone": "+55 (67) 9 8111-8060" }
   ],
   "variables": {
     "default": [

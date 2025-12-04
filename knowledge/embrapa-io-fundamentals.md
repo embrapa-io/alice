@@ -136,7 +136,7 @@ POSTGRES_VOLUME=meu-projeto_minha-app_development_postgres
     { "label": "JSON Web Tokens", "url": "https://jwt.io/" }
   ],
   "maintainers": [
-    { "name": "Camilo Carromeu", "email": "camilo.carromeu@embrapa.br", "phone": "+55(67)9-8111-8060" }
+    { "name": "Camilo Carromeu", "email": "camilo.carromeu@embrapa.br", "phone": "+55 (67) 9 8111-8060" }
   ],
   "variables": {
     "default": [
@@ -192,7 +192,7 @@ POSTGRES_VOLUME=meu-projeto_minha-app_development_postgres
 - ✅ **JAMAIS** usar espaços ou aspas nos valores das variáveis
 - ✅ Variáveis do array **default** devem mapear todas as variáveis do .env
 - ✅ Arrays **alpha**, **beta**, **release** contêm apenas OVERRIDES de valores
-- ✅ Telefone no formato: +55(XX)9-XXXX-XXXX (sem espaços)
+- ✅ Telefone no formato: +DDI (DDD) X XXXX-XXXX (ex: +55 (67) 9 8111-8060)
 
 ### 4. Serviços CLI Obrigatórios (Backup, Restore, Sanitize)
 

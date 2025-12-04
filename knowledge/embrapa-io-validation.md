@@ -277,6 +277,21 @@ MESSAGE: "Array references está vazio"
 SOLUTION: "Adicionar referências técnicas relevantes ao projeto"
 ```
 
+#### 3.9 Formato de telefone inválido em maintainers
+```
+SEVERITY: MEDIUM
+MESSAGE: "Campo 'phone' do mantenedor '[name]' não está no formato correto"
+EXPECTED_FORMAT: "+DDI (DDD) X XXXX-XXXX"
+REGEX: "^\+\d{1,3} \(\d{2}\) \d \d{4}-\d{4}$"
+EXAMPLE: "+55 (67) 9 8111-8060"
+SOLUTION: "Corrigir formato do telefone para: +DDI (DDD) X XXXX-XXXX"
+NOTES:
+  - DDI: Código internacional (1 a 3 dígitos, ex: 55 para Brasil)
+  - DDD: Código de área entre parênteses (2 dígitos)
+  - Espaços obrigatórios após DDI e após DDD
+  - Formato do número: X XXXX-XXXX (9 dígitos com hífen)
+```
+
 ## 🔍 Validação 4: Integrações
 
 ### HIGH Errors
@@ -414,11 +429,11 @@ Executar todas as 5 validações:
 
 - [ ] **Validação 1**: docker-compose.yaml (14 regras)
 - [ ] **Validação 2**: Arquivos .env (8 regras)
-- [ ] **Validação 3**: .embrapa/settings.json (8 regras)
+- [ ] **Validação 3**: .embrapa/settings.json (9 regras)
 - [ ] **Validação 4**: Integrações (5 regras)
 - [ ] **Validação 5**: Estrutura de Projeto (3 regras)
 
-**Total**: 38 regras de validação
+**Total**: 39 regras de validação
 
 ## 📊 Exemplo de Score Calculation
 

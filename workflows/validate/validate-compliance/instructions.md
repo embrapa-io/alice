@@ -11,7 +11,7 @@
 <step n="1" goal="Carregar conhecimento necessário">
 <action>Carregar e compreender os seguintes arquivos de conhecimento:</action>
 <action>- {project-root}/.bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md → As 4 verdades fundamentais da plataforma</action>
-<action>- {project-root}/.bmad/embrapa-io/knowledge/embrapa-io-validation.md → Todas as 47 regras de validação organizadas (incluindo NO-FALLBACK, Volumes via .env, Portas via .env, e Linter)</action>
+<action>- {project-root}/.bmad/embrapa-io/knowledge/embrapa-io-validation.md → Todas as 48 regras de validação organizadas (incluindo NO-FALLBACK, Volumes via .env, Portas via .env, Linter e formato de telefone)</action>
 <action>- {project-root}/.bmad/embrapa-io/knowledge/embrapa-io-workflows.md → Adaptação por tipo de projeto</action>
 
 <check if="arquivos carregados com sucesso">
@@ -177,7 +177,7 @@
 
 <step n="6" goal="Validar .embrapa/settings.json">
 <action>Ler arquivo {{project_path}}/.embrapa/settings.json completo</action>
-<action>Executar 8 validações conforme embrapa-io-validation.md seção "Validação 3 - Settings JSON"</action>
+<action>Executar 9 validações conforme embrapa-io-validation.md seção "Validação 3 - Settings JSON"</action>
 
 <action>Validações CRITICAL (IDs 3.1-3.3):</action>
 <action>- 3.1: Arquivo .embrapa/settings.json existe</action>
@@ -189,9 +189,12 @@
 <action>- 3.5: Campo 'variables.default' está presente e não-vazio</action>
 <action>- 3.6: Tipos de variáveis são válidos (TEXT, PASSWORD, SECRET, PORT, VOLUME, EMPTY)</action>
 
-<action>Validações MEDIUM (IDs 3.7-3.8):</action>
+<action>Validações MEDIUM (IDs 3.7-3.9):</action>
 <action>- 3.7: Valores default sem espaços ou aspas desnecessárias</action>
 <action>- 3.8: Array 'references' não está vazio (possui documentação)</action>
+<action>- 3.9: Campo 'phone' em maintainers[] segue formato: +DDI (DDD) X XXXX-XXXX</action>
+<action>      Regex: ^\+\d{1,3} \(\d{2}\) \d \d{4}-\d{4}$</action>
+<action>      Exemplo válido: +55 (67) 9 8111-8060</action>
 
 <action>Armazenar erros em {{settings_errors}} (array)</action>
 <action>Calcular status da categoria</action>

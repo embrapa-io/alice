@@ -113,7 +113,7 @@ last-redoc-date: 2025-12-03
 
 O workflow é considerado bem-sucedido quando:
 
-1. ✅ Todas as 47 regras de validação foram aplicadas corretamente
+1. ✅ Todas as 48 regras de validação foram aplicadas corretamente
 2. ✅ Relatórios JSON e Markdown gerados com informações completas
 3. ✅ Score de conformidade calculado corretamente baseado em severidades
 4. ✅ Erros apresentados com ID, severidade, mensagem, localização e solução
