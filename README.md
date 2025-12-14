@@ -1,5 +1,5 @@
 ---
-last-redoc-date: 2025-11-25
+last-redoc-date: 2025-12-14
 ---
 
 # Módulo Embrapa I/O do BMAD Method

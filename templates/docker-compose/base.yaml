@@ -20,6 +20,7 @@ services:
       start_period: 40s
 
   # Serviço CLI: Backup
+  # Uso: env $(cat .env.io) docker compose run --rm backup
   backup:
     image: alpine:latest
     restart: "no"
@@ -27,56 +28,99 @@ services:
       - cli
     volumes:
       - backup_data:/backup
-      # Adicionar volumes de dados a serem backup
+      - app_data:/data:ro
     networks:
       - stack
+    environment:
+      IO_PROJECT: ${IO_PROJECT}
+      IO_APP: ${IO_APP}
+      IO_STAGE: ${IO_STAGE}
+      IO_VERSION: ${IO_VERSION}
     command: >
       sh -c "
-        set -ex &&
-        BACKUP_DIR=${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S') &&
-        mkdir -p /backup/$$BACKUP_DIR &&
-        echo 'Implementar lógica de backup aqui' &&
-        tar -czf /backup/$$BACKUP_DIR.tar.gz -C /backup $$BACKUP_DIR &&
-        rm -rf /backup/$$BACKUP_DIR
+        set -e &&
+        echo '🔄 Iniciando backup...' &&
+        echo '📦 Projeto: ${IO_PROJECT}/${IO_APP} [${IO_STAGE}]' &&
+        echo '📌 Versão: ${IO_VERSION}' &&
+        BACKUP_NAME=${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S') &&
+        BACKUP_DIR=/backup/$$BACKUP_NAME &&
+        mkdir -p $$BACKUP_DIR &&
+        echo '📂 Copiando dados para backup...' &&
+        cp -r /data/* $$BACKUP_DIR/ 2>/dev/null || echo '⚠️ Nenhum dado em /data' &&
+        echo '📦 Compactando backup...' &&
+        cd /backup && tar -czf $$BACKUP_NAME.tar.gz $$BACKUP_NAME &&
+        rm -rf $$BACKUP_DIR &&
+        echo '✅ Backup concluído: $$BACKUP_NAME.tar.gz' &&
+        ls -lh /backup/$$BACKUP_NAME.tar.gz
       "
 
   # Serviço CLI: Restore
+  # Uso: env $(cat .env.io) BACKUP_FILE=arquivo.tar.gz docker compose run --rm restore
   restore:
     image: alpine:latest
     restart: "no"
     profiles:
       - cli
     volumes:
-      - backup_data:/backup
-      # Adicionar volumes de dados a serem restaurados
+      - backup_data:/backup:ro
+      - app_data:/data
     networks:
       - stack
+    environment:
+      BACKUP_FILE: ${BACKUP_FILE:-}
     command: >
       sh -c "
-        set -ex &&
-        FILE_TO_RESTORE=${BACKUP_FILE_TO_RESTORE:-no_file_to_restore} &&
-        test -f /backup/$$FILE_TO_RESTORE &&
+        set -e &&
+        echo '🔄 Iniciando restauração...' &&
+        if [ -z \"$$BACKUP_FILE\" ]; then
+          echo '❌ Erro: Variável BACKUP_FILE não definida' &&
+          echo '💡 Uso: BACKUP_FILE=arquivo.tar.gz docker compose run --rm restore' &&
+          echo '' &&
+          echo '📋 Backups disponíveis:' &&
+          ls -lh /backup/*.tar.gz 2>/dev/null || echo '  Nenhum backup encontrado' &&
+          exit 1
+        fi &&
+        if [ ! -f \"/backup/$$BACKUP_FILE\" ]; then
+          echo \"❌ Erro: Arquivo /backup/$$BACKUP_FILE não encontrado\" &&
+          exit 1
+        fi &&
+        echo \"📦 Restaurando: $$BACKUP_FILE\" &&
         RESTORE_DIR=$$(mktemp -d) &&
-        tar -xf /backup/$$FILE_TO_RESTORE -C $$RESTORE_DIR --strip-components=1 &&
-        echo 'Implementar lógica de restore aqui' &&
-        rm -rf $$RESTORE_DIR
+        tar -xzf /backup/$$BACKUP_FILE -C $$RESTORE_DIR --strip-components=1 &&
+        echo '📂 Copiando dados restaurados...' &&
+        cp -r $$RESTORE_DIR/* /data/ 2>/dev/null || true &&
+        rm -rf $$RESTORE_DIR &&
+        echo '✅ Restauração concluída com sucesso!'
       "
 
   # Serviço CLI: Sanitize
+  # Uso: env $(cat .env.io) docker compose run --rm sanitize
   sanitize:
     image: alpine:latest
     restart: "no"
     profiles:
       - cli
     volumes:
-      # Adicionar volumes de dados a serem otimizados
+      - app_data:/data
     networks:
       - stack
     command: >
-      sh -c '
-        set -ex &&
-        echo "Implementar lógica de sanitize/otimização aqui"
-      '
+      sh -c "
+        set -e &&
+        echo '🧹 Iniciando sanitização e otimização...' &&
+        echo '📊 Uso de disco antes:' &&
+        du -sh /data 2>/dev/null || echo '  /data vazio ou inacessível' &&
+        echo '' &&
+        echo '🔍 Removendo arquivos temporários...' &&
+        find /data -type f -name '*.tmp' -delete 2>/dev/null || true &&
+        find /data -type f -name '*.log' -mtime +30 -delete 2>/dev/null || true &&
+        find /data -type f -name '.DS_Store' -delete 2>/dev/null || true &&
+        echo '' &&
+        echo '📊 Uso de disco depois:' &&
+        du -sh /data 2>/dev/null || echo '  /data vazio ou inacessível' &&
+        echo '' &&
+        echo '✅ Sanitização concluída!'
+      "
 
 networks:
   stack:
@@ -86,4 +130,7 @@ networks:
 volumes:
   backup_data:
     name: ${IO_PROJECT}_${IO_APP}_${IO_STAGE}_backup
+    external: true
+  app_data:
+    name: ${IO_PROJECT}_${IO_APP}_${IO_STAGE}_data
     external: true

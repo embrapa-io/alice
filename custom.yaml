@@ -1,3 +1,7 @@
-code: my-custom-bmad
-name: "Camilo Carromeu-Custom-BMad: Sample Stand Alone Custom Agents and Workflows"
+code: embrapa-io
+name: "Embrapa I/O DevOps Compliance Module"
+description: "Módulo de conhecimento BMAD para conformidade com a plataforma Embrapa I/O - inclui workflows de setup, validação e templates para Docker, env files e settings"
 default_selected: true
+version: "1.0.0"
+author: "Camilo Carromeu"
+repository: "https://github.com/embrapa-io/bmad"

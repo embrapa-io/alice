@@ -402,12 +402,21 @@ Para aplicações com interface visual:
 
 ## 📚 Referências
 
-- Documento completo: `/Users/camilo/Projects/test/AGENTS.md`
-- Repositório de templates: (a ser definido)
-- Documentação da plataforma: (a ser definido)
+- **Dashboard Embrapa I/O**: https://dashboard.embrapa.io
+- **Documentação da plataforma**: https://embrapa.io/docs
+- **Repositório do módulo BMAD**: https://github.com/embrapa-io/bmad
+- **Base de conhecimento local**: `{project-root}/.bmad/embrapa-io/knowledge/`
+
+### Arquivos de Conhecimento Relacionados
+
+- `embrapa-io-validation.md` - 38 regras de validação detalhadas
+- `embrapa-io-stacks.md` - Configurações por stack tecnológica
+- `embrapa-io-integrations.md` - Guia de integrações (Sentry, Matomo, etc.)
+- `embrapa-io-deployment.md` - Pipeline de deployment e stages
+- `embrapa-io-workflows.md` - Workflows disponíveis
 
 ---
 
-**Versão**: 1.0
-**Última atualização**: 2025-10-06
+**Versão**: 1.1
+**Última atualização**: 2025-12-14
 **Autor**: Módulo Embrapa I/O BMAD
