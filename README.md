@@ -96,6 +96,27 @@ Executar validação completa para verificar conformidade:
 - Para workflows setup: nenhum arquivo Embrapa I/O necessário
 - Para workflow validate: arquivos `.env.io`, `docker-compose.yaml`, `.embrapa/settings.json` devem existir
 
+### ⚠️ Comandos Docker (IMPORTANTE)
+
+**TODOS** os comandos `docker compose` em projetos Embrapa I/O **DEVEM** ser precedidos por `env $(cat .env.io)`:
+
+```bash
+# Comando padrão para subir a stack (usar em READMEs e Tech Specs)
+env $(cat .env.io) docker compose up --force-recreate --build --remove-orphans --wait
+
+# Parar a stack
+env $(cat .env.io) docker compose down
+
+# Ver logs
+env $(cat .env.io) docker compose logs -f
+
+# Executar serviços CLI
+env $(cat .env.io) docker compose run --rm --no-deps backup
+env $(cat .env.io) docker compose run --rm --no-deps sanitize
+```
+
+O prefixo `env $(cat .env.io)` injeta as variáveis da plataforma (`COMPOSE_PROJECT_NAME`, `IO_PROJECT`, `IO_APP`, `IO_STAGE`) que são **essenciais** para o funcionamento correto. Sem ele, o docker compose não funcionará corretamente.
+
 ## Knowledge Base
 
 O diretório `knowledge/` contém 7 arquivos de documentação técnica carregados por workflows para validação e orientação:

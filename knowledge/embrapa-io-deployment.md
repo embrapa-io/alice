@@ -55,6 +55,17 @@ env $(cat .env.io) COMPOSE_PROFILES=release docker compose up
 
 ## 📦 Comandos Essenciais
 
+### ⚠️ REGRA OBRIGATÓRIA: Prefixo `env $(cat .env.io)`
+
+**TODOS** os comandos `docker compose` **DEVEM** ser precedidos por `env $(cat .env.io)`. Este prefixo injeta as variáveis da plataforma (`COMPOSE_PROJECT_NAME`, `IO_PROJECT`, `IO_APP`, `IO_STAGE`, etc.) que são essenciais para o funcionamento correto da stack.
+
+**Comando padrão para subir qualquer stack Embrapa I/O:**
+```bash
+env $(cat .env.io) docker compose up --force-recreate --build --remove-orphans --wait
+```
+
+> **📝 Nota para documentação:** Ao criar READMEs ou Tech Specs, sempre documente os comandos Docker com o prefixo completo `env $(cat .env.io)`.
+
 ### Setup Inicial
 
 ```bash
@@ -211,5 +222,5 @@ echo ".env.io" >> .gitignore
 ---
 
 **Versão**: 1.0
-**Última atualização**: 2025-10-06
+**Última atualização**: 2025-12-15
 **Autor**: Módulo Embrapa I/O BMAD

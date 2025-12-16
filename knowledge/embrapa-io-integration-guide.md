@@ -1,7 +1,7 @@
 # Guia de Integração - Módulo Embrapa I/O
 
 **Versão**: 1.0.0
-**Última atualização**: 2025-10-10
+**Última atualização**: 2025-12-15
 **Propósito**: Instruir agentes BMAD sobre como criar aplicações aderentes ao Embrapa I/O
 
 ---
@@ -156,6 +156,10 @@ Ao criar uma aplicação, o agente deve assegurar:
 - [ ] Release tracking usando `${IO_VERSION}` do .env.io
 - [ ] Environment tracking usando `${IO_STAGE}` do .env.io
 
+### Documentação (READMEs e Tech Specs)
+- [ ] Comandos Docker sempre documentados com prefixo `env $(cat .env.io)`
+- [ ] Comando padrão de build: `env $(cat .env.io) docker compose up --force-recreate --build --remove-orphans --wait`
+
 ---
 
 ## 🔧 Exemplo Completo: Agente Criando Node.js API
@@ -229,7 +233,7 @@ Ao criar uma aplicação, o agente deve assegurar:
   <step n="10" goal="Orientar próximos passos">
     <action>Informar que aplicação está pronta</action>
     <action>Explicar como obter SENTRY_DSN e MATOMO_ID no Dashboard</action>
-    <action>Mostrar comando para iniciar: env $(cat .env.io) docker compose up</action>
+    <action>Mostrar comando para iniciar: env $(cat .env.io) docker compose up --force-recreate --build --remove-orphans --wait</action>
   </step>
 </workflow>
 ```

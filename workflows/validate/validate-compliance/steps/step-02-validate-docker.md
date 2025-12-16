@@ -99,11 +99,14 @@ Severity: HIGH
 Auto-fixable: true
 ```
 
-**ID 1.7 - Verdade 4: Sem container_name**
+**ID 1.7 - Verdade 4: Sem container_name (PROIBIDO)**
 ```
 Check: Nenhum serviço tem 'container_name'
 Severity: HIGH
 Auto-fixable: true
+Reason: O nome dos containers é definido automaticamente pelo COMPOSE_PROJECT_NAME
+        injetado pela plataforma (padrão: {IO_PROJECT}_{IO_APP}_{IO_STAGE}_{service}).
+        Usar container_name quebra a convenção e causa conflitos entre ambientes.
 ```
 
 ### 3. Validar Regras Adicionais

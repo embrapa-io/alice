@@ -59,7 +59,7 @@ volumes:
 **Regras para Serviços:**
 - **Longa duração**: `restart: unless-stopped` + `healthcheck`
 - **CLI**: `restart: "no"` + `profiles: ['cli']`
-- **NUNCA** usar `container_name`
+- **⚠️ NUNCA** usar `container_name` - o nome dos containers é automaticamente definido pelo `COMPOSE_PROJECT_NAME` injetado pela plataforma (padrão: `{IO_PROJECT}_{IO_APP}_{IO_STAGE}_{service}`)
 - **Todas as portas** mapeadas via variáveis do `.env`
 
 ### 2. Dual .env Files (Plataforma + Aplicação)
@@ -351,10 +351,33 @@ logging:
 
 ## 📦 Comandos Padrão
 
+### ⚠️ REGRA OBRIGATÓRIA: Prefixo `env $(cat .env.io)`
+
+**TODOS** os comandos `docker compose` em projetos Embrapa I/O **DEVEM** ser precedidos por:
+
+```bash
+env $(cat .env.io) docker compose [comando]
+```
+
+**Por quê?**
+- O arquivo `.env.io` contém variáveis críticas da plataforma (`COMPOSE_PROJECT_NAME`, `IO_PROJECT`, `IO_APP`, `IO_STAGE`, etc.)
+- O `COMPOSE_PROJECT_NAME` define automaticamente o nome dos containers e recursos
+- Sem este prefixo, as variáveis não são injetadas e o docker compose **não funcionará corretamente**
+- Esta convenção garante isolamento entre ambientes (development, alpha, beta, release)
+
+**🚨 IMPORTANTE para READMEs e Tech Specs:**
+Ao documentar comandos de build, deploy ou operações Docker em qualquer projeto Embrapa I/O, **sempre** inclua o prefixo completo. O comando padrão para subir a stack é:
+
+```bash
+env $(cat .env.io) docker compose up --force-recreate --build --remove-orphans --wait
+```
+
+### Comandos de Referência
+
 Toda aplicação Embrapa I/O deve funcionar com:
 
 ```bash
-# Iniciar aplicação
+# Iniciar aplicação (comando padrão obrigatório)
 env $(cat .env.io) docker compose up --force-recreate --build --remove-orphans --wait
 
 # Executar CLI (backup)
@@ -371,7 +394,7 @@ env $(cat .env.io) docker compose run --rm --no-deps sanitize
 
 - [ ] `docker-compose.yaml` com network externa `${IO_PROJECT}_${IO_APP}_${IO_STAGE}`
 - [ ] Todos os volumes são externos
-- [ ] Nenhum serviço usa `container_name`
+- [ ] Nenhum serviço usa `container_name` (nomes são gerados via COMPOSE_PROJECT_NAME)
 - [ ] Serviços de longa duração têm `restart: unless-stopped` + `healthcheck`
 - [ ] `.env.io.example` e `.env.example` presentes
 - [ ] Variáveis seguem convenção `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_[nome]`
@@ -379,6 +402,7 @@ env $(cat .env.io) docker compose run --rm --no-deps sanitize
 - [ ] Serviços CLI (backup, restore, sanitize) implementados
 - [ ] Integrações Sentry e Matomo configuradas
 - [ ] Logo da Embrapa presente em interfaces visuais
+- [ ] README documenta comandos com prefixo `env $(cat .env.io)`
 
 ## 🎨 Diretrizes de UI
 
@@ -418,5 +442,5 @@ Para aplicações com interface visual:
 ---
 
 **Versão**: 1.1
-**Última atualização**: 2025-12-14
+**Última atualização**: 2025-12-15
 **Autor**: Módulo Embrapa I/O BMAD

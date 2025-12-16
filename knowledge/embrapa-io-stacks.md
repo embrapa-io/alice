@@ -368,5 +368,5 @@ volumes:
 ---
 
 **Versão**: 1.0
-**Última atualização**: 2025-10-06
+**Última atualização**: 2025-12-15
 **Autor**: Módulo Embrapa I/O BMAD

@@ -69,12 +69,19 @@ MESSAGE: "Serviço '[service_name]' não está conectado à network 'stack'"
 SOLUTION: "Adicionar 'stack' em 'networks:' do serviço"
 ```
 
-#### 1.7 Uso de 'container_name'
+#### 1.7 Uso de 'container_name' (PROIBIDO)
 ```
 SEVERITY: HIGH
 MESSAGE: "Serviço '[service_name]' usa 'container_name' (não permitido)"
 SOLUTION: "Remover campo 'container_name' do serviço"
+REASON: "O nome dos containers é automaticamente definido pelo COMPOSE_PROJECT_NAME, que é injetado pela plataforma Embrapa I/O. Usar container_name quebra a convenção de nomenclatura e pode causar conflitos entre ambientes."
 ```
+
+**⚠️ IMPORTANTE**: O atributo `container_name` é **estritamente proibido** em todos os serviços do docker-compose.yaml. A plataforma Embrapa I/O utiliza a variável `COMPOSE_PROJECT_NAME` (definida no `.env.io`) para nomear automaticamente os containers seguindo o padrão `{IO_PROJECT}_{IO_APP}_{IO_STAGE}_{service}`. Definir `container_name` manualmente:
+- Quebra a convenção de nomenclatura da plataforma
+- Impede o correto isolamento entre ambientes (development, alpha, beta, release)
+- Pode causar conflitos de nomes entre diferentes deploys
+- Impossibilita a orquestração automatizada pela plataforma
 
 #### 1.8 Volumes não externos
 ```
@@ -455,5 +462,5 @@ function calculateComplianceScore(results) {
 ---
 
 **Versão**: 1.0
-**Última atualização**: 2025-10-06
+**Última atualização**: 2025-12-15
 **Autor**: Módulo Embrapa I/O BMAD
