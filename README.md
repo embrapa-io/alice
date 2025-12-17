@@ -1,10 +1,10 @@
 ---
-last-redoc-date: 2025-12-14
+last-redoc-date: 2025-12-17
 ---
 
 # Módulo Embrapa I/O do BMAD Method
 
-**Purpose**: Módulo de conhecimento para o [BMAD Method](https://github.com/bmad-code-org/BMAD-METHOD) que garante conformidade de aplicações com a plataforma [Embrapa I/O](https://embrapa.io) por meio de _workflows_ de setup, templates adaptáveis, e validação rigorosa contra 38 regras específicas.
+**Purpose**: Módulo de conhecimento para o [BMAD Method](https://github.com/bmad-code-org/BMAD-METHOD) que garante conformidade de aplicações com a plataforma [Embrapa I/O](https://embrapa.io) por meio de _workflows_ de setup, templates adaptáveis, e validação rigorosa contra 39 regras específicas.
 
 **Overview**: Este módulo de conhecimento não cria aplicações diretamente - ele instrui outros agentes BMAD sobre como gerar projetos conformes com a plataforma **Embrapa I/O**, independente de linguagem ou framework. Fornece _workflows_ reutilizáveis para geração de arquivos essenciais (`.env.io`, `docker-compose.yaml`, `.embrapa/settings.json`, `LICENSE`), templates especializados por stack tecnológica (Node.js, Vue.js, React, PHP Laravel, .NET), e sistema completo de validação baseado nas 4 Verdades Fundamentais da plataforma.
 
@@ -37,7 +37,7 @@ Workflows para configuração inicial de projetos conformes:
 
 ### Validate (1 workflow)
 Workflow de validação abrangente:
-- **[validate-compliance](./workflows/validate/validate-compliance/)**: Validação completa contra 38 regras (docker-compose, env vars, settings, integrations)
+- **[validate-compliance](./workflows/validate/validate-compliance/)**: Validação completa contra 39 regras (docker-compose, env vars, settings, integrations)
 
 ## Configuration
 
@@ -122,7 +122,7 @@ O prefixo `env $(cat .env.io)` injeta as variáveis da plataforma (`COMPOSE_PROJ
 O diretório `knowledge/` contém 7 arquivos de documentação técnica carregados por workflows para validação e orientação:
 
 - `embrapa-io-fundamentals.md`: 4 Verdades Fundamentais da plataforma
-- `embrapa-io-validation.md`: 38 regras de validação organizadas por categoria
+- `embrapa-io-validation.md`: 39 regras de validação organizadas por categoria
 - `embrapa-io-workflows.md`: Padrões de adaptação por tipo de projeto
 - `embrapa-io-deployment.md`: Processos de deployment e ambientes
 - `embrapa-io-stacks.md`: Configurações específicas por stack tecnológica
@@ -156,7 +156,7 @@ bmad/embrapa-io/
 
 ## Compliance & Quality
 
-**BMAD v6 Compliance**: ✅ 100% (auditado e corrigido em 2025-10-29)
+**BMAD v6 Compliance**: ✅ 100% (auditado e corrigido em 2025-12-17)
 
 ### Auditoria Completa
 - **Workflows Auditados**: 5/5
@@ -178,4 +178,4 @@ bmad/embrapa-io/
 - ✅ Bloat: 0%
 - ✅ Documentation: 100%
 
-**Certificado**: Módulo oficialmente certificado BMAD v6 Excellence em 2025-10-29
+**Certificado**: Módulo oficialmente certificado BMAD v6 Excellence em 2025-12-17
