@@ -2,18 +2,11 @@
 name: 'step-01-generate-license'
 description: 'Calcular ano atual e gerar arquivo LICENSE com copyright da Embrapa'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/setup/generate-license'
-
-# File References
-thisStepFile: '{workflow_path}/steps/step-01-generate-license.md'
-workflowFile: '{workflow_path}/workflow.md'
-
 # Output References
 licenseOutput: '{project-root}/LICENSE'
 
 # Template References
-licenseTemplate: '{workflow_path}/templates/template.LICENSE'
+licenseTemplate: '../templates/template.LICENSE'
 ---
 
 # Step 1: Gerar Arquivo LICENSE

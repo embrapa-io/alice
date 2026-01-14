@@ -2,19 +2,12 @@
 name: 'step-05-generate-report'
 description: 'Consolidar resultados, calcular score e gerar relatórios JSON e Markdown'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/validate/validate-compliance'
-
-# File References
-thisStepFile: '{workflow_path}/steps/step-05-generate-report.md'
-workflowFile: '{workflow_path}/workflow.md'
-
 # Output References
 reportJson: '{output_folder}/validation-report-{project_name}-{date}.json'
 reportMd: '{output_folder}/compliance-summary-{project_name}-{date}.md'
 
 # Template References
-reportTemplate: '{workflow_path}/templates/compliance-report.md'
+reportTemplate: '../templates/compliance-report.md'
 ---
 
 # Step 5: Gerar Relatórios de Compliance

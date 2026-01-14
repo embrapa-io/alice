@@ -2,13 +2,8 @@
 name: 'step-03-validate-env'
 description: 'Validar arquivos .env e .env.io contra regras da plataforma'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/validate/validate-compliance'
-
 # File References
-thisStepFile: '{workflow_path}/steps/step-03-validate-env.md'
-nextStepFile: '{workflow_path}/steps/step-04-validate-code.md'
-workflowFile: '{workflow_path}/workflow.md'
+nextStepFile: './step-04-validate-code.md'
 ---
 
 # Step 3: Validar Arquivos .env
@@ -189,7 +184,7 @@ Display: "**Select an Option:** [C] Continue to Code Validation [D] Details [X] 
 
 ## CRITICAL STEP COMPLETION NOTE
 
-ONLY WHEN [C continue option] is selected, will you then load and read fully `{workflow_path}/steps/step-04-validate-code.md` to execute and begin code validation (NO-FALLBACK and Linter).
+ONLY WHEN [C continue option] is selected, will you then load and read fully `{nextStepFile}` to execute and begin code validation (NO-FALLBACK and Linter).
 
 ---
 

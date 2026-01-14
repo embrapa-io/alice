@@ -20,7 +20,7 @@ Para validar um projeto existente:
 ```xml
 <step n="1" goal="Validar conformidade com Embrapa I/O">
   <invoke-workflow>
-    <path>{project-root}/.bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</path>
+    <path>{project-root}/_bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</path>
     <description>Executa validação completa e gera relatórios</description>
   </invoke-workflow>
 </step>

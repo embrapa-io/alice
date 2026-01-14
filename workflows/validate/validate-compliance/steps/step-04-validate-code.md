@@ -2,13 +2,8 @@
 name: 'step-04-validate-code'
 description: 'Validar código contra regra NO-FALLBACK e verificar presença de Linter'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/validate/validate-compliance'
-
 # File References
-thisStepFile: '{workflow_path}/steps/step-04-validate-code.md'
-nextStepFile: '{workflow_path}/steps/step-05-generate-report.md'
-workflowFile: '{workflow_path}/workflow.md'
+nextStepFile: './step-05-generate-report.md'
 ---
 
 # Step 4: Validar Código (NO-FALLBACK e Linter)
@@ -219,7 +214,7 @@ Display: "**Select an Option:** [C] Continue to Report [D] Details [X] Exit"
 
 ## CRITICAL STEP COMPLETION NOTE
 
-ONLY WHEN [C continue option] is selected, will you then load and read fully `{workflow_path}/steps/step-05-generate-report.md` to execute and generate final compliance report.
+ONLY WHEN [C continue option] is selected, will you then load and read fully `{nextStepFile}` to execute and generate final compliance report.
 
 ---
 

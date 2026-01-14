@@ -2,13 +2,8 @@
 name: 'step-02-validate-docker'
 description: 'Validar docker-compose.yaml contra as 4 Verdades Fundamentais'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/validate/validate-compliance'
-
 # File References
-thisStepFile: '{workflow_path}/steps/step-02-validate-docker.md'
-nextStepFile: '{workflow_path}/steps/step-03-validate-env.md'
-workflowFile: '{workflow_path}/workflow.md'
+nextStepFile: './step-03-validate-env.md'
 ---
 
 # Step 2: Validar Docker Compose
@@ -218,7 +213,7 @@ Display: "**Select an Option:** [C] Continue to .env Validation [D] Details of E
 
 ## CRITICAL STEP COMPLETION NOTE
 
-ONLY WHEN [C continue option] is selected and [docker-compose validation complete], will you then load and read fully `{workflow_path}/steps/step-03-validate-env.md` to execute and begin .env files validation.
+ONLY WHEN [C continue option] is selected and [docker-compose validation complete], will you then load and read fully `{nextStepFile}` to execute and begin .env files validation.
 
 ---
 

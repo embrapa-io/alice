@@ -16,7 +16,7 @@ Categoriza problemas por severidade, fornece recomendações corretivas específ
 
 ```xml
 <invoke-workflow>
-  <path>{project-root}/.bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</path>
+  <path>{project-root}/_bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</path>
   <description>Validação completa de conformidade Embrapa I/O</description>
 </invoke-workflow>
 ```

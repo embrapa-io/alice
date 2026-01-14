@@ -2,19 +2,14 @@
 name: 'step-04-generate-compose'
 description: 'Gerar docker-compose.yaml conforme as 4 Verdades Fundamentais da plataforma Embrapa I/O'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/setup/generate-docker-compose'
-
 # File References
-thisStepFile: '{workflow_path}/steps/step-04-generate-compose.md'
-nextStepFile: '{workflow_path}/steps/step-05-validate-finalize.md'
-workflowFile: '{workflow_path}/workflow.md'
+nextStepFile: './step-05-validate-finalize.md'
 
 # Template References
-baseTemplate: '{project-root}/.bmad/embrapa-io/templates/docker-compose/base.yaml'
+baseTemplate: '{project-root}/_bmad/embrapa-io/templates/docker-compose/base.yaml'
 
 # Knowledge References
-fundamentalsKnowledge: '{project-root}/.bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md'
+fundamentalsKnowledge: '{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md'
 ---
 
 # Step 4: Gerar docker-compose.yaml
@@ -287,7 +282,7 @@ Display: "**Select an Option:** [C] Continue to Validation [E] Edit configuratio
 
 ## CRITICAL STEP COMPLETION NOTE
 
-ONLY WHEN [C continue option] is selected and [docker-compose.yaml content generated and presented], will you then load and read fully `{workflow_path}/steps/step-05-validate-finalize.md` to execute validation and file saving.
+ONLY WHEN [C continue option] is selected and [docker-compose.yaml content generated and presented], will you then load and read fully `{nextStepFile}` to execute validation and file saving.
 
 ---
 

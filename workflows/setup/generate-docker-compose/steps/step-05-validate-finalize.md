@@ -2,19 +2,12 @@
 name: 'step-05-validate-finalize'
 description: 'Validar conformidade final com Embrapa I/O, salvar arquivos e orientar próximos passos'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/setup/generate-docker-compose'
-
-# File References
-thisStepFile: '{workflow_path}/steps/step-05-validate-finalize.md'
-workflowFile: '{workflow_path}/workflow.md'
-
 # Output References
 dockerComposeOutput: '{project-root}/docker-compose.yaml'
 envOutput: '{project-root}/.env'
 
 # Knowledge References
-validationKnowledge: '{project-root}/.bmad/embrapa-io/knowledge/embrapa-io-validation.md'
+validationKnowledge: '{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-validation.md'
 ---
 
 # Step 5: Validar e Finalizar

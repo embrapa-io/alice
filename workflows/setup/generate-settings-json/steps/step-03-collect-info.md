@@ -2,13 +2,8 @@
 name: 'step-03-collect-info'
 description: 'Coletar informações do projeto e do mantenedor para settings.json'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/setup/generate-settings-json'
-
 # File References
-thisStepFile: '{workflow_path}/steps/step-03-collect-info.md'
-nextStepFile: '{workflow_path}/steps/step-04-generate-settings.md'
-workflowFile: '{workflow_path}/workflow.md'
+nextStepFile: './step-04-generate-settings.md'
 ---
 
 # Step 3: Coletar Informações do Projeto
@@ -223,7 +218,7 @@ Display: "**Select an Option:** [C] Continue to Generate [E] Edit values [X] Exi
 
 ## CRITICAL STEP COMPLETION NOTE
 
-ONLY WHEN [C continue option] is selected and [all info collected and validated], will you then load and read fully `{workflow_path}/steps/step-04-generate-settings.md` to execute and generate settings.json.
+ONLY WHEN [C continue option] is selected and [all info collected and validated], will you then load and read fully `{nextStepFile}` to execute and generate settings.json.
 
 ---
 

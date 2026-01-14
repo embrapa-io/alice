@@ -2,13 +2,6 @@
 name: 'step-03-finalize'
 description: 'Salvar arquivos e orientar sobre regras críticas da plataforma Embrapa I/O'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/setup/generate-env-io'
-
-# File References
-thisStepFile: '{workflow_path}/steps/step-03-finalize.md'
-workflowFile: '{workflow_path}/workflow.md'
-
 # Output References
 envIoOutput: '{project-root}/.env.io'
 envIoExampleOutput: '{project-root}/.env.io.example'
@@ -224,8 +217,8 @@ Display:
 - {project-root}/.env.io.example ✅
 
 📚 **Documentação:**
-- Regras completas: .bmad/embrapa-io/knowledge/embrapa-io-validation.md
-- Fundamentos: .bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md
+- Regras completas: _bmad/embrapa-io/knowledge/embrapa-io-validation.md
+- Fundamentos: _bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md
 
 🙏 Obrigado por usar o módulo Embrapa I/O!
 

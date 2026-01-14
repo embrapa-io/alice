@@ -2,18 +2,13 @@
 name: 'step-01-detect-stack'
 description: 'Verificar pré-requisitos e detectar stack tecnológica do projeto'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/setup/generate-settings-json'
-
 # File References
-thisStepFile: '{workflow_path}/steps/step-01-detect-stack.md'
-nextStepFile: '{workflow_path}/steps/step-02-sync-variables.md'
-workflowFile: '{workflow_path}/workflow.md'
+nextStepFile: './step-02-sync-variables.md'
 
 # Template References
-settingsBaseTemplate: '{project-root}/.bmad/embrapa-io/templates/settings/settings-base.json'
-settingsNodejsTemplate: '{project-root}/.bmad/embrapa-io/templates/settings/settings-nodejs.json'
-settingsFrontendTemplate: '{project-root}/.bmad/embrapa-io/templates/settings/settings-frontend.json'
+settingsBaseTemplate: '{project-root}/_bmad/embrapa-io/templates/settings/settings-base.json'
+settingsNodejsTemplate: '{project-root}/_bmad/embrapa-io/templates/settings/settings-nodejs.json'
+settingsFrontendTemplate: '{project-root}/_bmad/embrapa-io/templates/settings/settings-frontend.json'
 ---
 
 # Step 1: Detectar Stack e Verificar Pré-requisitos
@@ -170,7 +165,7 @@ Display: "**Select an Option:** [C] Continue to Variable Sync [X] Exit"
 
 ## CRITICAL STEP COMPLETION NOTE
 
-ONLY WHEN [C continue option] is selected and [platform confirmed], will you then load and read fully `{workflow_path}/steps/step-02-sync-variables.md` to execute and begin variable synchronization.
+ONLY WHEN [C continue option] is selected and [platform confirmed], will you then load and read fully `{nextStepFile}` to execute and begin variable synchronization.
 
 ---
 

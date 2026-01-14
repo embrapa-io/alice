@@ -49,7 +49,7 @@ This uses **step-file architecture** for disciplined execution:
 
 ### 1. Configuration Loading
 
-Load and read full config from {project-root}/.bmad/embrapa-io/config.yaml and resolve:
+Load and read full config from {project-root}/_bmad/embrapa-io/config.yaml and resolve:
 
 - `project_name`, `output_folder`, `user_name`, `communication_language`, `document_output_language`
 
@@ -57,8 +57,8 @@ Load and read full config from {project-root}/.bmad/embrapa-io/config.yaml and r
 
 Load knowledge files for validation rules:
 
-- `{project-root}/.bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md` - 4 Verdades Fundamentais
-- `{project-root}/.bmad/embrapa-io/knowledge/embrapa-io-validation.md` - Regras de validação
+- `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md` - 4 Verdades Fundamentais
+- `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-validation.md` - Regras de validação
 
 ### 3. First Step EXECUTION
 

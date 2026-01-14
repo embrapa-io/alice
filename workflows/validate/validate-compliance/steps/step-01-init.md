@@ -2,17 +2,12 @@
 name: 'step-01-init'
 description: 'Carregar conhecimento e coletar parâmetros de validação'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/validate/validate-compliance'
-
 # File References
-thisStepFile: '{workflow_path}/steps/step-01-init.md'
-nextStepFile: '{workflow_path}/steps/step-02-validate-docker.md'
-workflowFile: '{workflow_path}/workflow.md'
+nextStepFile: './step-02-validate-docker.md'
 
 # Knowledge References
-fundamentalsKnowledge: '{project-root}/.bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md'
-validationKnowledge: '{project-root}/.bmad/embrapa-io/knowledge/embrapa-io-validation.md'
+fundamentalsKnowledge: '{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md'
+validationKnowledge: '{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-validation.md'
 ---
 
 # Step 1: Inicialização e Parâmetros
@@ -190,7 +185,7 @@ Display: "**Select an Option:** [C] Continue to Validation [X] Exit"
 
 ## CRITICAL STEP COMPLETION NOTE
 
-ONLY WHEN [C continue option] is selected and [all parameters collected], will you then load and read fully `{workflow_path}/steps/step-02-validate-docker.md` to execute and begin docker-compose validation.
+ONLY WHEN [C continue option] is selected and [all parameters collected], will you then load and read fully `{nextStepFile}` to execute and begin docker-compose validation.
 
 ---
 

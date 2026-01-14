@@ -2,13 +2,8 @@
 name: 'step-03-collect-config'
 description: 'Coletar configurações específicas da aplicação: portas, healthcheck, serviços CLI'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/setup/generate-docker-compose'
-
 # File References
-thisStepFile: '{workflow_path}/steps/step-03-collect-config.md'
-nextStepFile: '{workflow_path}/steps/step-04-generate-compose.md'
-workflowFile: '{workflow_path}/workflow.md'
+nextStepFile: './step-04-generate-compose.md'
 ---
 
 # Step 3: Coletar Configurações da Aplicação
@@ -189,7 +184,7 @@ Display: "**Select an Option:** [C] Continue to Generate [B] Back to edit config
 
 ## CRITICAL STEP COMPLETION NOTE
 
-ONLY WHEN [C continue option] is selected and [all configuration values collected and validated], will you then load and read fully `{workflow_path}/steps/step-04-generate-compose.md` to execute and begin docker-compose.yaml generation.
+ONLY WHEN [C continue option] is selected and [all configuration values collected and validated], will you then load and read fully `{nextStepFile}` to execute and begin docker-compose.yaml generation.
 
 ---
 

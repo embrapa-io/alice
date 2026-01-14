@@ -16,7 +16,7 @@ Placeholders como `SENTRY_DSN=GET_IN_DASHBOARD` e `MATOMO_ID=522` são incluído
 
 ```xml
 <invoke-workflow>
-  <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</path>
+  <path>{project-root}/_bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</path>
   <description>Gera .env.io e .env.io.example com variáveis da plataforma (workflow interativo)</description>
 </invoke-workflow>
 ```

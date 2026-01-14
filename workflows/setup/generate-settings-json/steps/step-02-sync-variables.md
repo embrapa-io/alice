@@ -2,13 +2,8 @@
 name: 'step-02-sync-variables'
 description: 'Sincronizar variáveis entre arquivos .env e settings.json'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/setup/generate-settings-json'
-
 # File References
-thisStepFile: '{workflow_path}/steps/step-02-sync-variables.md'
-nextStepFile: '{workflow_path}/steps/step-03-collect-info.md'
-workflowFile: '{workflow_path}/workflow.md'
+nextStepFile: './step-03-collect-info.md'
 
 # Source Files
 envFile: '{project-root}/.env'
@@ -279,7 +274,7 @@ Display: "**Select an Option:** [C] Continue to Project Info [R] Refazer anális
 
 ## CRITICAL STEP COMPLETION NOTE
 
-ONLY WHEN [C continue option] is selected and [sync plan confirmed], will you then load and read fully `{workflow_path}/steps/step-03-collect-info.md` to execute and begin project info collection.
+ONLY WHEN [C continue option] is selected and [sync plan confirmed], will you then load and read fully `{nextStepFile}` to execute and begin project info collection.
 
 ---
 

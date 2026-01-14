@@ -2,13 +2,6 @@
 name: 'step-04-generate-settings'
 description: 'Gerar e salvar arquivo .embrapa/settings.json'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/setup/generate-settings-json'
-
-# File References
-thisStepFile: '{workflow_path}/steps/step-04-generate-settings.md'
-workflowFile: '{workflow_path}/workflow.md'
-
 # Output References
 settingsOutput: '{project-root}/.embrapa/settings.json'
 ---

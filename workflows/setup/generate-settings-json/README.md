@@ -16,7 +16,7 @@ Após coletar informações do mantenedor e identificar a stack, o workflow ofer
 
 ```xml
 <invoke-workflow>
-  <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-settings-json/workflow.yaml</path>
+  <path>{project-root}/_bmad/embrapa-io/workflows/setup/generate-settings-json/workflow.yaml</path>
   <description>Gera .embrapa/settings.json conforme com Embrapa I/O</description>
 </invoke-workflow>
 ```

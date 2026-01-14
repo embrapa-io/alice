@@ -2,16 +2,8 @@
 name: 'step-01-collect-project'
 description: 'Coletar informações do projeto: IO_PROJECT, IO_APP e IO_DEPLOYER'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/setup/generate-env-io'
-
 # File References
-thisStepFile: '{workflow_path}/steps/step-01-collect-project.md'
-nextStepFile: '{workflow_path}/steps/step-02-generate-files.md'
-workflowFile: '{workflow_path}/workflow.md'
-
-# Template References
-envTemplate: '{workflow_path}/templates/template.env.io'
+nextStepFile: './step-02-generate-files.md'
 ---
 
 # Step 1: Coletar Informações do Projeto
@@ -181,7 +173,7 @@ Display: "**Select an Option:** [C] Continue to Generate Files [E] Edit values [
 
 ## CRITICAL STEP COMPLETION NOTE
 
-ONLY WHEN [C continue option] is selected and [all values validated and stored], will you then load and read fully `{workflow_path}/steps/step-02-generate-files.md` to execute and begin file generation.
+ONLY WHEN [C continue option] is selected and [all values validated and stored], will you then load and read fully `{nextStepFile}` to execute and begin file generation.
 
 ---
 

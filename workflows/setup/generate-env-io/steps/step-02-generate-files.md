@@ -2,20 +2,12 @@
 name: 'step-02-generate-files'
 description: 'Calcular variáveis automáticas e gerar arquivos .env.io e .env.io.example'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/setup/generate-env-io'
-
 # File References
-thisStepFile: '{workflow_path}/steps/step-02-generate-files.md'
-nextStepFile: '{workflow_path}/steps/step-03-finalize.md'
-workflowFile: '{workflow_path}/workflow.md'
+nextStepFile: './step-03-finalize.md'
 
 # Output References
 envIoOutput: '{project-root}/.env.io'
 envIoExampleOutput: '{project-root}/.env.io.example'
-
-# Template References
-envTemplate: '{workflow_path}/templates/template.env.io'
 ---
 
 # Step 2: Gerar Arquivos .env.io
@@ -196,7 +188,7 @@ Display: "**Select an Option:** [C] Continue to Save Files [E] Edit values [X] E
 
 ## CRITICAL STEP COMPLETION NOTE
 
-ONLY WHEN [C continue option] is selected and [generated content reviewed by user], will you then load and read fully `{workflow_path}/steps/step-03-finalize.md` to execute and save files.
+ONLY WHEN [C continue option] is selected and [generated content reviewed by user], will you then load and read fully `{nextStepFile}` to execute and save files.
 
 ---
 

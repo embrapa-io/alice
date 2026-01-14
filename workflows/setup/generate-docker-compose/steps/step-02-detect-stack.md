@@ -2,13 +2,8 @@
 name: 'step-02-detect-stack'
 description: 'Detectar automaticamente a stack tecnológica do projeto e confirmar com usuário'
 
-# Path Definitions
-workflow_path: '{project-root}/.bmad/embrapa-io/workflows/setup/generate-docker-compose'
-
 # File References
-thisStepFile: '{workflow_path}/steps/step-02-detect-stack.md'
-nextStepFile: '{workflow_path}/steps/step-03-collect-config.md'
-workflowFile: '{workflow_path}/workflow.md'
+nextStepFile: './step-03-collect-config.md'
 ---
 
 # Step 2: Detecção de Stack Tecnológica
@@ -180,7 +175,7 @@ Display: "**Select an Option:** [C] Continue to Configuration [X] Exit"
 
 ## CRITICAL STEP COMPLETION NOTE
 
-ONLY WHEN [C continue option] is selected and [stack and database confirmed], will you then load and read fully `{workflow_path}/steps/step-03-collect-config.md` to execute and begin configuration collection.
+ONLY WHEN [C continue option] is selected and [stack and database confirmed], will you then load and read fully `{nextStepFile}` to execute and begin configuration collection.
 
 ---
 
