@@ -1,5 +1,5 @@
 ---
-last-redoc-date: 2025-12-17
+last-redoc-date: 2026-01-14
 ---
 
 # Módulo Embrapa I/O do BMAD Method
@@ -17,7 +17,7 @@ Primeiramente, [instale o _framework_ do **BMAD Method**](https://github.com/bma
 Em seguida, faça:
 
 ```bash
-git clone https://github.com/embrapa-io/bmad.git .bmad/embrapa-io
+git clone https://github.com/embrapa-io/bmad.git _bmad/embrapa-io
 ```
 
 Isto irá instalar o módulo dentro da instância do BMAD. Basta então iniciar seu assistente de codificação em IA (Claude Code, Gemini CLI, OpenCode, GitHub Copilot, Codex, etc) e chamar o [agente do BMAD](https://github.com/bmad-code-org/BMAD-METHOD/blob/main/src/modules/bmm/docs/agents-guide.md) de sua preferência. Ao elaborar os _prompts_, solicite que o assistente mantenha o _compliance_ com o **Embrapa I/O** por meio do módulo `embrapa-io`.
@@ -61,22 +61,22 @@ Executar workflows setup em sequência para criar estrutura completa:
 ```xml
 <!-- 1. Gerar variáveis de ambiente (obrigatório primeiro) -->
 <invoke-workflow>
-  <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</path>
+  <path>{project-root}/_bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</path>
 </invoke-workflow>
 
 <!-- 2. Gerar licença -->
 <invoke-workflow>
-  <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</path>
+  <path>{project-root}/_bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</path>
 </invoke-workflow>
 
 <!-- 3. Gerar settings (requer .env.io) -->
 <invoke-workflow>
-  <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-settings-json/workflow.yaml</path>
+  <path>{project-root}/_bmad/embrapa-io/workflows/setup/generate-settings-json/workflow.yaml</path>
 </invoke-workflow>
 
 <!-- 4. Gerar docker-compose (requer .env.io) -->
 <invoke-workflow>
-  <path>{project-root}/.bmad/embrapa-io/workflows/setup/generate-docker-compose/workflow.yaml</path>
+  <path>{project-root}/_bmad/embrapa-io/workflows/setup/generate-docker-compose/workflow.yaml</path>
 </invoke-workflow>
 ```
 
@@ -86,7 +86,7 @@ Executar validação completa para verificar conformidade:
 
 ```xml
 <invoke-workflow>
-  <path>{project-root}/.bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</path>
+  <path>{project-root}/_bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</path>
 </invoke-workflow>
 ```
 
@@ -141,7 +141,7 @@ Workflows carregam estes templates automaticamente baseando-se em detecção de 
 ## Project Structure
 
 ```
-bmad/embrapa-io/
+_bmad/embrapa-io/
 ├── config.yaml               # Configurações do módulo
 ├── README.md                 # Esta documentação
 ├── ROADMAP.md                # Planejamento de features futuras
