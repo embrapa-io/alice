@@ -1,107 +1,139 @@
 ---
-last-redoc-date: 2026-01-14
+last-redoc-date: 2026-01-20
 ---
 
-# Módulo Embrapa I/O do BMAD Method
+# Alice - Agente de Conformidade Embrapa I/O
 
-**Purpose**: Módulo de conhecimento para o [BMAD Method](https://github.com/bmad-code-org/BMAD-METHOD) que garante conformidade de aplicações com a plataforma [Embrapa I/O](https://embrapa.io) por meio de _workflows_ de setup, templates adaptáveis, e validação rigorosa contra 39 regras específicas.
+**Purpose**: Agente especialista do [BMAD Method](https://github.com/bmad-code-org/BMAD-METHOD) que garante conformidade de aplicações com a plataforma [Embrapa I/O](https://embrapa.io) por meio de análise automatizada, implementação guiada e validação rigorosa baseada nas 4 Verdades Fundamentais.
 
-**Overview**: Este módulo de conhecimento não cria aplicações diretamente - ele instrui outros agentes BMAD sobre como gerar projetos conformes com a plataforma **Embrapa I/O**, independente de linguagem ou framework. Fornece _workflows_ reutilizáveis para geração de arquivos essenciais (`.env.io`, `docker-compose.yaml`, `.embrapa/settings.json`, `LICENSE`), templates especializados por stack tecnológica (Node.js, Vue.js, React, PHP Laravel, .NET), e sistema completo de validação baseado nas 4 Verdades Fundamentais da plataforma.
+**Overview**: **Alice** é uma agente especializada em conformidade que analisa, implementa e valida projetos para a plataforma Embrapa I/O, independente de linguagem ou framework. Através de três workflows principais, Alice guia o processo completo de adequação: verificação de conformidade com geração de relatório detalhado, implementação dos ajustes necessários, e code review final para certificação.
 
-O diferencial está na abordagem agnóstica de stack: detecta automaticamente a tecnologia utilizada e adapta configurações apropriadas sem necessidade de módulos específicos por linguagem. Workflows podem ser invocados por qualquer agente BMAD durante criação ou adaptação de projetos, garantindo que todas as aplicações sigam padrões rigorosos de nomenclatura, estruturação Docker, variáveis de ambiente, e integrações de serviços (Sentry, Matomo, healthchecks).
+O diferencial está na abordagem agnóstica de stack: Alice detecta automaticamente a tecnologia utilizada (Node.js, Vue.js, React, PHP, .NET, Python, etc.) e adapta todas as configurações e exemplos de código ao contexto do projeto. O foco exclusivo em **Docker Compose** como orquestrador garante simplicidade e compatibilidade com a plataforma.
 
-## Getting Started
+## Quick Start
+
+### 1. Instalação
 
 Primeiramente, [instale o _framework_ do **BMAD Method**](https://github.com/bmad-code-org/BMAD-METHOD) em seu projeto (utilize a **Versão 6**).
 
-Em seguida, faça:
+Em seguida, clone este repositório:
 
 ```bash
 git clone https://github.com/embrapa-io/bmad.git _bmad/embrapa-io
 ```
 
-Isto irá instalar o módulo dentro da instância do BMAD. Basta então iniciar seu assistente de codificação em IA (Claude Code, Gemini CLI, OpenCode, GitHub Copilot, Codex, etc) e chamar o [agente do BMAD](https://github.com/bmad-code-org/BMAD-METHOD/blob/main/src/modules/bmm/docs/agents-guide.md) de sua preferência. Ao elaborar os _prompts_, solicite que o assistente mantenha o _compliance_ com o **Embrapa I/O** por meio do módulo `embrapa-io`.
+### 2. Invocar a Alice
 
-## Workflows
+Inicie seu assistente de codificação em IA (Claude Code, Gemini CLI, OpenCode, GitHub Copilot, Codex, etc) e invoque a Alice:
 
-Ver [workflows/](./workflows/) para documentação completa.
-
-**Total**: 5 workflows operacionais organizados em 2 categorias.
-
-### Setup (4 workflows)
-Workflows para configuração inicial de projetos conformes:
-- **[generate-env-io](./workflows/setup/generate-env-io/)**: Gera `.env.io` e `.env.io.example` com as 10 variáveis obrigatórias da plataforma
-- **[generate-docker-compose](./workflows/setup/generate-docker-compose/)**: Cria `docker-compose.yaml` conforme com as 4 Verdades Fundamentais
-- **[generate-settings-json](./workflows/setup/generate-settings-json/)**: Gera `.embrapa/settings.json` com metadados e configurações por ambiente
-- **[generate-license](./workflows/setup/generate-license/)**: Cria arquivo `LICENSE` padrão da Embrapa com copyright atualizado
-
-### Validate (1 workflow)
-Workflow de validação abrangente:
-- **[validate-compliance](./workflows/validate/validate-compliance/)**: Validação completa contra 39 regras (docker-compose, env vars, settings, integrations)
-
-## Configuration
-
-O arquivo `config.yaml` define configurações padrão do módulo:
-
-```yaml
-user_name: Camilo Carromeu
-communication_language: Brazilian Portuguese
-document_output_language: Brazilian Portuguese
-output_folder: '{project-root}/docs'
+```
+/bmad:embrapa-io:agents:alice
 ```
 
-Estas configurações são referenciadas por todos os workflows através de `{config_source}:variable_name`, garantindo comunicação consistente em português brasileiro e outputs centralizados no diretório `docs/`.
+### 3. Seguir o Fluxo
 
-## Usage
-
-### Setup Completo de Novo Projeto
-
-Executar workflows setup em sequência para criar estrutura completa:
-
-```xml
-<!-- 1. Gerar variáveis de ambiente (obrigatório primeiro) -->
-<invoke-workflow>
-  <path>{project-root}/_bmad/embrapa-io/workflows/setup/generate-env-io/workflow.yaml</path>
-</invoke-workflow>
-
-<!-- 2. Gerar licença -->
-<invoke-workflow>
-  <path>{project-root}/_bmad/embrapa-io/workflows/setup/generate-license/workflow.yaml</path>
-</invoke-workflow>
-
-<!-- 3. Gerar settings (requer .env.io) -->
-<invoke-workflow>
-  <path>{project-root}/_bmad/embrapa-io/workflows/setup/generate-settings-json/workflow.yaml</path>
-</invoke-workflow>
-
-<!-- 4. Gerar docker-compose (requer .env.io) -->
-<invoke-workflow>
-  <path>{project-root}/_bmad/embrapa-io/workflows/setup/generate-docker-compose/workflow.yaml</path>
-</invoke-workflow>
+```
+[VC] Verify Compliance → [IA] Implement Adjustments → [CR] Code Review
+         ↓                         ↓                         ↓
+  Gera relatório          Implementa ajustes         Valida implementação
+  com action items        do relatório               (NOVA SESSÃO!)
 ```
 
-### Validar Projeto Existente
+## Menu da Alice
 
-Executar validação completa para verificar conformidade:
+| Opção | Comando | Descrição |
+|-------|---------|-----------|
+| **[VC]** | Verify Compliance | Analisa o codebase e gera `docs/embrapa-io-compliance.md` com action items detalhados |
+| **[IA]** | Implement Adjustments | Executa os action items do relatório, cria `.env`, `.env.io` e `bootstrap.sh` |
+| **[CR]** | Code Review | Verifica se a implementação está 100% conforme e emite veredicto APPROVED/REJECTED |
+| **[CH]** | Chat | Conversar com a Alice sobre qualquer assunto relacionado ao Embrapa I/O |
+| **[MH]** | Menu Help | Reexibir o menu de opções |
+| **[DA]** | Dismiss Agent | Encerrar a sessão com a Alice |
 
-```xml
-<invoke-workflow>
-  <path>{project-root}/_bmad/embrapa-io/workflows/validate/validate-compliance/workflow.yaml</path>
-</invoke-workflow>
-```
+> **IMPORTANTE**: O Code Review [CR] deve ser executado em uma **NOVA SESSÃO** para garantir uma verificação imparcial, sem o contexto da implementação anterior.
 
-### Pré-requisitos
+## Workflows da Alice
 
-- Projeto com estrutura básica (código-fonte presente)
-- Para workflows setup: nenhum arquivo Embrapa I/O necessário
-- Para workflow validate: arquivos `.env.io`, `docker-compose.yaml`, `.embrapa/settings.json` devem existir
+### [VC] Verify Compliance (6 steps)
 
-### ⚠️ Comandos Docker (IMPORTANTE)
+Analisa completamente o codebase e gera relatório detalhado:
+
+1. **Analyze Codebase** - Detecta stack tecnológica e estrutura do projeto
+2. **Validate Docker** - Verifica as 4 Verdades Fundamentais no docker-compose
+3. **Validate Env** - Valida estrutura dos arquivos .env
+4. **Validate Settings** - Verifica .embrapa/settings.json
+5. **Validate Integrations** - Checa Sentry, Matomo e healthchecks
+6. **Generate Report** - Cria `docs/embrapa-io-compliance.md` com action items
+
+**Output**: `{project-root}/docs/embrapa-io-compliance.md`
+
+### [IA] Implement Adjustments (5 steps)
+
+Executa os action items do relatório de conformidade:
+
+1. **Validate Report** - Carrega e valida o relatório existente
+2. **Implement Critical** - Implementa itens de severidade CRITICAL
+3. **Implement High** - Implementa itens HIGH e MEDIUM
+4. **Create Env Files** - Cria .env, .env.io e bootstrap.sh
+5. **Finalize** - Atualiza relatório e documenta alterações
+
+**Outputs**: Arquivos de infraestrutura modificados, `.env`, `.env.io`, `bootstrap.sh`
+
+### [CR] Code Review (5 steps)
+
+Verifica se todas as implementações estão corretas:
+
+1. **Verify Docker** - Valida docker-compose contra as 4 Verdades
+2. **Verify Env** - Checa arquivos .env e .gitignore
+3. **Verify Settings** - Valida .embrapa/settings.json
+4. **Verify Integrations** - Verifica bootstrap.sh, LICENSE, integrações
+5. **Finalize Review** - Emite veredicto APPROVED ✅ ou REJECTED ❌
+
+**Output**: Relatório atualizado com status final de conformidade
+
+## 4 Verdades Fundamentais
+
+A conformidade com Embrapa I/O é baseada em 4 regras invioláveis:
+
+| # | Verdade | Descrição |
+|---|---------|-----------|
+| 1 | **Sem `version`** | Campo `version` deve estar AUSENTE do docker-compose.yaml |
+| 2 | **Network externa** | Network `stack` deve ser `external: true` com nome `${IO_PROJECT}_${IO_APP}_${IO_STAGE}` |
+| 3 | **Volumes externos** | TODOS os volumes devem ser `external: true` |
+| 4 | **Sem `container_name`** | Nenhum serviço pode ter atributo `container_name` |
+
+## Escopo da Alice
+
+### ✅ In Scope (Alice pode modificar)
+
+- `docker-compose.yaml` / `docker-compose.yml`
+- `.env.example`, `.env.io.example`, `.env`, `.env.io`
+- `.embrapa/settings.json`
+- `LICENSE`
+- `Dockerfile(s)`
+- `bootstrap.sh`
+- Configurações Sentry/Matomo (mínimas)
+- Seção de conformidade no `README.md`
+
+### ❌ Out of Scope (Alice NÃO modifica)
+
+- Código funcional da aplicação
+- Criação de novos endpoints ou rotas
+- Refatoração de código existente
+- Melhorias de segurança, performance ou manutenibilidade
+- **Docker Swarm** (fora do escopo - apenas Docker Compose)
+- Testes unitários ou de integração
+- CI/CD pipelines
+
+## Comandos Docker
 
 **TODOS** os comandos `docker compose` em projetos Embrapa I/O **DEVEM** ser precedidos por `env $(cat .env.io)`:
 
 ```bash
-# Comando padrão para subir a stack (usar em READMEs e Tech Specs)
+# Inicializar (criar network e volumes)
+./bootstrap.sh
+
+# Subir a stack
 env $(cat .env.io) docker compose up --force-recreate --build --remove-orphans --wait
 
 # Parar a stack
@@ -115,67 +147,82 @@ env $(cat .env.io) docker compose run --rm --no-deps backup
 env $(cat .env.io) docker compose run --rm --no-deps sanitize
 ```
 
-O prefixo `env $(cat .env.io)` injeta as variáveis da plataforma (`COMPOSE_PROJECT_NAME`, `IO_PROJECT`, `IO_APP`, `IO_STAGE`) que são **essenciais** para o funcionamento correto. Sem ele, o docker compose não funcionará corretamente.
+## Configuration
+
+O arquivo `config.yaml` define configurações da agente:
+
+```yaml
+user_name: Camilo Carromeu
+communication_language: Brazilian Portuguese
+document_output_language: Brazilian Portuguese
+output_folder: '{project-root}/docs'
+```
 
 ## Knowledge Base
 
-O diretório `knowledge/` contém 7 arquivos de documentação técnica carregados por workflows para validação e orientação:
+O diretório `knowledge/` contém a base de conhecimento da Alice:
 
-- `embrapa-io-fundamentals.md`: 4 Verdades Fundamentais da plataforma
-- `embrapa-io-validation.md`: 39 regras de validação organizadas por categoria
-- `embrapa-io-workflows.md`: Padrões de adaptação por tipo de projeto
-- `embrapa-io-deployment.md`: Processos de deployment e ambientes
-- `embrapa-io-stacks.md`: Configurações específicas por stack tecnológica
-- `embrapa-io-integrations.md`: Integrações Sentry, Matomo, healthchecks
-- `embrapa-io-integration-guide.md`: Guia detalhado de integrações
+| Arquivo | Descrição |
+|---------|-----------|
+| `embrapa-io-fundamentals.md` | 4 Verdades Fundamentais da plataforma |
+| `embrapa-io-validation.md` | 39 regras de validação organizadas por categoria |
+| `embrapa-io-workflows.md` | Padrões de adaptação por tipo de projeto |
+| `embrapa-io-deployment.md` | Processos de deployment e ambientes |
+| `embrapa-io-stacks.md` | Configurações específicas por stack tecnológica |
+| `embrapa-io-integrations.md` | Integrações Sentry, Matomo, healthchecks |
+| `embrapa-io-integration-guide.md` | Guia detalhado de integrações |
 
-## Templates
+## Workflows Utilitários (Legado)
 
-O diretório `templates/` fornece templates base reutilizáveis:
+Além dos workflows da Alice, existem workflows utilitários que podem ser invocados diretamente por outros agentes BMAD:
 
-- **docker-compose/**: `base.yaml` - Template base para docker-compose.yaml
-- **settings/**: 3 templates JSON especializados por stack (nodejs, frontend, base)
+### Setup (4 workflows)
 
-Workflows carregam estes templates automaticamente baseando-se em detecção de stack, adaptando configurações específicas sem intervenção manual.
+- **[generate-env-io](./workflows/setup/generate-env-io/)**: Gera `.env.io` e `.env.io.example`
+- **[generate-docker-compose](./workflows/setup/generate-docker-compose/)**: Cria `docker-compose.yaml`
+- **[generate-settings-json](./workflows/setup/generate-settings-json/)**: Gera `.embrapa/settings.json`
+- **[generate-license](./workflows/setup/generate-license/)**: Cria arquivo `LICENSE`
+
+### Validate (1 workflow)
+
+- **[validate-compliance](./workflows/validate/validate-compliance/)**: Validação completa contra 39 regras
+
+> **Nota**: Estes workflows são mantidos para compatibilidade com agentes BMAD existentes. Para novos projetos, recomenda-se usar a agente Alice diretamente.
 
 ## Project Structure
 
 ```
 _bmad/embrapa-io/
-├── config.yaml               # Configurações do módulo
+├── config.yaml               # Configurações da agente
 ├── README.md                 # Esta documentação
 ├── ROADMAP.md                # Planejamento de features futuras
+├── agents/                   # Agentes especializados
+│   └── alice.md              # Alice - Especialista em Conformidade
 ├── knowledge/                # Base de conhecimento (7 arquivos)
 ├── templates/                # Templates reutilizáveis
-│   ├── docker-compose/
-│   └── settings/
+│   ├── docker-compose/       # Template base para docker-compose
+│   └── settings/             # Templates JSON por stack
 └── workflows/                # Workflows organizados por categoria
-    ├── setup/                # 4 workflows de configuração
-    └── validate/             # 1 workflow de validação
+    ├── verify-compliance/    # [Alice] Verificação e relatório
+    ├── implement-compliance/ # [Alice] Implementação de ajustes
+    ├── code-review/          # [Alice] Validação de implementações
+    ├── setup/                # 4 workflows utilitários
+    └── validate/             # 1 workflow de validação (legado)
 ```
 
 ## Compliance & Quality
 
-**BMAD v6 Compliance**: ✅ 100% (auditado e corrigido em 2025-12-17)
-
-### Auditoria Completa
-- **Workflows Auditados**: 5/5
-- **Critical Issues**: 0
-- **Important Issues**: 0 (4 corrigidas automaticamente)
-- **Cleanup Items**: 0 (5 corrigidas automaticamente)
-- **Score Final**: 100% (melhoria de +9% após correções)
-
-### Correções Aplicadas (21 total)
-1. **Template Mapping**: Adicionadas 2 template-output tags faltantes em `generate-docker-compose`
-2. **Documentação**: 4 comentários explicativos sobre uso de `output_folder` adicionados
-3. **Cleanup**: 15 campos de metadata duplicada removidos (redução de 15.8% de bloat)
+**BMAD v6 Compliance**: ✅ 100%
 
 ### Métricas de Qualidade
+
 - ✅ Config Compliance: 100%
 - ✅ Web Bundle Compliance: 100%
 - ✅ Template Mapping: 100%
 - ✅ Code Quality: 100%
-- ✅ Bloat: 0%
 - ✅ Documentation: 100%
 
-**Certificado**: Módulo oficialmente certificado BMAD v6 Excellence em 2025-12-17
+### Histórico
+
+- **2026-01-20**: Transformação em AGENTE com criação da Alice e 3 workflows principais
+- **2025-12-17**: Auditoria e certificação BMAD v6 Excellence como módulo
