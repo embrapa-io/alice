@@ -90,14 +90,39 @@ MESSAGE: "Volume '[volume_name]' não está marcado como 'external: true'"
 SOLUTION: "Marcar volume como externo e definir 'name' com padrão correto"
 ```
 
-#### 1.9 Serviço longa duração sem 'restart'
+#### 1.9 Bind mounts detectados (PROIBIDO)
+```
+SEVERITY: CRITICAL
+MESSAGE: "Serviço '[service_name]' usa bind mount '[host_path]:[container_path]' (não permitido)"
+SOLUTION: "Substituir bind mount por COPY no Dockerfile. Bind mounts são proibidos na plataforma Embrapa I/O."
+REASON: "A plataforma Embrapa I/O não permite acesso ao sistema de arquivos do host em ambientes remotos. Todos os arquivos necessários devem ser copiados para a imagem Docker durante o build."
+EXAMPLES:
+  INVALID: "./database:/docker-entrypoint-initdb.d:ro"
+  INVALID: ".:/var/www/html:ro"
+  INVALID: "./config:/app/config"
+  VALID: Use COPY no Dockerfile para copiar arquivos necessários
+DETECTION_PATTERN: "Qualquer volume que inicie com './' ou '/' seguido de ':' é um bind mount"
+```
+
+**⚠️ IMPORTANTE**: Bind mounts (montagens de diretórios do host) são **estritamente proibidos** em todos os serviços do docker-compose.yaml. A plataforma Embrapa I/O:
+- Não fornece acesso ao sistema de arquivos do host em ambientes remotos (alpha, beta, release)
+- Requer que todos os arquivos estejam contidos na imagem Docker
+- Usa volumes externos gerenciados pela plataforma para persistência de dados
+
+**Soluções corretas:**
+1. **Scripts de inicialização de banco**: Usar COPY no Dockerfile para copiar para `/docker-entrypoint-initdb.d/`
+2. **Código da aplicação**: Usar COPY no Dockerfile para copiar todo o código
+3. **Arquivos de configuração**: Usar COPY ou variáveis de ambiente
+4. **Uploads/dados dinâmicos**: Usar volumes externos
+
+#### 1.10 Serviço longa duração sem 'restart'
 ```
 SEVERITY: HIGH
 MESSAGE: "Serviço '[service_name]' de longa duração sem 'restart: unless-stopped'"
 SOLUTION: "Adicionar 'restart: unless-stopped' ao serviço"
 ```
 
-#### 1.10 Serviço longa duração sem 'healthcheck'
+#### 1.11 Serviço longa duração sem 'healthcheck'
 ```
 SEVERITY: HIGH
 MESSAGE: "Serviço '[service_name]' de longa duração sem 'healthcheck'"
@@ -106,21 +131,21 @@ SOLUTION: "Implementar healthcheck adequado para o serviço"
 
 ### MEDIUM Errors
 
-#### 1.11 Porta hardcoded
+#### 1.12 Porta hardcoded
 ```
 SEVERITY: MEDIUM
 MESSAGE: "Serviço '[service_name]' usa porta hardcoded ao invés de variável"
 SOLUTION: "Usar variável de ambiente para mapeamento de porta: ${SERVICE_PORT}:80"
 ```
 
-#### 1.12 Serviço CLI sem 'profiles'
+#### 1.13 Serviço CLI sem 'profiles'
 ```
 SEVERITY: MEDIUM
 MESSAGE: "Serviço CLI '[service_name]' sem 'profiles: [cli]'"
 SOLUTION: "Adicionar 'profiles: [cli]' ao serviço"
 ```
 
-#### 1.13 Volume backup não encontrado
+#### 1.14 Volume backup não encontrado
 ```
 SEVERITY: MEDIUM
 MESSAGE: "Volume de backup não declarado (recomendado: backup_data)"
@@ -129,7 +154,7 @@ SOLUTION: "Adicionar volume externo 'backup_data' com name: ${IO_PROJECT}_${IO_A
 
 ### LOW Errors
 
-#### 1.14 Faltam serviços CLI recomendados
+#### 1.15 Faltam serviços CLI recomendados
 ```
 SEVERITY: LOW
 MESSAGE: "Serviços CLI recomendados não encontrados: backup, restore, sanitize"
@@ -434,13 +459,13 @@ Alguns erros podem ser corrigidos automaticamente. Marcar com `"auto_fixable": t
 
 Executar todas as 5 validações:
 
-- [ ] **Validação 1**: docker-compose.yaml (14 regras)
+- [ ] **Validação 1**: docker-compose.yaml (15 regras)
 - [ ] **Validação 2**: Arquivos .env (8 regras)
 - [ ] **Validação 3**: .embrapa/settings.json (9 regras)
 - [ ] **Validação 4**: Integrações (5 regras)
 - [ ] **Validação 5**: Estrutura de Projeto (3 regras)
 
-**Total**: 39 regras de validação
+**Total**: 40 regras de validação
 
 ## 📊 Exemplo de Score Calculation
 
@@ -461,6 +486,6 @@ function calculateComplianceScore(results) {
 
 ---
 
-**Versão**: 1.0
-**Última atualização**: 2025-12-15
+**Versão**: 1.1
+**Última atualização**: 2026-01-20
 **Autor**: Módulo Embrapa I/O BMAD

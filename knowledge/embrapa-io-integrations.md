@@ -151,6 +151,135 @@ return [
 ];
 ```
 
+#### PHP / Slim (Backend API)
+
+```bash
+composer require sentry/sentry
+```
+
+```php
+<?php
+// src/Bootstrap/SentryInitializer.php
+
+declare(strict_types=1);
+
+namespace App\Bootstrap;
+
+use Sentry\Event;
+use Sentry\EventHint;
+use Sentry\State\Scope;
+
+/**
+ * Sentry Initializer - Embrapa I/O Compliant
+ *
+ * Usa APENAS variáveis de .env.io: SENTRY_DSN, IO_STAGE, IO_VERSION
+ * URL do Sentry é hardcoded no DSN (não criar variáveis adicionais)
+ */
+class SentryInitializer
+{
+    private static bool $initialized = false;
+    private static bool $enabled = false;
+
+    private const SENSITIVE_PATTERNS = [
+        'password', 'pin', 'secret', 'token',
+        'authorization', 'bearer', 'api_key', 'credential',
+    ];
+
+    public static function initialize(): void
+    {
+        if (self::$initialized) {
+            return;
+        }
+
+        self::$initialized = true;
+
+        // SENTRY_DSN vem do .env.io (fornecido pela plataforma)
+        $dsn = $_ENV['SENTRY_DSN'] ?? '';
+        if ($dsn === '') {
+            throw new \RuntimeException('SENTRY_DSN não definida');
+        }
+
+        self::$enabled = true;
+
+        \Sentry\init([
+            'dsn' => $dsn,
+            'environment' => $_ENV['IO_STAGE'] ?? throw new \RuntimeException('IO_STAGE não definida'),
+            'release' => $_ENV['IO_VERSION'] ?? throw new \RuntimeException('IO_VERSION não definida'),
+            'traces_sample_rate' => 0.1,
+            'before_send' => [self::class, 'beforeSend'],
+            'send_default_pii' => false,
+        ]);
+    }
+
+    public static function isEnabled(): bool
+    {
+        return self::$enabled;
+    }
+
+    public static function captureException(\Throwable $exception): void
+    {
+        if (!self::$enabled) {
+            return;
+        }
+        \Sentry\captureException($exception);
+    }
+
+    public static function setUserContext(string $userId): void
+    {
+        if (!self::$enabled) {
+            return;
+        }
+        \Sentry\configureScope(function (Scope $scope) use ($userId): void {
+            $scope->setUser(['id' => $userId]);
+        });
+    }
+
+    public static function beforeSend(Event $event, ?EventHint $hint): ?Event
+    {
+        // Filtrar dados sensíveis antes de enviar ao Sentry
+        $request = $event->getRequest();
+        $headers = $request['headers'] ?? [];
+        $request['headers'] = self::filterSensitiveData($headers);
+        if (isset($request['data'])) {
+            $request['data'] = self::filterSensitiveData($request['data']);
+        }
+        $event->setRequest($request);
+        return $event;
+    }
+
+    private static function filterSensitiveData(array $data): array
+    {
+        $filtered = [];
+        foreach ($data as $key => $value) {
+            if (!is_string($key)) {
+                $filtered[$key] = is_array($value) ? self::filterSensitiveData($value) : $value;
+                continue;
+            }
+            $keyLower = strtolower($key);
+            $isSensitive = false;
+            foreach (self::SENSITIVE_PATTERNS as $pattern) {
+                if (str_contains($keyLower, $pattern)) {
+                    $isSensitive = true;
+                    break;
+                }
+            }
+            $filtered[$key] = $isSensitive ? '[FILTERED]' : (is_array($value) ? self::filterSensitiveData($value) : $value);
+        }
+        return $filtered;
+    }
+}
+```
+
+```php
+<?php
+// public/index.php (entry point)
+
+// Inicializar Sentry ANTES de qualquer outra coisa
+SentryInitializer::initialize();
+
+// ... resto da aplicação
+```
+
 ### Variáveis de Ambiente
 
 ```ini
@@ -227,6 +356,193 @@ function trackEvent(category, action, name, value) {
 }
 
 module.exports = { trackEvent };
+```
+
+#### PHP / Slim (Backend API)
+
+```php
+<?php
+// src/Bootstrap/MatomoInitializer.php
+
+declare(strict_types=1);
+
+namespace App\Bootstrap;
+
+use MatomoTracker;
+
+/**
+ * Matomo Initializer - Embrapa I/O Compliant
+ *
+ * Usa APENAS variáveis de .env.io: MATOMO_ID, MATOMO_TOKEN, IO_STAGE, IO_VERSION
+ * URL do Matomo é hardcoded (não criar variáveis adicionais)
+ */
+class MatomoInitializer
+{
+    private static bool $initialized = false;
+    private static bool $enabled = false;
+    private static ?MatomoTracker $tracker = null;
+
+    private const MATOMO_URL = 'https://hit.embrapa.io/';
+
+    public static function initialize(): void
+    {
+        if (self::$initialized) {
+            return;
+        }
+
+        self::$initialized = true;
+
+        // MATOMO_ID vem do .env.io (fornecido pela plataforma)
+        $siteId = $_ENV['MATOMO_ID'] ?? '';
+        if ($siteId === '') {
+            throw new \RuntimeException('MATOMO_ID não definida');
+        }
+
+        $token = $_ENV['MATOMO_TOKEN'] ?? '';
+        if ($token === '') {
+            throw new \RuntimeException('MATOMO_TOKEN não definida');
+        }
+
+        self::$enabled = true;
+
+        self::$tracker = new MatomoTracker((int) $siteId, self::MATOMO_URL);
+        self::$tracker->setTokenAuth($token);
+
+        // Custom dimensions obrigatórias
+        $stage = $_ENV['IO_STAGE'] ?? throw new \RuntimeException('IO_STAGE não definida');
+        $version = $_ENV['IO_VERSION'] ?? throw new \RuntimeException('IO_VERSION não definida');
+
+        self::$tracker->setCustomDimension(1, $stage);
+        self::$tracker->setCustomDimension(2, $version);
+    }
+
+    public static function isEnabled(): bool
+    {
+        return self::$enabled;
+    }
+
+    public static function getTracker(): ?MatomoTracker
+    {
+        return self::$tracker;
+    }
+
+    public static function trackEvent(string $category, string $action, ?string $name = null, ?float $value = null): void
+    {
+        if (!self::$enabled || self::$tracker === null) {
+            return;
+        }
+
+        self::$tracker->doTrackEvent($category, $action, $name, $value);
+    }
+
+    public static function trackPageView(string $documentTitle): void
+    {
+        if (!self::$enabled || self::$tracker === null) {
+            return;
+        }
+
+        self::$tracker->doTrackPageView($documentTitle);
+    }
+}
+```
+
+```php
+<?php
+// src/Middleware/MatomoMiddleware.php
+
+declare(strict_types=1);
+
+namespace App\Middleware;
+
+use App\Bootstrap\MatomoInitializer;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+
+/**
+ * Matomo Tracking Middleware - Embrapa I/O Compliant
+ *
+ * Rastreia automaticamente todas as requisições da API
+ */
+class MatomoMiddleware implements MiddlewareInterface
+{
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        $startTime = microtime(true);
+
+        $response = $handler->handle($request);
+
+        // Rastrear apenas se Matomo estiver habilitado
+        if (MatomoInitializer::isEnabled()) {
+            $this->trackRequest($request, $response, $startTime);
+        }
+
+        return $response;
+    }
+
+    private function trackRequest(ServerRequestInterface $request, ResponseInterface $response, float $startTime): void
+    {
+        $tracker = MatomoInitializer::getTracker();
+        if ($tracker === null) {
+            return;
+        }
+
+        $method = $request->getMethod();
+        $path = $request->getUri()->getPath();
+        $statusCode = $response->getStatusCode();
+        $duration = (microtime(true) - $startTime) * 1000; // em ms
+
+        // Configurar informações da requisição
+        $tracker->setUrl((string) $request->getUri());
+        $tracker->setIp($this->getClientIp($request));
+
+        if ($request->hasHeader('User-Agent')) {
+            $tracker->setUserAgent($request->getHeaderLine('User-Agent'));
+        }
+
+        // Rastrear como page view com título descritivo
+        $tracker->doTrackPageView("{$method} {$path} [{$statusCode}]");
+
+        // Rastrear métricas de performance como evento
+        $tracker->doTrackEvent(
+            'API',
+            $method,
+            $path,
+            $duration
+        );
+    }
+
+    private function getClientIp(ServerRequestInterface $request): string
+    {
+        $serverParams = $request->getServerParams();
+
+        // Verificar headers de proxy
+        $headers = ['HTTP_X_FORWARDED_FOR', 'HTTP_X_REAL_IP', 'REMOTE_ADDR'];
+
+        foreach ($headers as $header) {
+            if (!empty($serverParams[$header])) {
+                $ips = explode(',', $serverParams[$header]);
+                return trim($ips[0]);
+            }
+        }
+
+        return '127.0.0.1';
+    }
+}
+```
+
+```php
+<?php
+// public/index.php (entry point)
+
+// Inicializar Matomo APÓS Sentry
+MatomoInitializer::initialize();
+
+// Adicionar middleware ao Slim
+$app->add(new MatomoMiddleware());
+
+// ... resto da aplicação
 ```
 
 ### Custom Dimensions
@@ -442,6 +758,6 @@ logger.error('Database connection failed', { error: err.message });
 
 ---
 
-**Versão**: 1.0
-**Última atualização**: 2025-12-15
+**Versão**: 1.1
+**Última atualização**: 2026-01-20
 **Autor**: Módulo Embrapa I/O BMAD

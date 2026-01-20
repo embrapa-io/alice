@@ -12,9 +12,23 @@ Validar se as integrações opcionais (Sentry, Matomo) estão configuradas corre
 
 ## MANDATORY EXECUTION RULES:
 
-- 🛑 Integrações são RECOMENDADAS, não obrigatórias
+- 🚨 Integrações Sentry e Matomo são **OBRIGATÓRIAS** para codebases com código-fonte
+- ❌ Integrações NÃO se aplicam a serviços de prateleira (Nginx Proxy Manager, Directus, MinIO, etc.)
 - 📖 Adaptar à stack tecnológica detectada
 - 📋 Fornecer exemplos de código específicos para a stack
+
+### Determinação de Tipo de Projeto
+
+**É um codebase com código-fonte SE:**
+- Contém arquivos `.php`, `.js`, `.ts`, `.vue`, `.jsx`, `.tsx` fora de `node_modules` ou `vendor`
+- Possui `package.json` com scripts de build/start customizados
+- Possui `composer.json` com namespace da aplicação
+- Dockerfile usa COPY para copiar código-fonte
+
+**É um serviço de prateleira SE:**
+- docker-compose usa apenas `image:` sem `build:`
+- Não há código-fonte customizado (apenas configuração)
+- Exemplos: nginx-proxy-manager, directus, strapi, minio, n8n, open-webui
 
 ## Sequence of Instructions
 
@@ -82,9 +96,10 @@ return [
 - [ ] Release usando IO_VERSION
 - [ ] Environment usando IO_STAGE
 
-**Se Sentry não configurado mas SENTRY_DSN presente:**
-- Severidade: HIGH
+**Se Sentry não configurado E projeto é codebase com código-fonte:**
+- Severidade: **CRITICAL**
 - Action Item: "Implementar integração Sentry conforme stack {detected_stack}"
+- Motivo: Integração Sentry é OBRIGATÓRIA para codebases com código-fonte
 
 ### 3. Validar Integração Matomo
 
@@ -142,9 +157,10 @@ const matomo = new MatomoTracker(
 - [ ] Site ID vindo de variável de ambiente
 - [ ] Custom dimensions configuradas (stage, version)
 
-**Se Matomo não configurado mas MATOMO_ID presente e tem frontend:**
-- Severidade: HIGH
+**Se Matomo não configurado E projeto é codebase com código-fonte:**
+- Severidade: **CRITICAL**
 - Action Item: "Implementar integração Matomo conforme stack {detected_stack}"
+- Motivo: Integração Matomo é OBRIGATÓRIA para codebases com código-fonte
 
 ### 4. Verificar LICENSE
 

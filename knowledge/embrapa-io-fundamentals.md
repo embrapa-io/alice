@@ -14,6 +14,7 @@ A **Embrapa I/O** é uma plataforma de DevOps automatizada que orquestra aplica�
 - Usa **network externa única** com padrão: `${IO_PROJECT}_${IO_APP}_${IO_STAGE}`
 - Usa **volumes externos** com padrão: `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_[nome]`
 - Todos os serviços devem estar conectados à network `stack`
+- **🚨 NUNCA** usar bind mounts (montagens de diretórios do host como `./folder:/path`)
 
 **Exemplo de estrutura obrigatória:**
 
@@ -61,6 +62,94 @@ volumes:
 - **CLI**: `restart: "no"` + `profiles: ['cli']`
 - **⚠️ NUNCA** usar `container_name` - o nome dos containers é automaticamente definido pelo `COMPOSE_PROJECT_NAME` injetado pela plataforma (padrão: `{IO_PROJECT}_{IO_APP}_{IO_STAGE}_{service}`)
 - **Todas as portas** mapeadas via variáveis do `.env`
+
+#### 🚨 Proibição de Bind Mounts
+
+**CRÍTICO**: Bind mounts são **estritamente proibidos** na plataforma Embrapa I/O.
+
+**O que são bind mounts?**
+Montagens que referenciam diretórios do host, identificáveis pelo padrão `./caminho:` ou `/caminho:` nos volumes:
+
+```yaml
+# ❌ PROIBIDO - Bind mounts
+volumes:
+  - ./database:/docker-entrypoint-initdb.d:ro  # Scripts SQL
+  - .:/var/www/html:ro                          # Código PHP
+  - ./config:/app/config                        # Configurações
+```
+
+**Por quê são proibidos?**
+1. A plataforma Embrapa I/O **não fornece acesso ao sistema de arquivos do host** em ambientes remotos
+2. Apenas **volumes externos** gerenciados pela plataforma são permitidos
+3. Todos os arquivos necessários devem estar **dentro da imagem Docker**
+
+**✅ Solução: Usar COPY no Dockerfile**
+
+Para cada caso de bind mount, usar `COPY` no Dockerfile:
+
+**Caso 1: Scripts de inicialização de banco de dados**
+
+```dockerfile
+# Dockerfile do serviço de banco (multi-stage ou imagem customizada)
+FROM postgres:17-alpine
+
+# Copiar scripts de inicialização
+COPY ./database/init.sql /docker-entrypoint-initdb.d/
+COPY ./database/seed.sql /docker-entrypoint-initdb.d/
+```
+
+**Caso 2: Código da aplicação (PHP, Node.js, etc)**
+
+```dockerfile
+# Dockerfile da aplicação PHP
+FROM php:8.2-apache
+
+# Copiar código da aplicação
+COPY . /var/www/html/
+
+# Ajustar permissões se necessário
+RUN chown -R www-data:www-data /var/www/html/
+```
+
+**Caso 3: Arquivos de configuração**
+
+```dockerfile
+# Copiar configurações
+COPY ./config/app.conf /etc/app/config/
+```
+
+**Uso do .dockerignore**
+
+Ao usar `COPY . /path/`, criar `.dockerignore` para excluir arquivos desnecessários:
+
+```
+# .dockerignore
+.git
+.env
+.env.io
+node_modules
+vendor
+*.log
+docker-compose.yaml
+Dockerfile
+.dockerignore
+```
+
+**Volumes externos para dados dinâmicos**
+
+Para dados que precisam persistir (uploads, cache, etc), usar volumes externos:
+
+```yaml
+services:
+  app:
+    volumes:
+      - app_uploads:/var/www/html/uploads  # Volume externo para uploads
+
+volumes:
+  app_uploads:
+    name: ${IO_PROJECT}_${IO_APP}_${IO_STAGE}_uploads
+    external: true
+```
 
 ### 2. Dual .env Files (Plataforma + Aplicação)
 
@@ -393,7 +482,9 @@ env $(cat .env.io) docker compose run --rm --no-deps sanitize
 ## ✅ Checklist de Conformidade
 
 - [ ] `docker-compose.yaml` com network externa `${IO_PROJECT}_${IO_APP}_${IO_STAGE}`
-- [ ] Todos os volumes são externos
+- [ ] Todos os volumes são externos (nenhum bind mount como `./folder:/path`)
+- [ ] Arquivos necessários copiados via COPY no Dockerfile (não via bind mount)
+- [ ] `.dockerignore` presente para excluir arquivos desnecessários do build
 - [ ] Nenhum serviço usa `container_name` (nomes são gerados via COMPOSE_PROJECT_NAME)
 - [ ] Serviços de longa duração têm `restart: unless-stopped` + `healthcheck`
 - [ ] `.env.io.example` e `.env.example` presentes
@@ -433,7 +524,7 @@ Para aplicações com interface visual:
 
 ### Arquivos de Conhecimento Relacionados
 
-- `embrapa-io-validation.md` - 38 regras de validação detalhadas
+- `embrapa-io-validation.md` - 40 regras de validação detalhadas
 - `embrapa-io-stacks.md` - Configurações por stack tecnológica
 - `embrapa-io-integrations.md` - Guia de integrações (Sentry, Matomo, etc.)
 - `embrapa-io-deployment.md` - Pipeline de deployment e stages
@@ -441,6 +532,6 @@ Para aplicações com interface visual:
 
 ---
 
-**Versão**: 1.1
-**Última atualização**: 2025-12-15
+**Versão**: 1.2
+**Última atualização**: 2026-01-20
 **Autor**: Módulo Embrapa I/O BMAD
