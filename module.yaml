@@ -1,0 +1,11 @@
+code: embrapa-io
+name: "Embrapa I/O DevOps Compliance Module"
+header: "Módulo de conformidade com a plataforma Embrapa I/O"
+subheader: "Inclui agente Alice, workflows de setup/validação e templates para Docker, env files e settings"
+default_selected: true
+
+# Variables from Core Config inserted:
+## user_name
+## communication_language
+## document_output_language
+## output_folder
