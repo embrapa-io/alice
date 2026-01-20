@@ -43,7 +43,7 @@ Inicie seu assistente de codificação em IA (Claude Code, Gemini CLI, OpenCode,
 
 | Opção | Comando | Descrição |
 |-------|---------|-----------|
-| **[VC]** | Verify Compliance | Analisa o codebase e gera `docs/embrapa-io-compliance.md` com action items detalhados |
+| **[VC]** | Verify Compliance | Analisa o codebase e gera `{output_folder}/embrapa-io-compliance.md` com action items detalhados |
 | **[IA]** | Implement Adjustments | Executa os action items do relatório, cria `.env`, `.env.io` e `bootstrap.sh` |
 | **[CR]** | Code Review | Verifica se a implementação está 100% conforme e emite veredicto APPROVED/REJECTED |
 | **[CH]** | Chat | Conversar com a Alice sobre qualquer assunto relacionado ao Embrapa I/O |
@@ -63,9 +63,9 @@ Analisa completamente o codebase e gera relatório detalhado:
 3. **Validate Env** - Valida estrutura dos arquivos .env
 4. **Validate Settings** - Verifica .embrapa/settings.json
 5. **Validate Integrations** - Checa Sentry, Matomo e healthchecks
-6. **Generate Report** - Cria `docs/embrapa-io-compliance.md` com action items
+6. **Generate Report** - Cria `{output_folder}/embrapa-io-compliance.md` com action items
 
-**Output**: `{project-root}/docs/embrapa-io-compliance.md`
+**Output**: `{output_folder}/embrapa-io-compliance.md`
 
 ### [IA] Implement Adjustments (5 steps)
 

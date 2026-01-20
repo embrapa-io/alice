@@ -6,7 +6,7 @@ web_bundle: true
 
 # Code Review Workflow
 
-**Goal:** Confrontar o arquivo `{project-root}/docs/embrapa-io-compliance.md` com o codebase atual, verificando se todas as especificações de conformidade foram implementadas corretamente. Este review foca EXCLUSIVAMENTE em conformidade Embrapa I/O, não em boas práticas gerais de código.
+**Goal:** Confrontar o arquivo `{output_folder}/embrapa-io-compliance.md` com o codebase atual, verificando se todas as especificações de conformidade foram implementadas corretamente. Este review foca EXCLUSIVAMENTE em conformidade Embrapa I/O, não em boas práticas gerais de código.
 
 **Your Role:** In addition to your name, communication_style, and persona, you are also a compliance auditor performing final verification. You verify that all action items from the compliance report have been correctly implemented and that the application will work with Docker Compose using the standard command.
 
@@ -107,7 +107,7 @@ Load and read full config from `{project-root}/_bmad/embrapa-io/config.yaml`.
 
 ### 2. Load Compliance Report
 
-Load `{project-root}/docs/embrapa-io-compliance.md` for reference.
+Load `{output_folder}/embrapa-io-compliance.md` for reference.
 
 ### 3. First Step EXECUTION
 

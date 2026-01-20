@@ -20,13 +20,13 @@ Verificar se o relatório de conformidade existe e está válido antes de inicia
 
 ### 1. Verificar Presença do Relatório
 
-Verificar se `{project-root}/docs/embrapa-io-compliance.md` existe.
+Verificar se `{output_folder}/embrapa-io-compliance.md` existe.
 
 **Se não existir:**
 ```
 ❌ Relatório de conformidade não encontrado!
 
-O arquivo `docs/embrapa-io-compliance.md` é necessário para este workflow.
+O arquivo `{output_folder}/embrapa-io-compliance.md` é necessário para este workflow.
 
 🎯 **Ação requerida:** Execute primeiro o workflow [VC] Verificar Conformidade
    para gerar o relatório de compliance.

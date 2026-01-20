@@ -1,13 +1,13 @@
 ---
 name: 'step-06-generate-report'
-description: 'Gerar relatório final de conformidade em {project-root}/docs/embrapa-io-compliance.md'
+description: 'Gerar relatório final de conformidade em {output_folder}/embrapa-io-compliance.md'
 ---
 
 # Step 6: Gerar Relatório de Conformidade
 
 ## STEP GOAL:
 
-Consolidar todos os findings e gerar o relatório final de conformidade em `{project-root}/docs/embrapa-io-compliance.md` com action items claros para implementação por assistentes de codificação em IA.
+Consolidar todos os findings e gerar o relatório final de conformidade em `{output_folder}/embrapa-io-compliance.md` com action items claros para implementação por assistentes de codificação em IA.
 
 ## MANDATORY EXECUTION RULES:
 
@@ -33,13 +33,13 @@ Calcular totais de cada severidade usando:
 - `{settings_findings}`
 - `{integration_findings}`
 
-### 2. Criar Diretório docs/ (se necessário)
+### 2. Criar Diretório de Output (se necessário)
 
-Verificar se `{project-root}/docs/` existe. Se não, criar.
+Verificar se `{output_folder}/` existe. Se não, criar.
 
 ### 3. Gerar Relatório Completo
 
-**Arquivo:** `{project-root}/docs/embrapa-io-compliance.md`
+**Arquivo:** `{output_folder}/embrapa-io-compliance.md`
 
 **Estrutura do relatório:**
 
@@ -274,14 +274,14 @@ Após implementar todos os action items:
 
 ### 4. Salvar o Relatório
 
-Salvar o arquivo em `{project-root}/docs/embrapa-io-compliance.md`.
+Salvar o arquivo em `{output_folder}/embrapa-io-compliance.md`.
 
 ### 5. Apresentar Resumo ao Usuário
 
 ```markdown
 ## ✅ Relatório de Conformidade Gerado
 
-**Arquivo:** `docs/embrapa-io-compliance.md`
+**Arquivo:** `{output_folder}/embrapa-io-compliance.md`
 
 **Compliance Score:** {score} {emoji}
 
@@ -296,7 +296,7 @@ Salvar o arquivo em `{project-root}/docs/embrapa-io-compliance.md`.
 
 ### 🎯 Próximos Passos
 
-1. **Revise o relatório** em `docs/embrapa-io-compliance.md`
+1. **Revise o relatório** em `{output_folder}/embrapa-io-compliance.md`
 2. **Execute o workflow [IA] Implementar Ajustes** para aplicar as correções
 3. **Execute o workflow [CR] Code Review** para validar a implementação
 
@@ -314,4 +314,4 @@ Display: "**Select an Option:** [M] Return to Main Menu [X] Exit"
 
 ## WORKFLOW COMPLETION
 
-O workflow de verificação de conformidade está completo. O relatório foi gerado em `{project-root}/docs/embrapa-io-compliance.md` e contém todos os action items necessários para alcançar 100% de conformidade com a plataforma Embrapa I/O.
+O workflow de verificação de conformidade está completo. O relatório foi gerado em `{output_folder}/embrapa-io-compliance.md` e contém todos os action items necessários para alcançar 100% de conformidade com a plataforma Embrapa I/O.

@@ -19,7 +19,7 @@ Finalizar o workflow de implementação, atualizar o relatório de conformidade 
 
 ### 1. Atualizar Relatório de Conformidade
 
-Atualizar o arquivo `{project-root}/docs/embrapa-io-compliance.md`:
+Atualizar o arquivo `{output_folder}/embrapa-io-compliance.md`:
 
 **Adicionar seção no início:**
 
@@ -95,7 +95,7 @@ env $(cat .env.io) docker compose run --rm sanitize
 ### Documentação de Conformidade
 
 Para detalhes sobre a conformidade com a plataforma Embrapa I/O, consulte:
-- [Relatório de Conformidade](docs/embrapa-io-compliance.md)
+- [Relatório de Conformidade]({output_folder}/embrapa-io-compliance.md)
 ```
 
 ### 3. Apresentar Resumo Final
@@ -117,7 +117,7 @@ Para detalhes sobre a conformidade com a plataforma Embrapa I/O, consulte:
 - `.env.example` - Template de variáveis
 - `.env.io.example` - Template de variáveis da plataforma
 - `README.md` - Seção de conformidade adicionada
-- `docs/embrapa-io-compliance.md` - Status atualizado
+- `{output_folder}/embrapa-io-compliance.md` - Status atualizado
 
 ---
 

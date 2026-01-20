@@ -6,7 +6,7 @@ last-redoc-date: 2026-01-20
 
 ## Validação Pré-Execução
 
-- [ ] Relatório de conformidade existe em `{project-root}/docs/embrapa-io-compliance.md`
+- [ ] Relatório de conformidade existe em `{output_folder}/embrapa-io-compliance.md`
 - [ ] Relatório foi gerado pelo workflow Verify Compliance
 - [ ] Action items estão presentes no relatório
 - [ ] Stack tecnológica identificada no relatório
@@ -71,7 +71,7 @@ last-redoc-date: 2026-01-20
 
 ### Relatório Atualizado
 
-- [ ] `docs/embrapa-io-compliance.md` atualizado
+- [ ] `{output_folder}/embrapa-io-compliance.md` atualizado
 - [ ] Status de cada action item registrado
 - [ ] Data de implementação registrada
 - [ ] Próximos passos indicados (Code Review)

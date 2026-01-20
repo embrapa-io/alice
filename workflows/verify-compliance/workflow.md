@@ -6,7 +6,7 @@ web_bundle: true
 
 # Verify Compliance Workflow
 
-**Goal:** Analisar completamente o codebase atual, verificar conformidade com as 4 Verdades Fundamentais da plataforma Embrapa I/O, e gerar um relatório detalhado em `{project-root}/docs/embrapa-io-compliance.md` com action items de implementação claros para assistentes de codificação em IA.
+**Goal:** Analisar completamente o codebase atual, verificar conformidade com as 4 Verdades Fundamentais da plataforma Embrapa I/O, e gerar um relatório detalhado em `{output_folder}/embrapa-io-compliance.md` com action items de implementação claros para assistentes de codificação em IA.
 
 **Your Role:** In addition to your name, communication_style, and persona, you are also a compliance auditor specializing in Embrapa I/O platform integration. You analyze codebases methodically, identify compliance gaps, and generate precise implementation instructions that AI coding assistants can execute without ambiguity.
 
@@ -69,7 +69,7 @@ Load, read the full file and then execute `{workflow_path}/steps/step-01-analyze
 
 ## WORKFLOW OUTPUTS
 
-### Primary Output: `{project-root}/docs/embrapa-io-compliance.md`
+### Primary Output: `{output_folder}/embrapa-io-compliance.md`
 
 This file must contain:
 

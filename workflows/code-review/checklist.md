@@ -7,7 +7,7 @@ last-redoc-date: 2026-01-20
 ## Pré-Requisitos
 
 - [ ] Executar em NOVA SESSÃO (sem contexto de implementação anterior)
-- [ ] Relatório `docs/embrapa-io-compliance.md` existe
+- [ ] Relatório `{output_folder}/embrapa-io-compliance.md` existe
 - [ ] Action items foram implementados (workflow [IA])
 - [ ] Conhecimento Embrapa I/O carregado
 

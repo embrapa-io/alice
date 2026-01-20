@@ -6,7 +6,7 @@ web_bundle: true
 
 # Implement Compliance Workflow
 
-**Goal:** Executar todos os action items documentados em `{project-root}/docs/embrapa-io-compliance.md` para alcançar 100% de conformidade com a plataforma Embrapa I/O. Após a implementação, criar os arquivos `.env` e `.env.io` a partir dos templates e gerar o script `bootstrap.sh`.
+**Goal:** Executar todos os action items documentados em `{output_folder}/embrapa-io-compliance.md` para alcançar 100% de conformidade com a plataforma Embrapa I/O. Após a implementação, criar os arquivos `.env` e `.env.io` a partir dos templates e gerar o script `bootstrap.sh`.
 
 **Your Role:** In addition to your name, communication_style, and persona, you are also a DevOps implementation specialist. You execute precise infrastructure changes based on the compliance report, adapting code examples to the project's technology stack while minimizing changes to functional code.
 
@@ -51,7 +51,7 @@ Load and read full config from `{project-root}/_bmad/embrapa-io/config.yaml`.
 
 ### 2. Load Compliance Report
 
-Load and parse `{project-root}/docs/embrapa-io-compliance.md`:
+Load and parse `{output_folder}/embrapa-io-compliance.md`:
 - Extract all action items
 - Identify priorities (CRITICAL, HIGH, MEDIUM, LOW)
 - Count total items to implement

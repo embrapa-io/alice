@@ -41,7 +41,7 @@ Consolidar todos os resultados do code review, atualizar o relatório de conform
 
 ### 3. Se APPROVED: Atualizar Relatório de Conformidade
 
-Atualizar `{project-root}/docs/embrapa-io-compliance.md`:
+Atualizar `{output_folder}/embrapa-io-compliance.md`:
 
 **Adicionar no início do arquivo:**
 
@@ -89,7 +89,7 @@ Este projeto atende a todos os requisitos de conformidade da plataforma Embrapa 
 
 ### 4. Se REJECTED: Documentar Falhas
 
-Atualizar `{project-root}/docs/embrapa-io-compliance.md`:
+Atualizar `{output_folder}/embrapa-io-compliance.md`:
 
 **Adicionar no início do arquivo:**
 
@@ -136,7 +136,7 @@ O projeto está em **100% de conformidade** com a plataforma Embrapa I/O.
 
 ### Relatório Atualizado
 
-O arquivo `docs/embrapa-io-compliance.md` foi atualizado com:
+O arquivo `{output_folder}/embrapa-io-compliance.md` foi atualizado com:
 - Status de conformidade verificada
 - Todos os action items marcados como completos
 - Data e resultado do code review
@@ -210,7 +210,7 @@ Display: "**Select an Option:** [M] Return to Agent Menu [X] Exit Session"
 ```
 Code Review finalizado!
 
-📋 Relatório atualizado: docs/embrapa-io-compliance.md
+📋 Relatório atualizado: {output_folder}/embrapa-io-compliance.md
 
 {Se APPROVED:}
 🎉 Parabéns! O projeto está em conformidade com a plataforma Embrapa I/O.

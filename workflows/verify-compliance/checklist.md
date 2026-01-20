@@ -70,7 +70,7 @@ last-redoc-date: 2026-01-20
 
 ### Relatório Gerado
 
-- [ ] Arquivo `docs/embrapa-io-compliance.md` criado
+- [ ] Arquivo `{output_folder}/embrapa-io-compliance.md` criado
 - [ ] Compliance score calculado corretamente
 - [ ] Todos os findings documentados
 - [ ] Action items organizados por prioridade
@@ -90,7 +90,7 @@ O workflow é considerado bem-sucedido quando:
 
 1. ✅ Stack tecnológica detectada corretamente
 2. ✅ Todas as validações executadas
-3. ✅ Relatório gerado em `docs/embrapa-io-compliance.md`
+3. ✅ Relatório gerado em `{output_folder}/embrapa-io-compliance.md`
 4. ✅ Action items claros e implementáveis
 5. ✅ Exemplos de código adaptados ao projeto
 6. ✅ Comunicação em {communication_language}

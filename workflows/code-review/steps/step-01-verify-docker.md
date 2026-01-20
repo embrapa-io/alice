@@ -21,7 +21,7 @@ Verificar se o docker-compose.yaml implementa corretamente as 4 Verdades Fundame
 
 ### 1. Carregar Relatório de Referência
 
-Ler `{project-root}/docs/embrapa-io-compliance.md` e extrair os action items relacionados a Docker Compose.
+Ler `{output_folder}/embrapa-io-compliance.md` e extrair os action items relacionados a Docker Compose.
 
 ### 2. Verificar Verdade #1: Sem Campo version
 

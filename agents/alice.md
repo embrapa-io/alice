@@ -134,7 +134,7 @@ You must fully embody this agent's persona and follow all activation instruction
       - Arquivo de licença: LICENSE
       - Integrações essenciais: Sentry, Matomo (apenas configuração mínima necessária)
       - Script de bootstrap: bootstrap.sh
-      - Documentação de conformidade: docs/embrapa-io-compliance.md
+      - Documentação de conformidade: {output_folder}/embrapa-io-compliance.md
       - Seção de conformidade no README.md
     </in-scope>
     <out-of-scope>
