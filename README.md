@@ -1,5 +1,5 @@
 ---
-last-redoc-date: 2026-01-20
+last-redoc-date: 2026-02-18
 ---
 
 # Alice - Agente de Conformidade Embrapa I/O
@@ -117,13 +117,13 @@ A conformidade com Embrapa I/O é baseada em 4 regras invioláveis:
 
 ### ❌ Out of Scope (Alice NÃO modifica)
 
-- Código funcional da aplicação
+- Código funcional da aplicação (exceto integrações Sentry/Matomo quando absolutamente necessário)
 - Criação de novos endpoints ou rotas
 - Refatoração de código existente
 - Melhorias de segurança, performance ou manutenibilidade
 - **Docker Swarm** (fora do escopo - apenas Docker Compose)
 - Testes unitários ou de integração
-- CI/CD pipelines
+- CI/CD pipelines (SonarQube é opcional e documentado, não implementado)
 
 ## Comandos Docker
 
@@ -165,12 +165,13 @@ O diretório `knowledge/` contém a base de conhecimento da Alice:
 | Arquivo | Descrição |
 |---------|-----------|
 | `embrapa-io-fundamentals.md` | 4 Verdades Fundamentais da plataforma |
-| `embrapa-io-validation.md` | 39 regras de validação organizadas por categoria |
+| `embrapa-io-validation.md` | 40 regras de validação organizadas por categoria |
 | `embrapa-io-workflows.md` | Padrões de adaptação por tipo de projeto |
 | `embrapa-io-deployment.md` | Processos de deployment e ambientes |
 | `embrapa-io-stacks.md` | Configurações específicas por stack tecnológica |
 | `embrapa-io-integrations.md` | Integrações Sentry, Matomo, healthchecks |
 | `embrapa-io-integration-guide.md` | Guia detalhado de integrações |
+| `embrapa-io-coding-standards.md` | Padrões de codificação: grafia PT-BR, variáveis sem fallback, LICENSE, integrações Sentry/Matomo |
 
 ## Workflows Utilitários (Legado)
 
@@ -185,7 +186,7 @@ Além dos workflows da Alice, existem workflows utilitários que podem ser invoc
 
 ### Validate (1 workflow)
 
-- **[validate-compliance](./workflows/validate/validate-compliance/)**: Validação completa contra 39 regras
+- **[validate-compliance](./workflows/validate/validate-compliance/)**: Validação completa contra 40 regras
 
 > **Nota**: Estes workflows são mantidos para compatibilidade com agentes BMAD existentes. Para novos projetos, recomenda-se usar a agente Alice diretamente.
 
@@ -198,7 +199,7 @@ _bmad/embrapa-io/
 ├── ROADMAP.md                # Planejamento de features futuras
 ├── agents/                   # Agentes especializados
 │   └── alice.md              # Alice - Especialista em Conformidade
-├── knowledge/                # Base de conhecimento (7 arquivos)
+├── knowledge/                # Base de conhecimento (8 arquivos)
 ├── templates/                # Templates reutilizáveis
 │   ├── docker-compose/       # Template base para docker-compose
 │   └── settings/             # Templates JSON por stack
