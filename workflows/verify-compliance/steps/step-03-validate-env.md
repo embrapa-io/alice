@@ -47,7 +47,9 @@ MATOMO_TOKEN=
 ```
 
 **Validações:**
-- [ ] `COMPOSE_PROJECT_NAME` presente e no formato correto
+- [ ] `COMPOSE_PROJECT_NAME` presente e no formato correto: `{io_project}_{io_app}_{io_stage}` (SEMPRE 3 partes separadas por underscore, onde a terceira parte é o IO_STAGE — no ambiente local, `_development`)
+  - ⚠️ Se o valor contiver apenas 2 partes (`{io_project}_{io_app}` sem `_development`), marcar como **INCORRETO** e gerar action item para corrigir
+  - O formato correto é SEMPRE a concatenação de IO_PROJECT + "_" + IO_APP + "_" + IO_STAGE
 - [ ] `COMPOSE_PROFILES` presente
 - [ ] `IO_SERVER` presente
 - [ ] `IO_PROJECT` presente (formato unix: lowercase, letras, números, hífens)

@@ -31,7 +31,7 @@ Verificar se os arquivos de variáveis de ambiente estão corretamente implement
 ### 2. Verificar .env.io.example
 
 **Variáveis obrigatórias:**
-- [ ] `COMPOSE_PROJECT_NAME` presente e formato correto
+- [ ] `COMPOSE_PROJECT_NAME` presente e formato correto: `{io_project}_{io_app}_{io_stage}` (SEMPRE 3 partes — no local, `_development`). ⚠️ Formato `{io_project}_{io_app}` sem `_development` é INCORRETO
 - [ ] `COMPOSE_PROFILES` presente
 - [ ] `IO_SERVER` presente
 - [ ] `IO_PROJECT` presente
@@ -50,7 +50,7 @@ Verificar se os arquivos de variáveis de ambiente estão corretamente implement
 - [ ] `IO_PROJECT` tem valor válido (formato unix)
 - [ ] `IO_APP` tem valor válido (formato unix)
 - [ ] `IO_VERSION` formato correto (`0.YY.M-dev.1`)
-- [ ] `COMPOSE_PROJECT_NAME` = `{IO_PROJECT}_{IO_APP}_development`
+- [ ] `COMPOSE_PROJECT_NAME` = `{IO_PROJECT}_{IO_APP}_development` (SEMPRE 3 partes: project_app_stage — NUNCA omitir `_development`)
 
 **Resultado:** PASS ✅ / FAIL ❌
 

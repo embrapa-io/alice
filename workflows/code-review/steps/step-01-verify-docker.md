@@ -129,6 +129,8 @@ services:
 - [ ] `profiles: ['cli']` presente
 - [ ] `restart: "no"` ou `restart: no` presente
 - [ ] Conectado à network `stack`
+- [ ] Serviço `backup` gera arquivo `.tar.gz` (não `.sql` solto)
+- [ ] Nome do `.tar.gz` segue padrão: `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz`
 
 ```yaml
 # ✅ CORRETO
@@ -137,6 +139,20 @@ backup:
   restart: "no"
   networks:
     - stack
+  command: >
+    sh -c "
+      set -ex &&
+      BACKUP_DIR=${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S') &&
+      mkdir -p /backup/$$BACKUP_DIR &&
+      ...
+      tar -czf /backup/$$BACKUP_DIR.tar.gz -C /backup $$BACKUP_DIR &&
+      rm -rf /backup/$$BACKUP_DIR
+    "
+
+# ❌ INCORRETO - gera .sql sem .tar.gz
+backup:
+  command: |
+    sh -c "pg_dump ... > /backup/dump.sql"
 ```
 
 **Resultado:** PASS ✅ / FAIL ❌

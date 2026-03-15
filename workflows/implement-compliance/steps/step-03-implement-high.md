@@ -131,14 +131,18 @@ Se usuário confirmar, implementar cada item.
       PGPASSWORD: ${DB_PASSWORD}
     volumes:
       - backup_data:/backup
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - stack
-    command: |
+    command: >
       sh -c "
-        set -e
-        BACKUP_FILE=/backup/${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$(date +%Y%m%d_%H%M%S).sql
-        pg_dump -h db -U ${DB_USER} ${DB_NAME} > \$BACKUP_FILE
-        echo 'Backup created: '\$BACKUP_FILE
+        set -ex &&
+        BACKUP_DIR=${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S') &&
+        mkdir -p /backup/$$BACKUP_DIR &&
+        pg_dump -h db -U ${DB_USER} ${DB_NAME} > /backup/$$BACKUP_DIR/database.sql &&
+        tar -czf /backup/$$BACKUP_DIR.tar.gz -C /backup $$BACKUP_DIR &&
+        rm -rf /backup/$$BACKUP_DIR &&
+        echo 'Backup concluído: '$$BACKUP_DIR'.tar.gz'
       "
 
   restore:
@@ -150,17 +154,19 @@ Se usuário confirmar, implementar cada item.
       BACKUP_FILE_TO_RESTORE: ${BACKUP_FILE_TO_RESTORE:-}
     volumes:
       - backup_data:/backup
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - stack
-    command: |
+    command: >
       sh -c "
-        set -e
-        if [ -z \"\$BACKUP_FILE_TO_RESTORE\" ]; then
-          echo 'Error: BACKUP_FILE_TO_RESTORE not set'
-          exit 1
-        fi
-        psql -h db -U ${DB_USER} ${DB_NAME} < /backup/\$BACKUP_FILE_TO_RESTORE
-        echo 'Restore completed'
+        set -ex &&
+        FILE_TO_RESTORE=$${BACKUP_FILE_TO_RESTORE:-no_file_to_restore} &&
+        test -f /backup/$$FILE_TO_RESTORE &&
+        RESTORE_DIR=$$(mktemp -d) &&
+        tar -xf /backup/$$FILE_TO_RESTORE -C $$RESTORE_DIR --strip-components=1 &&
+        psql -h db -U ${DB_USER} ${DB_NAME} < $$RESTORE_DIR/database.sql &&
+        rm -rf $$RESTORE_DIR &&
+        echo 'Restore concluído'
       "
 
   sanitize:
@@ -171,11 +177,11 @@ Se usuário confirmar, implementar cada item.
       PGPASSWORD: ${DB_PASSWORD}
     networks:
       - stack
-    command: |
+    command: >
       sh -c "
-        set -e
-        psql -h db -U ${DB_USER} ${DB_NAME} -c 'VACUUM ANALYZE;'
-        echo 'Database optimized'
+        set -ex &&
+        psql -h db -U ${DB_USER} ${DB_NAME} -c 'VACUUM ANALYZE;' &&
+        echo 'Database otimizado'
       "
 ```
 

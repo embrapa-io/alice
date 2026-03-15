@@ -156,7 +156,7 @@ backup:
     - backup_data:/backup
   networks:
     - stack
-  command: |
+  command: >
     sh -c "..."
 ```
 
@@ -164,6 +164,39 @@ backup:
 - [ ] Serviço `backup` (MEDIUM se ausente)
 - [ ] Serviço `restore` (MEDIUM se ausente)
 - [ ] Serviço `sanitize` (MEDIUM se ausente)
+
+**Verificar formato do arquivo de backup:**
+- [ ] O serviço `backup` gera arquivo `.tar.gz` (não `.sql` ou outro formato)
+- [ ] O nome do arquivo segue o padrão: `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz`
+
+```yaml
+# ✅ CORRETO - nomenclatura padrão do .tar.gz
+command: >
+  sh -c "
+    set -ex &&
+    BACKUP_DIR=${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S') &&
+    mkdir -p /backup/$$BACKUP_DIR &&
+    ...
+    tar -czf /backup/$$BACKUP_DIR.tar.gz -C /backup $$BACKUP_DIR &&
+    rm -rf /backup/$$BACKUP_DIR
+  "
+
+# ❌ INCORRETO - .sql solto, sem .tar.gz
+command: |
+  sh -c "
+    pg_dump ... > /backup/dump.sql
+  "
+
+# ❌ INCORRETO - formato de data não padrão
+command: >
+  sh -c "
+    BACKUP_DIR=${IO_PROJECT}_$(date +%Y%m%d).tar.gz
+  "
+```
+
+**Se formato do backup estiver incorreto:**
+- Severidade: MEDIUM
+- Action Item: "Ajustar serviço `backup` para gerar `.tar.gz` com nomenclatura padrão `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz`"
 
 ### 8. Validar Portas Não-Hardcoded
 

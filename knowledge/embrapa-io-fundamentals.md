@@ -175,7 +175,7 @@ MATOMO_TOKEN=
 ```
 
 **Regras de Preenchimento:**
-- **COMPOSE_PROJECT_NAME**: Concatenação exata de `${IO_PROJECT}_${IO_APP}_development`
+- **COMPOSE_PROJECT_NAME**: Concatenação exata de `${IO_PROJECT}_${IO_APP}_${IO_STAGE}` — SEMPRE 3 partes separadas por underscore. No ambiente local, como IO_STAGE=development, o resultado é `${IO_PROJECT}_${IO_APP}_development`. ⚠️ NUNCA omitir o sufixo `_${IO_STAGE}` — o formato `${IO_PROJECT}_${IO_APP}` (sem stage) é INCORRETO
 - **COMPOSE_PROFILES**: Sempre `development` no ambiente local
 - **IO_SERVER**: Sempre `localhost` no ambiente local
 - **IO_PROJECT**: Nome unix do projeto (lowercase, letras, números, hífens)
