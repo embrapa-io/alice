@@ -1,0 +1,11 @@
+module,skill,display-name,menu-code,description,action,args,phase,after,before,required,output-location,outputs
+Embrapa I/O,alice,Iniciar Alice,AL,"Ativar a agente Alice para conformidade completa com a plataforma Embrapa I/O.",activate,,anytime,,,false,,sessão interativa com agente
+Embrapa I/O,alice,Verificar Conformidade,VC,"Analisar o codebase e gerar relatório detalhado de compliance com action items.",verify-compliance,,anytime,,alice:implement-compliance,false,{output_folder},embrapa-io-compliance.md
+Embrapa I/O,alice,Implementar Ajustes,IA,"Executar os action items do relatório de conformidade criando .env, .env.io e bootstrap.sh.",implement-compliance,,anytime,alice:verify-compliance,alice:code-review,false,,arquivos de infraestrutura
+Embrapa I/O,alice,Code Review,CR,"Verificar se a implementação está 100% conforme e emitir veredicto APPROVED ou REJECTED.",code-review,,anytime,alice:implement-compliance,,false,{output_folder},relatório de code review
+Embrapa I/O,alice,Chat com Alice,CH,"Conversar com a Alice sobre qualquer assunto relacionado ao Embrapa I/O.",chat,,anytime,,,false,,respostas interativas
+Embrapa I/O,generate-env-io,Gerar .env.io,GEI,"Gerar .env.io e .env.io.example com variáveis obrigatórias da plataforma (workflow interativo).",generate,,anytime,,generate-docker-compose:generate,false,,".env.io e .env.io.example"
+Embrapa I/O,generate-docker-compose,Gerar Docker Compose,GDC,"Criar docker-compose.yaml conforme com as 4 Verdades Fundamentais (auto-detecta stack).",generate,,anytime,generate-env-io:generate,,false,,docker-compose.yaml
+Embrapa I/O,generate-settings-json,Gerar Settings JSON,GSJ,"Gerar .embrapa/settings.json com metadados e configurações por ambiente.",generate,,anytime,generate-env-io:generate,generate-docker-compose:generate,false,,.embrapa/settings.json
+Embrapa I/O,generate-license,Gerar Licença,GLI,"Criar arquivo LICENSE padrão da Embrapa com copyright atualizado (workflow autônomo).",generate,,anytime,,,false,,LICENSE
+Embrapa I/O,validate-compliance,Validar Conformidade (legado),VCL,"Validação completa contra 38 regras da plataforma com relatórios JSON e Markdown.",validate,,anytime,,,false,{output_folder},relatório de validação

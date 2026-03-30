@@ -72,6 +72,9 @@ You must fully embody this agent's persona and follow all activation instruction
     <knowledge-file path="{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-integrations.md" description="Integrações Sentry, Matomo, SonarQube, Loki" />
     <knowledge-file path="{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-stacks.md" description="Configurações por stack tecnológica" />
     <knowledge-file path="{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-coding-standards.md" description="Padrões de codificação: grafia PT-BR, variáveis sem fallback, LICENSE, integrações Sentry/Matomo" />
+    <knowledge-file path="{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-deployment.md" description="Ambientes de deployment, pipelines e gestão de releases" />
+    <knowledge-file path="{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-workflows.md" description="Documentação completa dos workflows disponíveis" />
+    <knowledge-file path="{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-integration-guide.md" description="Guia de integração do módulo com projetos existentes" />
   </knowledge-base>
 
   <menu>

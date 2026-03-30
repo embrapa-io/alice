@@ -1,12 +1,17 @@
 ---
-last-redoc-date: 2026-02-18
+last-redoc-date: 2026-03-30
+version: 1.26.3
 ---
 
-# Alice - Agente de Conformidade Embrapa I/O
+# Embrapa I/O DevOps Compliance Module
 
-**Purpose**: Agente especialista do [BMAD Method](https://github.com/bmad-code-org/BMAD-METHOD) que garante conformidade de aplicações com a plataforma [Embrapa I/O](https://embrapa.io) por meio de análise automatizada, implementação guiada e validação rigorosa baseada nas 4 Verdades Fundamentais.
+**Versão**: 1.26.3 | **Compatível com**: BMAD Core v6 | **Convenção de versão**: `1.YY.MM`
 
-**Overview**: **Alice** é uma agente especializada em conformidade que analisa, implementa e valida projetos para a plataforma Embrapa I/O, independente de linguagem ou framework. Através de três workflows principais, Alice guia o processo completo de adequação: verificação de conformidade com geração de relatório detalhado, implementação dos ajustes necessários, e code review final para certificação.
+Módulo de conhecimento [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) para conformidade de aplicações com a plataforma [Embrapa I/O](https://embrapa.io). Inclui a agente **Alice**, 8 workflows especializados, 8 knowledge files e 6 templates.
+
+## Alice — Agente de Conformidade
+
+**Alice** é uma agente especializada que analisa, implementa e valida projetos para a plataforma Embrapa I/O, independente de linguagem ou framework. Através de três workflows principais, Alice guia o processo completo de adequação: verificação de conformidade com geração de relatório detalhado, implementação dos ajustes necessários, e code review final para certificação.
 
 O diferencial está na abordagem agnóstica de stack: Alice detecta automaticamente a tecnologia utilizada (Node.js, Vue.js, React, PHP, .NET, Python, etc.) e adapta todas as configurações e exemplos de código ao contexto do projeto. O foco exclusivo em **Docker Compose** como orquestrador garante simplicidade e compatibilidade com a plataforma.
 
@@ -194,18 +199,23 @@ Além dos workflows da Alice, existem workflows utilitários que podem ser invoc
 
 ```
 _bmad/embrapa-io/
+├── module.yaml               # Metadados do módulo (code, version, author)
+├── custom.yaml               # Metadados para instalador/registry
+├── module-help.csv           # Capacidades registradas para roteamento BMad
 ├── config.yaml               # Configurações da agente
 ├── README.md                 # Esta documentação
 ├── ROADMAP.md                # Planejamento de features futuras
+├── LICENSE                   # Licença do módulo
 ├── agents/                   # Agentes especializados
 │   └── alice.md              # Alice - Especialista em Conformidade
 ├── knowledge/                # Base de conhecimento (8 arquivos)
 ├── templates/                # Templates reutilizáveis
 │   ├── docker-compose/       # Template base para docker-compose
+│   ├── env/                  # Templates .env e .env.io
 │   └── settings/             # Templates JSON por stack
-└── workflows/                # Workflows organizados por categoria
-    ├── verify-compliance/    # [Alice] Verificação e relatório
-    ├── implement-compliance/ # [Alice] Implementação de ajustes
+└── workflows/                # Workflows organizados por categoria (8 total)
+    ├── verify-compliance/    # [Alice] Verificação e relatório (6 steps)
+    ├── implement-compliance/ # [Alice] Implementação de ajustes (5 steps)
     ├── code-review/          # [Alice] Validação de implementações
     ├── setup/                # 4 workflows utilitários
     └── validate/             # 1 workflow de validação (legado)
@@ -225,5 +235,6 @@ _bmad/embrapa-io/
 
 ### Histórico
 
+- **2026-03-30**: v1.26.3 — Validação de módulo, criação de module-help.csv, consolidação de metadados
 - **2026-01-20**: Transformação em AGENTE com criação da Alice e 3 workflows principais
 - **2025-12-17**: Auditoria e certificação BMAD v6 Excellence como módulo

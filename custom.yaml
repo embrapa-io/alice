@@ -2,6 +2,6 @@ code: embrapa-io
 name: "Embrapa I/O DevOps Compliance Module"
 description: "Módulo de conhecimento BMAD para conformidade com a plataforma Embrapa I/O - inclui workflows de setup, validação e templates para Docker, env files e settings"
 default_selected: true
-version: "1.0.0"
+version: "1.26.3"
 author: "Camilo Carromeu"
 repository: "https://github.com/embrapa-io/bmad"

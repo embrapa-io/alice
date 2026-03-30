@@ -64,5 +64,5 @@ last-redoc-date: 2025-12-03
 
 ---
 
-**Checklist Version**: 1.0.0
+**Checklist Version**: 1.26.3
 **Módulo**: embrapa-io/setup/generate-settings-json
