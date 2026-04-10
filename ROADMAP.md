@@ -57,13 +57,13 @@
 
 **Config & Docs (4/4):**
 - [x] config.yaml
-- [x] custom.yaml
+- [x] embrapa-io-setup/ (skill de setup BMad-compliant)
 - [x] README.md
 - [x] ROADMAP.md
 
 ### 📝 Nota sobre Validações Granulares
 
-As validações específicas (docker-compose, env-files, settings, integrations) foram consolidadas no workflow único `validate-compliance`, que executa todas as 38 regras de validação em 5 steps sequenciais. Esta abordagem simplifica o uso e mantém a coerência do sistema.
+As validações específicas (docker-compose, env-files, settings, integrations) foram consolidadas no workflow único `validate-compliance`, que executa todas as 40 regras de validação em 5 steps sequenciais. Esta abordagem simplifica o uso e mantém a coerência do sistema.
 
 ---
 

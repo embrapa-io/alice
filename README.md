@@ -200,12 +200,15 @@ Além dos workflows da Alice, existem workflows utilitários que podem ser invoc
 ```
 _bmad/embrapa-io/
 ├── module.yaml               # Metadados do módulo (code, version, author)
-├── custom.yaml               # Metadados para instalador/registry
 ├── module-help.csv           # Capacidades registradas para roteamento BMad
 ├── config.yaml               # Configurações da agente
 ├── README.md                 # Esta documentação
 ├── ROADMAP.md                # Planejamento de features futuras
 ├── LICENSE                   # Licença do módulo
+├── embrapa-io-setup/         # Skill de setup BMad-compliant
+│   ├── SKILL.md              # Skill de instalação/configuração
+│   ├── assets/               # module.yaml + module-help.csv
+│   └── scripts/              # Scripts de merge e cleanup
 ├── agents/                   # Agentes especializados
 │   └── alice.md              # Alice - Especialista em Conformidade
 ├── knowledge/                # Base de conhecimento (8 arquivos)
