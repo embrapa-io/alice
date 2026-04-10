@@ -24,7 +24,7 @@ Primeiramente, [instale o _framework_ do **BMAD Method**](https://github.com/bma
 Em seguida, clone este repositório:
 
 ```bash
-git clone https://github.com/embrapa-io/bmad.git _bmad/embrapa-io
+git clone https://github.com/embrapa-io/alice.git _bmad/embrapa-io
 ```
 
 ### 2. Invocar a Alice

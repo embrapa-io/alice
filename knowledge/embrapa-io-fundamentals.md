@@ -519,7 +519,7 @@ Para aplicações com interface visual:
 
 - **Dashboard Embrapa I/O**: https://dashboard.embrapa.io
 - **Documentação da plataforma**: https://embrapa.io/docs
-- **Repositório do módulo BMAD**: https://github.com/embrapa-io/bmad
+- **Repositório do módulo BMAD**: https://github.com/embrapa-io/alice
 - **Base de conhecimento local**: `{project-root}/.bmad/embrapa-io/knowledge/`
 
 ### Arquivos de Conhecimento Relacionados

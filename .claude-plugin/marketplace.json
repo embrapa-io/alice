@@ -1,0 +1,20 @@
+{
+  "name": "embrapa-io",
+  "owner": { "name": "Camilo Carromeu" },
+  "license": "MIT",
+  "homepage": "https://github.com/embrapa-io/alice",
+  "repository": "https://github.com/embrapa-io/alice",
+  "keywords": ["bmad", "devops", "compliance", "docker", "embrapa"],
+  "plugins": [
+    {
+      "name": "embrapa-io",
+      "source": "./",
+      "description": "Módulo de conformidade com a plataforma Embrapa I/O — agente Alice, workflows de setup/validação e templates Docker.",
+      "version": "1.26.3",
+      "author": { "name": "Camilo Carromeu" },
+      "skills": [
+        "./embrapa-io-setup"
+      ]
+    }
+  ]
+}
