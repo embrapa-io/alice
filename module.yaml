@@ -3,7 +3,7 @@ name: "Embrapa I/O DevOps Compliance Module"
 description: "Módulo de conhecimento BMAD para conformidade com a plataforma Embrapa I/O - inclui workflows de setup, validação e templates para Docker, env files e settings"
 header: "Módulo de conformidade com a plataforma Embrapa I/O"
 subheader: "Inclui agente Alice, workflows de setup/validação e templates para Docker, env files e settings"
-version: "1.26.3"
+version: "1.26.4-1"
 author: "Camilo Carromeu"
 repository: "https://github.com/embrapa-io/alice"
 default_selected: true

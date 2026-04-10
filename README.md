@@ -1,6 +1,6 @@
 # Embrapa I/O DevOps Compliance Module
 
-**Versão**: 1.26.3 | **Compatível com**: BMAD Core v6 | **Convenção de versão**: `1.YY.MM`
+**Versão**: 1.26.4-1 | **Compatível com**: BMAD Core v6 | **Convenção de versão**: `1.YY.MM`
 
 Módulo de conhecimento [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) para conformidade de aplicações com a plataforma [Embrapa I/O](https://embrapa.io). Inclui a agente **Alice**, 8 workflows especializados, 8 knowledge files e 6 templates.
 
@@ -233,6 +233,6 @@ _bmad/embrapa-io/
 
 ### Histórico
 
-- **2026-03-30**: v1.26.3 — Validação de módulo, criação de module-help.csv, consolidação de metadados
+- **2026-03-30**: v1.26.4-1 — Validação de módulo, criação de module-help.csv, consolidação de metadados
 - **2026-01-20**: Transformação em AGENTE com criação da Alice e 3 workflows principais
 - **2025-12-17**: Auditoria e certificação BMAD v6 Excellence como módulo
