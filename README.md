@@ -1,8 +1,3 @@
----
-last-redoc-date: 2026-03-30
-version: 1.26.3
----
-
 # Embrapa I/O DevOps Compliance Module
 
 **Versão**: 1.26.3 | **Compatível com**: BMAD Core v6 | **Convenção de versão**: `1.YY.MM`
