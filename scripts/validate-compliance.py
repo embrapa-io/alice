@@ -870,7 +870,13 @@ def validate_env(project: Path) -> List[Finding]:
                     fix="Adicionar '.env', '.env.io' e '.env.sh' ao .gitignore, incluir diretorios de agentes de IA (.claude/, _bmad/, .cursor/, etc.)",
                     auto_fixable=True,
                 ))
-            ai_dirs_to_ignore = [".claude/", "_bmad/", "_bmad-output/"]
+            ai_dirs_to_ignore = [
+                ".agent/", ".agents/", ".augment/", ".claude/", ".cline/",
+                ".codebuddy/", ".crush/", ".cursor/", ".gemini/", ".github/",
+                ".iflow/", ".kilocode/", ".kiro/", ".ona/", ".opencode/",
+                ".pi/", ".qoder/", ".qwen/", ".roo/", ".rovodev/",
+                ".trae/", ".windsurf/", "_bmad/", "_bmad-output/",
+            ]
             missing_ai = [d for d in ai_dirs_to_ignore if d not in gi_lines and d.rstrip("/") not in gi_lines]
             if missing_ai:
                 findings.append(Finding(
