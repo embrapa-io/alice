@@ -322,6 +322,7 @@ Alice verifica e orienta a configuração do `.gitignore` do projeto. Os seguint
 .trae/
 .windsurf/
 _bmad/
+_bmad-output/
 ```
 
 > **Nota**: Arquivos `.example` (`.env.example`, `.env.io.example`) **NÃO** devem estar no `.gitignore` — são templates de referência e devem ser versionados.

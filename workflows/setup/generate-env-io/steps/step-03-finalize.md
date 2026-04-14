@@ -198,6 +198,7 @@ Adicione ao .gitignore:
 .trae/
 .windsurf/
 _bmad/
+_bmad-output/
 \`\`\`
 ⚠️ .env.io.example DEVE ser commitado como referência!
 

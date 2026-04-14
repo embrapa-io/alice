@@ -170,6 +170,7 @@ PGADMIN_VOLUME={io_project}_{io_app}_{io_stage}_pgadmin
 .trae/
 .windsurf/
 _bmad/
+_bmad-output/
 ```
 
 **Se não estiver no .gitignore:**
