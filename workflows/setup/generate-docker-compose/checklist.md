@@ -254,7 +254,7 @@ docker compose --profile cli run --rm backup
 
 ---
 
-**Checklist Version**: 1.26.4-2
+**Checklist Version**: 1.26.4-3
 **Última atualização**: 2026-03-30
 **Módulo**: embrapa-io/setup/generate-docker-compose
 **Conformidade**: 4 Verdades Fundamentais Embrapa I/O

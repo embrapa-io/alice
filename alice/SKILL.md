@@ -64,14 +64,14 @@ Load knowledge files on-demand when executing workflows:
 
 | File | Description |
 |------|-------------|
-| `knowledge/embrapa-io-fundamentals.md` | 4 Verdades Fundamentais e regras básicas da plataforma |
-| `knowledge/embrapa-io-validation.md` | 40 regras de validação de conformidade |
-| `knowledge/embrapa-io-integrations.md` | Integrações Sentry, Matomo, SonarQube, Loki |
-| `knowledge/embrapa-io-stacks.md` | Configurações por stack tecnológica |
-| `knowledge/embrapa-io-coding-standards.md` | Padrões de codificação: grafia PT-BR, variáveis sem fallback, LICENSE, integrações |
-| `knowledge/embrapa-io-deployment.md` | Ambientes de deployment, pipelines e gestão de releases |
-| `knowledge/embrapa-io-workflows.md` | Documentação completa dos workflows disponíveis |
-| `knowledge/embrapa-io-integration-guide.md` | Guia de integração do módulo com projetos existentes |
+| `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md` | 4 Verdades Fundamentais e regras básicas da plataforma |
+| `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-validation.md` | 40 regras de validação de conformidade |
+| `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-integrations.md` | Integrações Sentry, Matomo, SonarQube, Loki |
+| `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-stacks.md` | Configurações por stack tecnológica |
+| `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-coding-standards.md` | Padrões de codificação: grafia PT-BR, variáveis sem fallback, LICENSE, integrações |
+| `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-deployment.md` | Ambientes de deployment, pipelines e gestão de releases |
+| `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-workflows.md` | Documentação completa dos workflows disponíveis |
+| `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-integration-guide.md` | Guia de integração do módulo com projetos existentes |
 
 ## Rules
 

@@ -19,8 +19,9 @@ Convenção: `1.YY.MM-N` onde N é o build number incremental.
 
 ## Estrutura
 
-- `SKILL.md` — Entry point BMad padrão (persona, menu, headless, escopo)
+- `alice/SKILL.md` — Skill directory da agente (instalado em `.claude/skills/alice/` pelo installer)
 - `agents/alice.md` — Definição da agente em formato XML (legado, mantido para compatibilidade)
+- `.claude-plugin/marketplace.json` — Registra `./alice` e `./embrapa-io-setup` como skills instaláveis
 - `scripts/validate-compliance.py` — Validação determinística (rodar com `uv run`)
 - `workflows/` — 8 workflows (3 core Alice + 4 setup + 1 deprecated)
 - `knowledge/` — 8 knowledge files com regras da plataforma

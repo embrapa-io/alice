@@ -10,9 +10,10 @@
       "name": "embrapa-io",
       "source": "./",
       "description": "Módulo de conformidade com a plataforma Embrapa I/O — agente Alice, workflows de setup/validação e templates Docker.",
-      "version": "1.26.4-2",
+      "version": "1.26.4-3",
       "author": { "name": "Camilo Carromeu" },
       "skills": [
+        "./alice",
         "./embrapa-io-setup"
       ]
     }
