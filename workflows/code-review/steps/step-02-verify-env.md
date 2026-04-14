@@ -10,10 +10,16 @@ nextStepFile: './step-03-verify-settings.md'
 
 Verificar se os arquivos de variáveis de ambiente estão corretamente implementados conforme o relatório de conformidade.
 
+## PRE-COMPUTED VALIDATION
+
+If `validate-compliance.py` JSON output is available, use `checks.env` results directly for pass/fail determination.
+
+**Reference checklist:** `{workflow_path}/../references/env-validation-checklist.md`
+
 ## MANDATORY EXECUTION RULES:
 
 - 🛑 PASS/FAIL each verification clearly
-- 📖 Check both .example and actual files
+- 📖 Check both .example and actual files (unless pre-computed)
 - 📋 Verify no duplicates between files
 
 ## Sequence of Instructions
@@ -84,6 +90,8 @@ IO_APP, IO_STAGE, IO_VERSION, IO_DEPLOYER, SENTRY_DSN, MATOMO_ID, MATOMO_TOKEN
 **Verificar:**
 - [ ] `.env` está listado
 - [ ] `.env.io` está listado
+- [ ] `.env.sh` está listado
+- [ ] Diretórios de agentes de IA estão listados (`.claude/`, `_bmad/`, etc.)
 
 **Resultado:** PASS ✅ / FAIL ❌
 
@@ -123,10 +131,12 @@ IO_APP, IO_STAGE, IO_VERSION, IO_DEPLOYER, SENTRY_DSN, MATOMO_ID, MATOMO_TOKEN
 
 ### .gitignore
 
-| Arquivo | Ignorado |
+| Entrada | Ignorado |
 |---------|----------|
 | .env | ✅/❌ |
 | .env.io | ✅/❌ |
+| .env.sh | ✅/❌ |
+| Diretórios AI (.claude/, _bmad/, etc.) | ✅/❌ |
 
 ### Resultado Env: {PASS/FAIL}
 ```

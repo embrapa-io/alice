@@ -73,6 +73,8 @@ last-redoc-date: 2026-01-20
 
 - [ ] `.env` listado
 - [ ] `.env.io` listado
+- [ ] `.env.sh` listado
+- [ ] Diretórios de agentes de IA listados
 
 **Resultado Step 2:** PASS ✅ / FAIL ❌
 

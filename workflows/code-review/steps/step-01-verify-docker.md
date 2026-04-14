@@ -10,10 +10,18 @@ nextStepFile: './step-02-verify-env.md'
 
 Verificar se o docker-compose.yaml implementa corretamente as 4 Verdades Fundamentais conforme especificado no relatório de conformidade.
 
+## PRE-COMPUTED VALIDATION
+
+If `validate-compliance.py` JSON output is available, use `checks.docker` results directly for pass/fail determination — skip manual file parsing. Focus LLM effort on comparing script results against the compliance report action items.
+
+If JSON output is NOT available, perform manual verification per the checklist below.
+
+**Reference checklist:** `{workflow_path}/../references/docker-validation-checklist.md`
+
 ## MANDATORY EXECUTION RULES:
 
 - 🛑 PASS/FAIL each verification clearly
-- 📖 Reference specific lines in files
+- 📖 Reference specific lines in files (unless pre-computed)
 - 📋 Compare against compliance report action items
 - 🔧 Do NOT suggest improvements beyond compliance
 

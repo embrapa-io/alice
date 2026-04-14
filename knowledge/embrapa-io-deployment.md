@@ -197,6 +197,7 @@ healthcheck:
 # Sempre usar em .gitignore
 echo ".env" >> .gitignore
 echo ".env.io" >> .gitignore
+echo ".env.sh" >> .gitignore
 ```
 
 ### Secrets Management

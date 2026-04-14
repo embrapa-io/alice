@@ -219,11 +219,11 @@ SOLUTION: "Renomear variável seguindo a convenção correta"
 
 ### MEDIUM Errors
 
-#### 2.7 .gitignore não ignora .env
+#### 2.7 .gitignore não ignora arquivos sensíveis
 ```
 SEVERITY: MEDIUM
-MESSAGE: "Arquivo .env não está no .gitignore"
-SOLUTION: "Adicionar '.env' e '.env.io' ao .gitignore"
+MESSAGE: "Arquivos .env, .env.io ou .env.sh não estão no .gitignore"
+SOLUTION: "Adicionar '.env', '.env.io' e '.env.sh' ao .gitignore, incluir diretórios de agentes de IA (.claude/, _bmad/, .cursor/, etc.)"
 ```
 
 #### 2.8 Variável sensível sem indicação

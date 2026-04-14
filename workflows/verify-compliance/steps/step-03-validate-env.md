@@ -10,6 +10,12 @@ nextStepFile: './step-04-validate-settings.md'
 
 Validar os arquivos de variáveis de ambiente (.env.example e .env.io.example) contra as regras da plataforma Embrapa I/O.
 
+## PRE-COMPUTED VALIDATION
+
+If `validate-compliance.py` JSON output is available, use `checks.env` results directly — skip manual file parsing. Focus LLM effort on generating remediation examples.
+
+**Reference checklist:** `{workflow_path}/../references/env-validation-checklist.md`
+
 ## MANDATORY EXECUTION RULES:
 
 - 🛑 NEVER skip any validation rule
@@ -132,17 +138,43 @@ PGADMIN_VOLUME={io_project}_{io_app}_{io_stage}_pgadmin
 
 ### 5. Verificar .gitignore
 
-**Regra:** `.env` e `.env.io` devem estar no .gitignore
+**Regra:** `.env`, `.env.io` e `.env.sh` devem estar no .gitignore, além dos diretórios de agentes de IA.
 
 ```gitignore
-# ✅ CORRETO
+# Variáveis de ambiente (não versionar valores reais)
 .env
 .env.io
+.env.sh
+
+# Agentes de IA e IDEs
+.agent/
+.agents/
+.augment/
+.claude/
+.cline/
+.codebuddy/
+.crush/
+.cursor/
+.gemini/
+.github/
+.iflow/
+.kilocode/
+.kiro/
+.ona/
+.opencode/
+.pi/
+.qoder/
+.qwen/
+.roo/
+.rovodev/
+.trae/
+.windsurf/
+_bmad/
 ```
 
 **Se não estiver no .gitignore:**
 - Severidade: MEDIUM
-- Action Item: "Adicionar `.env` e `.env.io` ao .gitignore"
+- Action Item: "Adicionar `.env`, `.env.io` e `.env.sh` ao .gitignore, e incluir diretórios de agentes de IA"
 
 ### 6. Compilar Resultados da Validação Env
 

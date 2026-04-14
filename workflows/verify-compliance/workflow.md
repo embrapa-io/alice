@@ -1,6 +1,8 @@
 ---
 name: Verify Compliance
 description: Analisa o codebase e gera relatório detalhado de conformidade com a plataforma Embrapa I/O
+communication_language: "{communication_language}"
+document_output_language: "{document_output_language}"
 web_bundle: true
 ---
 
@@ -18,31 +20,21 @@ This uses **step-file architecture** for disciplined execution:
 
 ### Core Principles
 
-- **Micro-file Design**: Each step is a self-contained instruction file
-- **Just-In-Time Loading**: Only the current step file is in memory
-- **Sequential Enforcement**: Steps completed in order
-- **State Tracking**: Document validation results in context
-- **Evidence-Based Analysis**: All findings must reference specific files and line numbers
+- **Step-file architecture**: Each step is a self-contained file, loaded just-in-time, executed sequentially
+- **Evidence-based**: All findings must reference specific files and line numbers
+- Read each step file completely before acting; halt at menus and wait for user input
+- Only proceed to next step when user selects 'C' (Continue)
+- Never load multiple step files simultaneously or skip steps
 
-### Step Processing Rules
+---
 
-1. **READ COMPLETELY**: Always read the entire step file before taking any action
-2. **FOLLOW SEQUENCE**: Execute all numbered sections in order
-3. **WAIT FOR INPUT**: If a menu is presented, halt and wait for user selection
-4. **CHECK CONTINUATION**: Only proceed to next step when user selects 'C' (Continue)
-5. **SAVE STATE**: Track all findings in context before loading next step
-6. **LOAD NEXT**: When directed, load, read entire file, then execute the next step file
+## HEADLESS MODE
 
-### Critical Rules (NO EXCEPTIONS)
-
-- 🛑 **NEVER** load multiple step files simultaneously
-- 📖 **ALWAYS** read entire step file before execution
-- 🚫 **NEVER** skip steps or optimize the sequence
-- 💾 **ALWAYS** document every finding with file path and line number
-- 🎯 **ALWAYS** follow the exact instructions in the step file
-- ⏸️ **ALWAYS** halt at menus and wait for user input
-- 📋 **NEVER** suggest changes outside the defined scope (see agent scope-boundaries)
-- 🔧 **FOCUS** exclusively on Docker Compose - Docker Swarm is OUT OF SCOPE
+If `{headless_mode}=true`:
+- Skip all [C] Continue prompts — auto-proceed through every step
+- Run `uv run {project-root}/_bmad/embrapa-io/scripts/validate-compliance.py --project-path {project-root} --output json` before step-01 and pass JSON results as pre-computed validation data
+- Generate JSON output alongside the markdown report
+- Do not display progress menus or ask for user input
 
 ---
 
@@ -50,18 +42,32 @@ This uses **step-file architecture** for disciplined execution:
 
 ### 1. Configuration Loading
 
-Load and read full config from `{project-root}/_bmad/embrapa-io/config.yaml` and resolve:
+Load and read both config files:
+- `{project-root}/_bmad/config.yaml` (project and module settings)
+- `{project-root}/_bmad/config.user.yaml` (user settings)
+
+Resolve:
 
 - `user_name`, `communication_language`, `document_output_language`, `output_folder`
 
-### 2. Knowledge Loading
+### 2. Pre-Validation Script (recommended)
+
+Run the validation script for pre-computed results:
+
+```bash
+uv run {project-root}/_bmad/embrapa-io/scripts/validate-compliance.py --project-path {project-root} --output json
+```
+
+Use the JSON output to inform analysis in subsequent steps. In headless mode, this is mandatory.
+
+### 3. Knowledge Loading
 
 Load knowledge files for validation rules:
 
 - `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md` - 4 Verdades Fundamentais
 - `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-validation.md` - Regras de validação
 
-### 3. First Step EXECUTION
+### 4. First Step EXECUTION
 
 Load, read the full file and then execute `{workflow_path}/steps/step-01-analyze-codebase.md` to begin the workflow.
 
@@ -89,35 +95,6 @@ This file must contain:
 
 ---
 
-## SCOPE BOUNDARIES
+## SCOPE & STACK
 
-### In Scope
-
-- docker-compose.yaml / docker-compose.yml
-- .env.example, .env.io.example
-- .embrapa/settings.json
-- LICENSE file
-- Dockerfile(s)
-- Sentry/Matomo configuration files (if applicable)
-- README.md (for compliance section)
-
-### Out of Scope
-
-- Functional application code (except minimal Sentry/Matomo integration)
-- New endpoint creation
-- Code refactoring or improvements
-- Security, performance, or maintainability enhancements to legacy code
-- Docker Swarm configuration
-- CI/CD pipelines
-
----
-
-## TECHNOLOGY STACK ADAPTATION
-
-The workflow must:
-
-1. **Detect the existing technology stack** from package.json, requirements.txt, composer.json, etc.
-2. **Adapt all code examples** to match the project's conventions and patterns
-3. **Reuse existing health check endpoints** when available
-4. **Follow the project's existing code style** (formatting, naming conventions)
-5. **Use the project's existing dependencies** when possible for integrations
+Scope boundaries follow the agent's `<scope-boundaries>` definition. Additionally: detect the existing technology stack from package.json, requirements.txt, composer.json, etc., adapt all code examples to match the project's conventions, and reuse existing health check endpoints when available.

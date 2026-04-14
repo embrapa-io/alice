@@ -126,8 +126,9 @@ Severity: MEDIUM
 
 **ID 2.8 - Configuração do .gitignore**
 ```
-Check: .env e .env.io estão ignorados
+Check: .env, .env.io e .env.sh estão ignorados
 Check: .env.example e .env.io.example NÃO estão ignorados
+Check: Diretórios de agentes de IA estão ignorados (.claude/, _bmad/, etc.)
 Severity: MEDIUM
 Auto-fixable: true
 ```

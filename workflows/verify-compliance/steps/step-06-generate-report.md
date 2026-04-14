@@ -130,7 +130,12 @@ Cada item contém instruções específicas e exemplos de código adaptados à s
 
 ## 📝 Templates de Referência
 
-### Template: .env.io.example
+Para os code examples no relatório, carregar e adaptar os templates do módulo:
+
+- **docker-compose.yaml**: Use `{project-root}/_bmad/embrapa-io/templates/docker-compose/base.yaml` como referência estrutural. Adapte ao stack detectado do projeto.
+- **.embrapa/settings.json**: Use `{project-root}/_bmad/embrapa-io/templates/settings/settings-base.json` como base. Para stacks específicos, consulte também `settings-frontend.json` ou `settings-nodejs.json` conforme aplicável.
+- **.env.io.example**: Template padrão abaixo (sem arquivo de referência no módulo):
+
 ```ini
 COMPOSE_PROJECT_NAME={io_project}_{io_app}_development
 COMPOSE_PROFILES=development
@@ -143,97 +148,6 @@ IO_DEPLOYER=first.surname@embrapa.br
 SENTRY_DSN=GET_IN_DASHBOARD
 MATOMO_ID={matomo_id}
 MATOMO_TOKEN=
-```
-
-### Template: docker-compose.yaml (estrutura mínima)
-```yaml
-services:
-  app:
-    build: .
-    restart: unless-stopped
-    ports:
-      - "${APP_PORT}:{internal_port}"
-    environment:
-      # variáveis específicas da aplicação
-    networks:
-      - stack
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:{internal_port}/{health_endpoint}"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
-
-  # Serviços CLI (se aplicável)
-  backup:
-    image: {db_image}
-    profiles: ['cli']
-    restart: "no"
-    volumes:
-      - backup_data:/backup
-    networks:
-      - stack
-    command: |
-      sh -c "..."
-
-  restore:
-    image: {db_image}
-    profiles: ['cli']
-    restart: "no"
-    volumes:
-      - backup_data:/backup
-    networks:
-      - stack
-    command: |
-      sh -c "..."
-
-  sanitize:
-    image: {db_image}
-    profiles: ['cli']
-    restart: "no"
-    networks:
-      - stack
-    command: |
-      sh -c "..."
-
-networks:
-  stack:
-    external: true
-    name: ${IO_PROJECT}_${IO_APP}_${IO_STAGE}
-
-volumes:
-  backup_data:
-    external: true
-    name: ${IO_PROJECT}_${IO_APP}_${IO_STAGE}_backup
-```
-
-### Template: .embrapa/settings.json
-```json
-{
-  "boilerplate": "_",
-  "platform": "{detected_platform}",
-  "label": "{project_label}",
-  "description": "{project_description}",
-  "references": [
-    { "label": "{ref_label}", "url": "{ref_url}" }
-  ],
-  "maintainers": [
-    {
-      "name": "{maintainer_name}",
-      "email": "{maintainer_email}",
-      "phone": "+55 (XX) X XXXX-XXXX"
-    }
-  ],
-  "variables": {
-    "default": [
-      { "name": "APP_PORT", "type": "PORT" }
-    ],
-    "alpha": [],
-    "beta": [],
-    "release": []
-  },
-  "orchestrators": ["DockerCompose"]
-}
 ```
 
 ---

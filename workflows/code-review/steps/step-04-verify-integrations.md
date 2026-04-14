@@ -1,18 +1,23 @@
 ---
-name: 'step-04-verify-integrations'
-description: 'Verificar integrações Sentry/Matomo e bootstrap.sh'
+name: 'step-04-verify-integrations-and-code'
+description: 'Verificar integrações Sentry/Matomo, NO-FALLBACK, Linter e bootstrap.sh'
 nextStepFile: './step-05-finalize-review.md'
 ---
 
-# Step 4: Verificar Integrações e Bootstrap
+# Step 4: Verificar Integrações, Código e Bootstrap
 
 ## STEP GOAL:
 
-Verificar se as integrações (quando aplicáveis) e o script bootstrap.sh estão corretamente implementados.
+Verificar se integrações, regra NO-FALLBACK, Linter e bootstrap.sh estão corretamente implementados.
+
+## PRE-COMPUTED VALIDATION
+
+If `validate-compliance.py` JSON output is available, use `checks.code` and `checks.integrations` results directly for pass/fail determination.
 
 ## MANDATORY EXECUTION RULES:
 
-- 🛑 Integrações são verificadas apenas se foram requeridas no relatório
+- 🛑 Integrações verificadas apenas se requeridas no relatório
+- 🛑 NO-FALLBACK: Verificar que todas as violações reportadas foram corrigidas
 - 📖 bootstrap.sh é obrigatório
 - 📋 LICENSE é obrigatório
 
@@ -67,7 +72,22 @@ Se sim:
 
 **Resultado:** PASS ✅ / FAIL ❌ / N/A (não aplicável)
 
-### 5. Verificar README.md
+### 5. Verificar NO-FALLBACK
+
+**Verificar se todas as violações reportadas foram corrigidas:**
+- [ ] Nenhum padrão de fallback em variáveis de ambiente no código-fonte
+- [ ] Patterns verificados: `process.env.VAR || 'default'`, `os.getenv('VAR', 'default')`, `env('VAR', 'default')`, `${VAR:-default}`
+
+**Resultado:** PASS ✅ / FAIL ❌
+
+### 6. Verificar Linter (se requerido no relatório)
+
+- [ ] Linter configurado conforme recomendação do relatório
+- [ ] Scripts lint/lint:fix presentes (se aplicável)
+
+**Resultado:** PASS ✅ / FAIL ❌ / N/A
+
+### 7. Verificar README.md
 
 **Verificações:**
 - [ ] Arquivo README.md existe
@@ -76,7 +96,7 @@ Se sim:
 
 **Resultado:** PASS ✅ / FAIL ❌
 
-### 6. Compilar Resultado das Verificações
+### 8. Compilar Resultado das Verificações
 
 ```markdown
 ## 🔌 Verificação Integrações e Bootstrap

@@ -1,6 +1,8 @@
 ---
 name: Code Review
 description: Verifica se todas as implementações de conformidade foram realizadas corretamente
+communication_language: "{communication_language}"
+document_output_language: "{document_output_language}"
 web_bundle: true
 ---
 
@@ -18,27 +20,11 @@ This uses **step-file architecture** for disciplined execution:
 
 ### Core Principles
 
-- **Report-Based Verification**: Compare implementation against compliance report
-- **Compliance-Only Focus**: Do NOT review code quality, security, or best practices
-- **Evidence-Based**: Document specific file locations and content
-- **Pass/Fail Criteria**: Clear criteria for each verification
-
-### Step Processing Rules
-
-1. **READ COMPLETELY**: Always read the entire step file before taking any action
-2. **VERIFY AGAINST REPORT**: Each check references the compliance report
-3. **DOCUMENT FINDINGS**: Record pass/fail with evidence
-4. **NO CODE IMPROVEMENTS**: Only verify compliance, do not suggest improvements
-
-### Critical Rules (NO EXCEPTIONS)
-
-- 🛑 **ONLY** verify compliance with Embrapa I/O platform
-- 📖 **DO NOT** review code quality, security, or maintainability
-- 🚫 **DO NOT** suggest improvements to legacy code
-- 💾 **DOCUMENT** all findings with file paths and evidence
-- 🎯 **FOCUS** on Docker Compose functionality
-- ⏸️ **PASS/FAIL** each verification clearly
-- 📋 **UPDATE** the compliance report with final status
+- **Step-file architecture**: Each step is a self-contained file, loaded just-in-time, executed sequentially
+- **Report-based verification**: Compare implementation against compliance report with clear pass/fail criteria
+- Read each step file completely before acting; document all findings with file paths and evidence
+- Only verify Embrapa I/O compliance — do NOT review code quality, security, or maintainability
+- Update the compliance report with final status after each verification
 
 ---
 
@@ -71,15 +57,19 @@ This uses **step-file architecture** for disciplined execution:
    - Sentry configured with correct DSN source
    - Matomo configured with correct host and ID
 
-### Out of Scope (DO NOT REVIEW)
+### Out of Scope
 
-- Code quality
-- Security vulnerabilities
-- Performance issues
-- Maintainability concerns
-- Test coverage
-- Documentation completeness
-- CI/CD configuration
+Per agent's `<scope-boundaries>` — additionally: do NOT review code quality, security, performance, maintainability, test coverage, or CI/CD.
+
+---
+
+## HEADLESS MODE
+
+If `{headless_mode}=true`:
+- Skip all [C] Continue prompts — auto-proceed through every verification
+- Run `uv run {project-root}/_bmad/embrapa-io/scripts/validate-compliance.py --project-path {project-root} --output json` for pre-computed validation
+- Use script output for deterministic checks; LLM focuses on report-vs-code comparison
+- Generate JSON pass/fail summary alongside the updated compliance report
 
 ---
 
@@ -103,7 +93,9 @@ This command must:
 
 ### 1. Configuration Loading
 
-Load and read full config from `{project-root}/_bmad/embrapa-io/config.yaml`.
+Load and read both config files:
+- `{project-root}/_bmad/config.yaml` (project and module settings)
+- `{project-root}/_bmad/config.user.yaml` (user settings)
 
 ### 2. Load Compliance Report
 

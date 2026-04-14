@@ -63,8 +63,10 @@ last-redoc-date: 2025-12-03
 ## ✅ Integração com Git
 
 - [ ] `.env.io` está listado no `.gitignore` (não versionar valores reais)
+- [ ] `.env.sh` está listado no `.gitignore`
 - [ ] `.env.io.example` NÃO está no `.gitignore` (versionar template)
-- [ ] Se `.gitignore` não existe, criar e adicionar `.env.io`
+- [ ] Diretórios de agentes de IA estão no `.gitignore` (`.claude/`, `_bmad/`, etc.)
+- [ ] Se `.gitignore` não existe, criar com entradas completas
 - [ ] Arquivo `.env.io` não deve ser commitado no repositório
 
 ## ✅ Documentação
@@ -106,7 +108,7 @@ last-redoc-date: 2025-12-03
 ### Git Ignore
 - ❌ `.env.io.example` no .gitignore (template deve ser versionado)
 - ❌ `.env.io` versionado (valores reais não devem ir para git)
-- ✅ Apenas `.env.io` no .gitignore (correto)
+- ✅ `.env.io`, `.env.sh` e diretórios de agentes de IA no .gitignore (correto)
 
 ### 🚨 Valores com Aspas ou Espaços (CRÍTICO)
 - ❌ `MY_VAR="valor com espaços"` (aspas e espaços não permitidos)

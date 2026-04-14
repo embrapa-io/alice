@@ -10,10 +10,18 @@ nextStepFile: './step-03-validate-env.md'
 
 Validar o arquivo docker-compose.yaml (ou .yml) contra as 4 Verdades Fundamentais da plataforma Embrapa I/O e documentar todas as não-conformidades encontradas.
 
+## PRE-COMPUTED VALIDATION
+
+If `validate-compliance.py` JSON output is available from the initialization sequence, use `checks.docker` results directly — skip manual file parsing for structural checks. Focus LLM effort on generating remediation code examples adapted to the detected stack.
+
+If JSON output is NOT available, perform manual validation per the checklist below.
+
+**Reference checklist:** `{workflow_path}/../references/docker-validation-checklist.md`
+
 ## MANDATORY EXECUTION RULES:
 
 - 🛑 NEVER skip any validation rule
-- 📖 READ entire docker-compose file before validating
+- 📖 READ entire docker-compose file before validating (unless pre-computed)
 - 📋 DOCUMENT every finding with file path, line number, and severity
 - 🔧 FOCUS on Docker Compose only - Docker Swarm is OUT OF SCOPE
 

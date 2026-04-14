@@ -44,7 +44,7 @@ last-redoc-date: 2026-01-20
 - [ ] Sem duplicação de variáveis entre arquivos
 - [ ] Sem espaços nos valores
 - [ ] Sem aspas nos valores
-- [ ] `.gitignore` inclui `.env` e `.env.io`
+- [ ] `.gitignore` inclui `.env`, `.env.io`, `.env.sh` e diretórios de agentes de IA
 
 ### Validação .embrapa/settings.json (9 regras)
 

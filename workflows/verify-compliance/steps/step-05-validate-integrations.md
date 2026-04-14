@@ -1,18 +1,23 @@
 ---
-name: 'step-05-validate-integrations'
-description: 'Validação das integrações Sentry e Matomo'
+name: 'step-05-validate-integrations-and-code'
+description: 'Validação das integrações Sentry/Matomo, regra NO-FALLBACK e Linter'
 nextStepFile: './step-06-generate-report.md'
 ---
 
-# Step 5: Validar Integrações
+# Step 5: Validar Integrações e Código
 
 ## STEP GOAL:
 
-Validar se as integrações opcionais (Sentry, Matomo) estão configuradas corretamente, quando aplicáveis.
+Validar integrações (Sentry, Matomo), regra NO-FALLBACK de variáveis de ambiente, e configuração de Linter.
+
+## PRE-COMPUTED VALIDATION
+
+If `validate-compliance.py` JSON output is available, use `checks.code` (NO-FALLBACK, LICENSE) and `checks.integrations` (Sentry, Matomo detection) results directly. Focus LLM effort on generating stack-specific remediation code examples.
 
 ## MANDATORY EXECUTION RULES:
 
 - 🚨 Integrações Sentry e Matomo são **OBRIGATÓRIAS** para codebases com código-fonte
+- 🚨 NO-FALLBACK: Variáveis de ambiente NUNCA devem ter valores padrão (fallback) — severidade CRITICAL
 - ❌ Integrações NÃO se aplicam a serviços de prateleira (Nginx Proxy Manager, Directus, MinIO, etc.)
 - 📖 Adaptar à stack tecnológica detectada
 - 📋 Fornecer exemplos de código específicos para a stack
@@ -162,7 +167,36 @@ const matomo = new MatomoTracker(
 - Action Item: "Implementar integração Matomo conforme stack {detected_stack}"
 - Motivo: Integração Matomo é OBRIGATÓRIA para codebases com código-fonte
 
-### 4. Verificar LICENSE
+### 4. Validar NO-FALLBACK (Regra Crítica)
+
+Escanear código-fonte em busca de padrões de fallback proibidos. Variáveis de ambiente da plataforma são SEMPRE injetadas — fallbacks mascaram erros de configuração.
+
+**Padrões proibidos por linguagem:**
+
+- **JavaScript/TypeScript:** `process.env.VAR || 'default'`, `process.env.VAR ?? 'default'`, `process.env.VAR || defaultValue`
+- **Python:** `os.getenv('VAR', 'default')`, `os.environ.get('VAR', 'default')`
+- **PHP:** `env('VAR', 'default')`, `getenv('VAR') ?: 'default'`
+- **Shell/Bash:** `${VAR:-default}`, `${VAR:=default}`
+- **Docker Compose:** `${VAR:-default}` em qualquer valor
+
+**Para cada violação encontrada:**
+- Severidade: **CRITICAL**
+- Documentar: arquivo, linha, padrão encontrado, variável afetada
+- Fix: "Remover fallback — usar apenas `process.env.VAR` (ou equivalente na linguagem)"
+
+### 5. Verificar Linter
+
+**Verificar se projeto tem Linter configurado:**
+- Node.js: `eslint` em devDependencies, scripts `lint`/`lint:fix` em package.json
+- PHP: `phpstan` ou `php_codesniffer` em composer.json
+- Python: `ruff`, `flake8`, `pylint`, ou `black` em requirements.txt/pyproject.toml
+- Go: `.golangci.yml` na raiz
+
+**Se Linter não configurado:**
+- Severidade: **MEDIUM**
+- Action Item: "Configurar Linter para a stack {detected_stack}"
+
+### 6. Verificar LICENSE
 
 **Formato obrigatório:**
 ```
@@ -177,7 +211,7 @@ Copyright © YYYY Brazilian Agricultural Research Corporation (Embrapa). All rig
 - Severidade: LOW
 - Action Item: "Atualizar LICENSE para formato padrão Embrapa"
 
-### 5. Verificar Logo Embrapa (se frontend)
+### 7. Verificar Logo Embrapa (se frontend)
 
 **Se projeto tem interface visual:**
 - [ ] Logo da Embrapa presente em assets
@@ -187,7 +221,7 @@ Copyright © YYYY Brazilian Agricultural Research Corporation (Embrapa). All rig
 - Severidade: LOW
 - Action Item: "Adicionar logo da Embrapa aos assets do projeto"
 
-### 6. Compilar Resultados
+### 8. Compilar Resultados
 
 ```markdown
 ## 🔌 Validação Integrações
@@ -207,6 +241,14 @@ Copyright © YYYY Brazilian Agricultural Research Corporation (Embrapa). All rig
 - Site ID via env: {✅/❌}
 - Custom dimensions: {✅/❌}
 
+### NO-FALLBACK
+- Status: {CLEAN | VIOLATIONS_FOUND}
+- Violações: {count} encontradas
+
+### Linter
+- Status: {CONFIGURED | NOT_CONFIGURED}
+- Ferramenta: {linter_name}
+
 ### LICENSE
 - Status: {PRESENT | MISSING | INCORRECT_FORMAT}
 
@@ -218,7 +260,7 @@ Copyright © YYYY Brazilian Agricultural Research Corporation (Embrapa). All rig
 
 Store as `{integration_findings}`.
 
-### 7. Present MENU OPTIONS
+### 9. Present MENU OPTIONS
 
 Display: "**Select an Option:** [C] Continue to Generate Report [X] Exit workflow"
 

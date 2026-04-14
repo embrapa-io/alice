@@ -6,7 +6,7 @@ description: 'Calcular ano atual e gerar arquivo LICENSE com copyright da Embrap
 licenseOutput: '{project-root}/LICENSE'
 
 # Template References
-licenseTemplate: '../templates/template.LICENSE'
+licenseTemplate: '{workflow_path}/templates/template.LICENSE'
 ---
 
 # Step 1: Gerar Arquivo LICENSE

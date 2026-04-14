@@ -47,7 +47,7 @@ last-redoc-date: 2026-01-20
 - [ ] `.env` criado a partir do exemplo
 - [ ] `IO_VERSION` no formato correto (`0.YY.M-dev.1`)
 - [ ] `COMPOSE_PROJECT_NAME` calculado corretamente
-- [ ] `.gitignore` atualizado (`.env` e `.env.io` listados)
+- [ ] `.gitignore` atualizado (`.env`, `.env.io`, `.env.sh` e diretórios de agentes de IA listados)
 - [ ] `bootstrap.sh` criado e executável
 
 ### Step 5: Finalização

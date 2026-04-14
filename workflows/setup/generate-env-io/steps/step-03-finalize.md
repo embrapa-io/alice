@@ -169,8 +169,35 @@ Display:
 **1. Configurar .gitignore**
 Adicione ao .gitignore:
 \`\`\`
-.env.io
+# Variáveis de ambiente
 .env
+.env.io
+.env.sh
+
+# Agentes de IA e IDEs
+.agent/
+.agents/
+.augment/
+.claude/
+.cline/
+.codebuddy/
+.crush/
+.cursor/
+.gemini/
+.github/
+.iflow/
+.kilocode/
+.kiro/
+.ona/
+.opencode/
+.pi/
+.qoder/
+.qwen/
+.roo/
+.rovodev/
+.trae/
+.windsurf/
+_bmad/
 \`\`\`
 ⚠️ .env.io.example DEVE ser commitado como referência!
 
@@ -200,7 +227,7 @@ Ask:
 ```
 
 **Handle responses:**
-- G: Update .gitignore with .env.io and .env entries
+- G: Update .gitignore with .env, .env.io, .env.sh entries and AI agent directories
 - L: Suggest Linter configuration based on detected stack
 - N: Complete workflow
 

@@ -10,10 +10,16 @@ nextStepFile: './step-04-verify-integrations.md'
 
 Verificar se o arquivo de metadados está corretamente implementado conforme o relatório de conformidade.
 
+## PRE-COMPUTED VALIDATION
+
+If `validate-compliance.py` JSON output is available, use `checks.settings` results directly for pass/fail determination.
+
+**Reference checklist:** `{workflow_path}/../references/settings-validation-checklist.md`
+
 ## MANDATORY EXECUTION RULES:
 
 - 🛑 PASS/FAIL each verification clearly
-- 📖 Validate JSON syntax
+- 📖 Validate JSON syntax (unless pre-computed)
 - 📋 Check all required fields
 
 ## Sequence of Instructions

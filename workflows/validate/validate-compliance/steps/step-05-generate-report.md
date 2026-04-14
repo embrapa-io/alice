@@ -7,7 +7,7 @@ reportJson: '{output_folder}/validation-report-{project_name}-{date}.json'
 reportMd: '{output_folder}/compliance-summary-{project_name}-{date}.md'
 
 # Template References
-reportTemplate: '../templates/compliance-report.md'
+reportTemplate: '{workflow_path}/templates/compliance-report.md'
 ---
 
 # Step 5: Gerar Relatórios de Compliance

@@ -10,10 +10,16 @@ nextStepFile: './step-05-validate-integrations.md'
 
 Validar o arquivo de metadados `.embrapa/settings.json` contra os requisitos da plataforma Embrapa I/O.
 
+## PRE-COMPUTED VALIDATION
+
+If `validate-compliance.py` JSON output is available, use `checks.settings` results directly — skip manual JSON parsing. Focus LLM effort on generating remediation examples.
+
+**Reference checklist:** `{workflow_path}/../references/settings-validation-checklist.md`
+
 ## MANDATORY EXECUTION RULES:
 
 - 🛑 NEVER skip any validation rule
-- 📖 Validate JSON syntax first
+- 📖 Validate JSON syntax first (unless pre-computed)
 - 📋 Check all mandatory fields
 
 ## Sequence of Instructions

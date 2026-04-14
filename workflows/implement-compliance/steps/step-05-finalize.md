@@ -168,8 +168,8 @@ O Code Review irá:
 ## ⚠️ Avisos Importantes
 
 1. **Não commite arquivos sensíveis**
-   Os arquivos `.env` e `.env.io` contêm valores sensíveis.
-   Verifique se estão no `.gitignore`.
+   Os arquivos `.env`, `.env.io` e `.env.sh` contêm valores sensíveis.
+   Verifique se estão no `.gitignore`, junto com diretórios de agentes de IA (`.claude/`, `_bmad/`, etc.).
 
 2. **Obtenha credenciais do Dashboard**
    - SENTRY_DSN: https://dashboard.embrapa.io

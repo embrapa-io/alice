@@ -1,6 +1,8 @@
 ---
 name: Implement Compliance
 description: Executa os action items do relatório de conformidade para alcançar 100% de compliance com Embrapa I/O
+communication_language: "{communication_language}"
+document_output_language: "{document_output_language}"
 web_bundle: true
 ---
 
@@ -18,28 +20,20 @@ This uses **step-file architecture** for disciplined execution:
 
 ### Core Principles
 
-- **Report-Driven**: All changes based on `embrapa-io-compliance.md`
-- **Minimal Impact**: Only modify files within defined scope
-- **Sequential Execution**: Process action items by priority (CRITICAL → HIGH → MEDIUM → LOW)
-- **Verification After Each Change**: Validate syntax after modifications
+- **Step-file architecture**: Each step is a self-contained file, loaded just-in-time, executed sequentially
+- **Report-driven**: All changes based on `embrapa-io-compliance.md`, processed by priority (CRITICAL → HIGH → MEDIUM → LOW)
+- Read each step file completely before acting; verify each change before proceeding
+- Never modify functional code unless absolutely necessary for Sentry/Matomo; never create new endpoints
+- Halt on any error and ask user for guidance; reuse existing health check endpoints
 
-### Step Processing Rules
+---
 
-1. **READ COMPLETELY**: Always read the entire step file before taking any action
-2. **FOLLOW SEQUENCE**: Execute action items in priority order
-3. **VALIDATE**: Verify each change before proceeding
-4. **DOCUMENT**: Mark completed items in the report
+## HEADLESS MODE
 
-### Critical Rules (NO EXCEPTIONS)
-
-- 🛑 **NEVER** modify functional application code unless absolutely necessary for Sentry/Matomo
-- 📖 **ALWAYS** read the compliance report first
-- 🚫 **NEVER** create new API endpoints
-- 💾 **ALWAYS** backup files before modifying (mental note of original content)
-- 🎯 **ALWAYS** follow the exact code examples from the report
-- ⏸️ **HALT** on any error and ask user for guidance
-- 📋 **FOCUS** exclusively on Docker Compose - Docker Swarm is OUT OF SCOPE
-- 🔧 **REUSE** existing health check endpoints when available
+If `{headless_mode}=true`:
+- Skip all confirmation prompts — auto-proceed through every action item
+- Halt only on errors that require human judgment (ambiguous code changes)
+- Generate JSON summary of all changes made alongside the updated compliance report
 
 ---
 
@@ -47,7 +41,9 @@ This uses **step-file architecture** for disciplined execution:
 
 ### 1. Configuration Loading
 
-Load and read full config from `{project-root}/_bmad/embrapa-io/config.yaml`.
+Load and read both config files:
+- `{project-root}/_bmad/config.yaml` (project and module settings)
+- `{project-root}/_bmad/config.user.yaml` (user settings)
 
 ### 2. Load Compliance Report
 
@@ -87,35 +83,6 @@ Load, read the full file and then execute `{workflow_path}/steps/step-01-validat
 
 ---
 
-## SCOPE BOUNDARIES
+## SCOPE & STACK
 
-### Allowed Modifications
-
-- docker-compose.yaml / docker-compose.yml
-- .env.example, .env.io.example, .env, .env.io
-- .embrapa/settings.json
-- LICENSE
-- Dockerfile(s)
-- bootstrap.sh
-- Sentry/Matomo configuration files
-- README.md (add compliance section only)
-
-### Forbidden Modifications
-
-- Application source code (except Sentry/Matomo integration points)
-- API routes or endpoints
-- Business logic
-- Database schemas
-- Test files
-- CI/CD configurations
-
----
-
-## TECHNOLOGY STACK ADAPTATION
-
-The workflow must:
-
-1. **Use code examples from the compliance report** (already adapted to stack)
-2. **Follow existing code conventions** in the project
-3. **Reuse existing dependencies** when possible
-4. **Preserve existing functionality** in all modified files
+Scope boundaries follow the agent's `<scope-boundaries>` definition. Additionally: this workflow also creates `.env`, `.env.io`, and `bootstrap.sh`. Use code examples from the compliance report (already adapted to stack), follow existing code conventions, and preserve existing functionality in all modified files.

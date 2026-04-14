@@ -57,7 +57,7 @@ After writing config, create any output directories that were configured. For fi
 
 ## Cleanup Legacy Directories
 
-After both merge scripts complete successfully, remove the installer's package directories. Skills and agents in these directories are already installed at `.claude/skills/` — the `_bmad/` directory should only contain config files.
+After both merge scripts complete successfully, remove the installer's package directories. Skills and agents in these directories are already installed at `.claude/skills/` — the `{project-root}/_bmad/` directory should only contain config files.
 
 ```bash
 python3 ./scripts/cleanup-legacy.py --bmad-dir "{project-root}/_bmad" --module-code embrapa-io --also-remove _config --skills-dir "{project-root}/.claude/skills"

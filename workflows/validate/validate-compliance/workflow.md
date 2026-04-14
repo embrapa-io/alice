@@ -1,10 +1,18 @@
 ---
 name: Validate Compliance
-description: Validação completa de conformidade com a plataforma Embrapa I/O, gerando relatórios detalhados em JSON e Markdown
+description: "DEPRECATED — Use [VC] Verify Compliance (menu da Alice) ou validate-compliance.py para validação automatizada. Este workflow será removido em versão futura."
 web_bundle: true
+deprecated: true
+superseded_by: verify-compliance
 ---
 
-# Validate Compliance Workflow
+> **DEPRECATED:** Este workflow foi substituído por:
+> - **[VC] Verify Compliance** — workflow principal da Alice com 6 steps, pre-computed validation, e headless mode
+> - **`validate-compliance.py`** — script que cobre todas as validações determinísticas (docker, env, settings, code, integrations, score) com output JSON
+>
+> Para migrar: use `alice → VC` para fluxo interativo, ou `uv run scripts/validate-compliance.py --project-path {project-root}` para validação automatizada.
+
+# Validate Compliance Workflow (Legacy)
 
 **Goal:** Executar validação completa de conformidade do projeto contra as regras da plataforma Embrapa I/O, incluindo as 4 Verdades Fundamentais, regra NO-FALLBACK, validação de Linter, e gerar relatórios detalhados com recomendações de correção.
 
