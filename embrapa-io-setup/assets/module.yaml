@@ -1,7 +1,7 @@
 code: embrapa-io
 name: "Embrapa I/O DevOps Compliance Module"
 description: "Módulo de conhecimento BMAD para conformidade com a plataforma Embrapa I/O - inclui agente Alice, workflows de setup, validação e templates para Docker, env files e settings"
-module_version: 1.26.4-6
+module_version: 1.26.4-7
 default_selected: true
 module_greeting: >
   Módulo Embrapa I/O instalado com sucesso! A agente Alice está pronta para ajudar com conformidade da plataforma.

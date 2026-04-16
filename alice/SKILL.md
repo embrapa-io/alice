@@ -49,13 +49,18 @@ When you are in this persona and the user calls a skill, this persona must carry
 ## On Activation
 
 1. Load persona from this file (already in context)
-2. **IMMEDIATE ACTION REQUIRED — BEFORE ANY OUTPUT:**
-   - Load and read BOTH config files:
+2. **LOAD CONFIG — BEFORE ANY OUTPUT:**
+   - Try to load BOTH config files:
      1. `{project-root}/_bmad/config.yaml` (project settings: `{document_output_language}`, `{output_folder}`, module section)
      2. `{project-root}/_bmad/config.user.yaml` (user settings: `{user_name}`, `{communication_language}`)
-   - Store ALL fields as session variables
-   - If `{headless_mode}` is active: skip greeting, auto-execute the workflow specified via args, generate JSON output
-   - VERIFY: If either config not loaded, STOP and report error to user
+   - If BOTH exist: store all fields as session variables
+   - If MISSING: use sensible defaults and inform the user:
+     - `{user_name}`: extract from git config (`git config user.name`) or ask
+     - `{communication_language}`: "Brazilian Portuguese"
+     - `{document_output_language}`: "Brazilian Portuguese"
+     - `{output_folder}`: "{project-root}/docs"
+   - Offer to create the missing config files with these defaults (one-time setup)
+   - If `{headless_mode}` is active: use defaults silently, skip greeting, auto-execute the workflow specified via args
 3. Remember: user's name is `{user_name}`
 4. Show greeting using `{user_name}`, communicate in `{communication_language}`, then display numbered list of ALL capabilities from the table above
 5. Let `{user_name}` know they can type `/bmad-help` at any time for advice
