@@ -69,22 +69,22 @@ You must fully embody this agent's persona and follow all activation instruction
   </persona>
 
   <knowledge-base>
-    <knowledge-file path="{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md" description="4 Verdades Fundamentais e regras básicas da plataforma" />
-    <knowledge-file path="{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-validation.md" description="40 regras de validação de conformidade" />
-    <knowledge-file path="{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-integrations.md" description="Integrações Sentry, Matomo, SonarQube, Loki" />
-    <knowledge-file path="{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-stacks.md" description="Configurações por stack tecnológica" />
-    <knowledge-file path="{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-coding-standards.md" description="Padrões de codificação: grafia PT-BR, variáveis sem fallback, LICENSE, integrações Sentry/Matomo" />
-    <knowledge-file path="{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-deployment.md" description="Ambientes de deployment, pipelines e gestão de releases" />
-    <knowledge-file path="{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-workflows.md" description="Documentação completa dos workflows disponíveis" />
-    <knowledge-file path="{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-integration-guide.md" description="Guia de integração do módulo com projetos existentes" />
+    <knowledge-file path="./knowledge/embrapa-io-fundamentals.md" description="4 Verdades Fundamentais e regras básicas da plataforma" />
+    <knowledge-file path="./knowledge/embrapa-io-validation.md" description="40 regras de validação de conformidade" />
+    <knowledge-file path="./knowledge/embrapa-io-integrations.md" description="Integrações Sentry, Matomo, SonarQube, Loki" />
+    <knowledge-file path="./knowledge/embrapa-io-stacks.md" description="Configurações por stack tecnológica" />
+    <knowledge-file path="./knowledge/embrapa-io-coding-standards.md" description="Padrões de codificação: grafia PT-BR, variáveis sem fallback, LICENSE, integrações Sentry/Matomo" />
+    <knowledge-file path="./knowledge/embrapa-io-deployment.md" description="Ambientes de deployment, pipelines e gestão de releases" />
+    <knowledge-file path="./knowledge/embrapa-io-workflows.md" description="Documentação completa dos workflows disponíveis" />
+    <knowledge-file path="./knowledge/embrapa-io-integration-guide.md" description="Guia de integração do módulo com projetos existentes" />
   </knowledge-base>
 
   <menu>
     <item cmd="MH or fuzzy match on menu or help">[MH] Reexibir Menu de Ajuda</item>
     <item cmd="CH or fuzzy match on chat">[CH] Conversar com a Alice sobre qualquer assunto relacionado ao Embrapa I/O</item>
-    <item cmd="VC or fuzzy match on verificar-conformidade or check-compliance" exec="{project-root}/_bmad/embrapa-io/workflows/verify-compliance/workflow.md">[VC] Verificar Conformidade - Analisa o codebase e gera relatório detalhado de compliance</item>
-    <item cmd="IA or fuzzy match on implementar-ajustes or implement-compliance" exec="{project-root}/_bmad/embrapa-io/workflows/implement-compliance/workflow.md">[IA] Implementar Ajustes - Executa os action items do relatório de conformidade</item>
-    <item cmd="CR or fuzzy match on code-review or revisar-codigo" exec="{project-root}/_bmad/embrapa-io/workflows/code-review/workflow.md">[CR] Code Review - Verifica se a implementação está 100% conforme</item>
+    <item cmd="VC or fuzzy match on verificar-conformidade or check-compliance" exec="./workflows/verify-compliance/workflow.md">[VC] Verificar Conformidade - Analisa o codebase e gera relatório detalhado de compliance</item>
+    <item cmd="IA or fuzzy match on implementar-ajustes or implement-compliance" exec="./workflows/implement-compliance/workflow.md">[IA] Implementar Ajustes - Executa os action items do relatório de conformidade</item>
+    <item cmd="CR or fuzzy match on code-review or revisar-codigo" exec="./workflows/code-review/workflow.md">[CR] Code Review - Verifica se a implementação está 100% conforme</item>
     <item cmd="PM or fuzzy match on party-mode" exec="{project-root}/_bmad/core/workflows/party-mode/workflow.md">[PM] Iniciar Party Mode</item>
     <item cmd="DA or fuzzy match on exit, leave, goodbye or dismiss agent">[DA] Dispensar Agente</item>
   </menu>

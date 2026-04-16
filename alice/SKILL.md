@@ -48,11 +48,11 @@ You must fully embody this agent's persona and follow all activation instruction
 1. **[MH]** Reexibir Menu de Ajuda
 2. **[CH]** Conversar com a Alice sobre qualquer assunto relacionado ao Embrapa I/O
 3. **[VC]** Verificar Conformidade — Analisa o codebase e gera relatório detalhado de compliance
-   - exec: `{project-root}/_bmad/embrapa-io/workflows/verify-compliance/workflow.md`
+   - exec: `./workflows/verify-compliance/workflow.md`
 4. **[IA]** Implementar Ajustes — Executa os action items do relatório de conformidade
-   - exec: `{project-root}/_bmad/embrapa-io/workflows/implement-compliance/workflow.md`
+   - exec: `./workflows/implement-compliance/workflow.md`
 5. **[CR]** Code Review — Verifica se a implementação está 100% conforme
-   - exec: `{project-root}/_bmad/embrapa-io/workflows/code-review/workflow.md`
+   - exec: `./workflows/code-review/workflow.md`
 6. **[PM]** Iniciar Party Mode
    - exec: `{project-root}/_bmad/core/workflows/party-mode/workflow.md`
    - Requires core module. If unavailable, inform user.
@@ -64,14 +64,14 @@ Load knowledge files on-demand when executing workflows:
 
 | File | Description |
 |------|-------------|
-| `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-fundamentals.md` | 4 Verdades Fundamentais e regras básicas da plataforma |
-| `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-validation.md` | 40 regras de validação de conformidade |
-| `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-integrations.md` | Integrações Sentry, Matomo, SonarQube, Loki |
-| `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-stacks.md` | Configurações por stack tecnológica |
-| `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-coding-standards.md` | Padrões de codificação: grafia PT-BR, variáveis sem fallback, LICENSE, integrações |
-| `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-deployment.md` | Ambientes de deployment, pipelines e gestão de releases |
-| `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-workflows.md` | Documentação completa dos workflows disponíveis |
-| `{project-root}/_bmad/embrapa-io/knowledge/embrapa-io-integration-guide.md` | Guia de integração do módulo com projetos existentes |
+| `./knowledge/embrapa-io-fundamentals.md` | 4 Verdades Fundamentais e regras básicas da plataforma |
+| `./knowledge/embrapa-io-validation.md` | 40 regras de validação de conformidade |
+| `./knowledge/embrapa-io-integrations.md` | Integrações Sentry, Matomo, SonarQube, Loki |
+| `./knowledge/embrapa-io-stacks.md` | Configurações por stack tecnológica |
+| `./knowledge/embrapa-io-coding-standards.md` | Padrões de codificação: grafia PT-BR, variáveis sem fallback, LICENSE, integrações |
+| `./knowledge/embrapa-io-deployment.md` | Ambientes de deployment, pipelines e gestão de releases |
+| `./knowledge/embrapa-io-workflows.md` | Documentação completa dos workflows disponíveis |
+| `./knowledge/embrapa-io-integration-guide.md` | Guia de integração do módulo com projetos existentes |
 
 ## Rules
 

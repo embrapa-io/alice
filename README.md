@@ -1,6 +1,6 @@
 # Embrapa I/O DevOps Compliance Module
 
-**Versão**: 1.26.4-4 | **Compatível com**: BMAD Core v6 | **Convenção de versão**: `1.YY.MM`
+**Versão**: 1.26.4-5 | **Compatível com**: BMAD Core v6 | **Convenção de versão**: `1.YY.MM`
 
 Módulo de conhecimento [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) para conformidade de aplicações com a plataforma [Embrapa I/O](https://embrapa.io). Inclui a agente **Alice**, 8 workflows especializados, 8 knowledge files, 6 templates e um script de validação automatizada.
 
@@ -266,35 +266,26 @@ O workflow `validate-compliance` em `workflows/validate/` foi **depreciado**. Su
 ## Project Structure
 
 ```
-_bmad/embrapa-io/
-├── alice/                    # Skill directory da agente Alice (instalado em .claude/skills/alice/)
-│   └── SKILL.md              # Entry point BMad padrão (persona, menu, headless, escopo)
-├── module.yaml               # Metadados do módulo (code, version, author)
-├── module-help.csv           # Capacidades registradas para roteamento BMad
-├── config.yaml               # Configurações da agente (legado, pré-migração)
-├── README.md                 # Esta documentação
-├── ROADMAP.md                # Planejamento de features futuras
-├── LICENSE                   # Licença do módulo
-├── scripts/                  # Scripts de validação automatizada
-│   └── validate-compliance.py  # Validação determinística (docker, env, settings, code)
-├── embrapa-io-setup/         # Skill de setup BMad-compliant
-│   ├── SKILL.md              # Skill de instalação/configuração
-│   ├── assets/               # module.yaml + module-help.csv
-│   └── scripts/              # Scripts de merge e cleanup
-├── agents/                   # Agentes especializados
-│   └── alice.md              # Alice - Especialista em Conformidade (formato XML)
-├── knowledge/                # Base de conhecimento (8 arquivos)
-├── templates/                # Templates reutilizáveis
-│   ├── docker-compose/       # Template base para docker-compose
-│   ├── env/                  # Templates .env e .env.io
-│   └── settings/             # Templates JSON por stack
-└── workflows/                # Workflows organizados por categoria (8 total)
-    ├── verify-compliance/    # [Alice] Verificação e relatório (6 steps)
-    ├── implement-compliance/ # [Alice] Implementação de ajustes (5 steps)
-    ├── code-review/          # [Alice] Validação de implementações (5 steps)
-    ├── references/           # Checklists compartilhados entre workflows
-    ├── setup/                # 4 workflows utilitários
-    └── validate/             # validate-compliance (DEPRECATED)
+embrapa-io/
+├── alice/                      # Skill self-contained (instalado em .claude/skills/alice/)
+│   ├── SKILL.md                # Entry point BMad (persona, menu, headless, escopo)
+│   ├── knowledge/              # Base de conhecimento (8 arquivos)
+│   ├── scripts/                # Scripts de validação automatizada
+│   │   └── validate-compliance.py
+│   ├── templates/              # Templates reutilizáveis
+│   └── workflows/              # 8 workflows
+│       ├── verify-compliance/  # [VC] 6 steps
+│       ├── implement-compliance/ # [IA] 5 steps
+│       ├── code-review/        # [CR] 5 steps
+│       ├── references/         # Checklists compartilhados
+│       ├── setup/              # 4 workflows utilitários
+│       └── validate/           # validate-compliance (DEPRECATED)
+├── module.yaml                 # Metadados do módulo
+├── module-help.csv             # Capacidades para roteamento BMad
+├── .claude-plugin/             # Registra ./alice como skill instalável
+├── agents/alice.md             # Definição legada (formato XML)
+├── embrapa-io-setup/           # Skill de setup (uso manual)
+├── README.md / CLAUDE.md / ROADMAP.md / LICENSE
 ```
 
 ## Configuração de .gitignore
@@ -351,6 +342,6 @@ _bmad-output/
 ### Histórico
 
 - **2026-04-14**: Quality analysis e otimizações — SKILL.md na raiz, `validate-compliance.py` (1892 linhas, 29 testes), modo headless, config consolidado, depreciação VCL, cobertura NO-FALLBACK/Linter no VC/CR, checklists compartilhados, cobertura `.gitignore` expandida (`.env.sh` + diretórios AI)
-- **2026-03-30**: v1.26.4-4 — Validação de módulo, criação de module-help.csv, consolidação de metadados
+- **2026-03-30**: v1.26.4-5 — Validação de módulo, criação de module-help.csv, consolidação de metadados
 - **2026-01-20**: Transformação em AGENTE com criação da Alice e 3 workflows principais
 - **2025-12-17**: Auditoria e certificação BMAD v6 Excellence como módulo
