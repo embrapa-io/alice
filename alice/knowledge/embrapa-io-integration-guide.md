@@ -1,6 +1,6 @@
 # Guia de Integração - Módulo Embrapa I/O
 
-**Versão**: 1.26.4-7
+**Versão**: 1.26.4-8
 **Última atualização**: 2026-03-30
 **Propósito**: Instruir agentes BMAD sobre como criar aplicações aderentes ao Embrapa I/O
 
@@ -307,6 +307,6 @@ O mesmo padrão se aplica para **qualquer linguagem ou framework**:
 
 ---
 
-**Versão**: 1.26.4-7
+**Versão**: 1.26.4-8
 **Autor**: Módulo Embrapa I/O BMAD
 **Mantido por**: Camilo Carromeu

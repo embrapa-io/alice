@@ -41,9 +41,7 @@ Se `{headless_mode}=true`:
 
 ### 1. Configuration Loading
 
-Load and read both config files:
-- `{project-root}/_bmad/config.yaml` (project and module settings)
-- `{project-root}/_bmad/config.user.yaml` (user settings)
+Load config: try `{project-root}/_bmad/embrapa-io/config.yaml` first, fall back to `{project-root}/_bmad/config.yaml` + `config.user.yaml`. Use session defaults if neither exists.
 
 Resolve:
 
