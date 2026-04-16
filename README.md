@@ -16,20 +16,27 @@ Alice suporta **modo headless** (`-H`) para automação CI/CD, utiliza um **scri
 
 ### 1. Instalação
 
-Primeiramente, [instale o _framework_ do **BMAD Method**](https://github.com/bmad-code-org/BMAD-METHOD) em seu projeto (utilize a **Versão 6**).
-
-Em seguida, clone este repositório:
+A agente é instalada juntamente com o _framework_ [**BMAD Method**](https://github.com/bmad-code-org/BMAD-METHOD):
 
 ```bash
-git clone https://github.com/embrapa-io/alice.git _bmad/embrapa-io
+cd ~/projects/my-project/my-app
+npx bmad-method install
 ```
+
+No passo `Select official modules to install`, selecione "**BMad Method Agile-AI Driven-Development**".
+
+Em seguida, no passo: `Would you like to install from a custom source (Git URL or local path)?`, selecione "**Yes**".
+
+Por fim, em `Git URL or local path:` coloque a URL deste repositório: "**https://github.com/embrapa-io/alice**".
+
+Continue a instalação auto-guiada até finalizar. A _skill_ da agente será instalada junto com os demais agentes BMAD. 
 
 ### 2. Invocar a Alice
 
 Inicie seu assistente de codificação em IA (Claude Code, Gemini CLI, OpenCode, GitHub Copilot, Codex, etc) e invoque a Alice:
 
 ```
-/bmad:embrapa-io:agents:alice
+/alice
 ```
 
 ### 3. Seguir o Fluxo
