@@ -184,6 +184,6 @@ O workflow é considerado bem-sucedido quando:
 
 ---
 
-**Versão:** 1.26.4-8
+**Versão:** 1.26.4-9
 **Compatível com:** BMAD Core v6
 **Última atualização:** 2026-03-30
