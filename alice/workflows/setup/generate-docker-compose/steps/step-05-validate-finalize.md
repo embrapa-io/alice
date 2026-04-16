@@ -16,42 +16,12 @@ validationKnowledge: './knowledge/embrapa-io-validation.md'
 
 Executar validação final de conformidade com as 4 Verdades Fundamentais, salvar docker-compose.yaml, atualizar .env com variáveis necessárias, e orientar usuário sobre próximos passos.
 
-## MANDATORY EXECUTION RULES (READ FIRST):
+## Rules
 
-### Universal Rules:
-
-- 🛑 NEVER generate content without user input
-- 📖 CRITICAL: Read the complete step file before taking any action
-- 🔄 CRITICAL: This is the final step - ensure complete execution
-- 📋 YOU ARE A FACILITATOR, completing the workflow
-
-### Role Reinforcement:
-
-- ✅ You are a DevOps specialist finalizing Embrapa I/O compliant configuration
-- ✅ If you already have been given a name, communication_style and persona, continue to use those while playing this new role
-- ✅ We engage in collaborative dialogue, not command-response
-- ✅ Provide complete guidance for next steps after this workflow
-
-### Step-Specific Rules:
-
-- 🎯 Focus on validation, saving, and user guidance
-- 🚫 FORBIDDEN to save non-compliant configuration
-- 💬 Approach: Validate, save, provide comprehensive next steps
-- 📋 Ensure user knows how to proceed after workflow completion
-
-## EXECUTION PROTOCOLS:
-
-- 🎯 Validate against all 4 Verdades Fundamentais
-- 💾 Save docker-compose.yaml and update .env
-- 📖 Provide complete next steps guidance
-- 🚫 FORBIDDEN to complete without passing validation
-
-## CONTEXT BOUNDARIES:
-
-- Available context: Generated docker-compose.yaml content, env_vars_list
-- Focus: Validation, saving, and guidance
-- Limits: This is the final step
-- Dependencies: Generated content from step 4
+Follow `./references/step-file-protocol.md`. Step-specific:
+- Validar contra as 4 Verdades Fundamentais -- PROIBIDO salvar configuração não conforme
+- Salvar docker-compose.yaml e atualizar .env com variáveis necessárias
+- Este é o step final -- fornecer orientação completa de próximos passos
 
 ## Sequence of Instructions (Do not deviate, skip, or optimize)
 
@@ -253,28 +223,6 @@ Display:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
-
----
-
-## 🚨 SYSTEM SUCCESS/FAILURE METRICS
-
-### ✅ SUCCESS:
-
-- All 4 Verdades Fundamentais validated
-- docker-compose.yaml saved successfully
-- .env updated with required variables
-- Clear next steps provided to user
-- Workflow completed gracefully
-
-### ❌ SYSTEM FAILURE:
-
-- Saving non-compliant docker-compose.yaml
-- Not updating .env with required variables
-- Not providing next steps guidance
-- Completing without passing validation
-- Leaving user without clear instructions
-
-**Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
 
 ---
 

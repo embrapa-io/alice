@@ -9,11 +9,12 @@ description: 'Finalizar implementação e orientar próximos passos'
 
 Finalizar o workflow de implementação, atualizar o relatório de conformidade com status dos action items, e orientar o usuário sobre os próximos passos.
 
-## MANDATORY EXECUTION RULES:
+## Rules
 
-- 🛑 MUST update the compliance report with completion status
-- 📖 MUST provide clear next steps
-- 📋 MUST emphasize the need for a NEW SESSION for code review
+Follow `./references/step-file-protocol.md`. Step-specific:
+- MUST update the compliance report with completion status
+- MUST provide clear next steps
+- MUST emphasize the need for a NEW SESSION for code review
 
 ## Sequence of Instructions
 

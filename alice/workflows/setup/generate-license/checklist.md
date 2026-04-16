@@ -124,7 +124,7 @@ All rights reserved.
 
 ---
 
-**Checklist Version**: 1.26.4-5
+**Checklist Version**: 1.26.4-6
 **Última atualização**: 2026-03-30
 **Módulo**: embrapa-io/setup/generate-license
 **Execução**: Silenciosa (sem interação)

@@ -25,6 +25,7 @@ This uses **step-file architecture** for disciplined execution:
 - Read each step file completely before acting; document all findings with file paths and evidence
 - Only verify Embrapa I/O compliance — do NOT review code quality, security, or maintainability
 - Update the compliance report with final status after each verification
+- **State persistence**: After each step, write pass/fail results to disk per `./references/state-persistence.md`. Enables recovery from interrupted reviews.
 
 ---
 

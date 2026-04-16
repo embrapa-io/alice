@@ -16,11 +16,12 @@ If `validate-compliance.py` JSON output is available, use `checks.settings` resu
 
 **Reference checklist:** `{workflow_path}/../references/settings-validation-checklist.md`
 
-## MANDATORY EXECUTION RULES:
+## Rules
 
-- 🛑 NEVER skip any validation rule
-- 📖 Validate JSON syntax first (unless pre-computed)
-- 📋 Check all mandatory fields
+Follow `./references/step-file-protocol.md`. Step-specific:
+- NEVER skip any validation rule
+- Validate JSON syntax first (unless pre-computed)
+- Check all mandatory fields
 
 ## Sequence of Instructions
 
@@ -205,6 +206,3 @@ Display: "**Select an Option:** [C] Continue to Integrations Validation [X] Exit
 - IF C: Store settings_findings, then load, read entire file, then execute {nextStepFile}
 - IF X: End workflow gracefully
 
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected will you then load and read fully `{nextStepFile}` to continue validation.

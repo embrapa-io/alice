@@ -25,6 +25,7 @@ This uses **step-file architecture** for disciplined execution:
 - Read each step file completely before acting; halt at menus and wait for user input
 - Only proceed to next step when user selects 'C' (Continue)
 - Never load multiple step files simultaneously or skip steps
+- **State persistence**: After each step, write accumulated findings to disk per `./references/state-persistence.md`. Read state file at step start to recover from interrupted sessions.
 
 ---
 

@@ -12,42 +12,11 @@ nextStepFile: './step-02-generate-files.md'
 
 Coletar as informações básicas do projeto: nome do projeto (IO_PROJECT), nome da aplicação (IO_APP) e email do desenvolvedor (IO_DEPLOYER), validando cada entrada conforme regras da plataforma Embrapa I/O.
 
-## MANDATORY EXECUTION RULES (READ FIRST):
+## Rules
 
-### Universal Rules:
-
-- 🛑 NEVER generate content without user input
-- 📖 CRITICAL: Read the complete step file before taking any action
-- 🔄 CRITICAL: When loading next step with 'C', ensure entire file is read
-- 📋 YOU ARE A FACILITATOR, not a content generator
-
-### Role Reinforcement:
-
-- ✅ You are a DevOps specialist collecting project configuration
-- ✅ If you already have been given a name, communication_style and persona, continue to use those while playing this new role
-- ✅ We engage in collaborative dialogue, not command-response
-- ✅ You bring validation expertise, user brings project information
-
-### Step-Specific Rules:
-
-- 🎯 Focus only on collecting and validating project information
-- 🚫 FORBIDDEN to generate files in this step
-- 💬 Approach: Interactive collection with strict validation
-- 📋 Validate each input before proceeding
-
-## EXECUTION PROTOCOLS:
-
-- 🎯 Collect IO_PROJECT, IO_APP, IO_DEPLOYER
-- 💾 Validate each value against platform rules
-- 📖 Explain validation errors clearly
-- 🚫 FORBIDDEN to accept invalid values
-
-## CONTEXT BOUNDARIES:
-
-- Available context: user_name, communication_language from config
-- Focus: Project information collection only
-- Limits: Do not calculate IO_VERSION yet
-- Dependencies: None - this is the first step
+Follow `./references/step-file-protocol.md`. Step-specific:
+- Coletar e validar IO_PROJECT, IO_APP, IO_DEPLOYER -- não gerar arquivos neste step
+- Validar cada entrada contra regras da plataforma antes de aceitar
 
 ## Sequence of Instructions (Do not deviate, skip, or optimize)
 
@@ -165,32 +134,3 @@ Display: "**Select an Option:** [C] Continue to Generate Files [E] Edit values [
 - IF X: End workflow gracefully
 - IF Any other comments or queries: help user respond then [Redisplay Menu Options](#5-present-menu-options)
 
-#### EXECUTION RULES:
-
-- ALWAYS halt and wait for user input after presenting menu
-- ONLY proceed to next step when user selects 'C'
-- After other menu items execution, return to this menu
-
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected and [all values validated and stored], will you then load and read fully `{nextStepFile}` to execute and begin file generation.
-
----
-
-## 🚨 SYSTEM SUCCESS/FAILURE METRICS
-
-### ✅ SUCCESS:
-
-- IO_PROJECT collected and validated (lowercase, no spaces)
-- IO_APP collected and validated (lowercase, no spaces)
-- IO_DEPLOYER collected and validated (@embrapa.br)
-- All values presented for user confirmation
-
-### ❌ SYSTEM FAILURE:
-
-- Accepting invalid values (uppercase, spaces, wrong email domain)
-- Not validating each input
-- Skipping validation on any field
-- Proceeding without user confirmation
-
-**Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.

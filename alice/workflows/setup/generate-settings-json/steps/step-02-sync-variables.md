@@ -19,43 +19,12 @@ settingsFile: '{project-root}/.embrapa/settings.json'
 
 Ler todas as variáveis definidas nos arquivos .env, .env.example, .env.io e .env.io.example, comparar com as variáveis em .embrapa/settings.json (se existir), e garantir sincronização completa.
 
-## MANDATORY EXECUTION RULES (READ FIRST):
+## Rules
 
-### Universal Rules:
-
-- 🛑 NEVER generate content without user input
-- 📖 CRITICAL: Read the complete step file before taking any action
-- 🔄 CRITICAL: When loading next step with 'C', ensure entire file is read
-- 📋 YOU ARE A FACILITATOR, ensuring variable consistency
-
-### Role Reinforcement:
-
-- ✅ You are a platform configuration specialist ensuring variable sync
-- ✅ If you already have been given a name, communication_style and persona, continue to use those while playing this new role
-- ✅ We engage in collaborative dialogue, not command-response
-- ✅ You bring expertise in environment variable management
-
-### Step-Specific Rules:
-
-- 🎯 Focus on reading and comparing variables across files
-- 🚫 FORBIDDEN to modify any files in this step
-- 💬 Approach: Read, compare, report discrepancies
-- 📋 Variables from .env.io are PLATFORM variables (IO_*)
-- 📋 Variables from .env are APPLICATION variables
-
-## EXECUTION PROTOCOLS:
-
-- 🎯 Read all .env* files and extract variable names
-- 💾 Read settings.json if exists and extract variables.default
-- 📖 Compare and identify discrepancies
-- 🚫 FORBIDDEN to skip any source file
-
-## CONTEXT BOUNDARIES:
-
-- Available context: selected_platform, io_project, io_app from step 1
-- Focus: Variable synchronization analysis only
-- Limits: Do not collect project metadata yet
-- Dependencies: Stack detection from step 1
+Follow `./references/step-file-protocol.md`. Step-specific:
+- PROIBIDO modificar arquivos neste step -- apenas ler, comparar, reportar discrepâncias
+- Variáveis .env.io = PLATAFORMA (IO_*), variáveis .env = APLICAÇÃO
+- Identificar discrepâncias e propor plano de sincronização
 
 ## Sequence of Instructions (Do not deviate, skip, or optimize)
 
@@ -267,33 +236,3 @@ Display: "**Select an Option:** [C] Continue to Project Info [R] Refazer anális
 - IF X: End workflow gracefully
 - IF Any other comments or queries: help user respond then [Redisplay Menu Options](#8-present-menu-options)
 
-#### EXECUTION RULES:
-
-- ALWAYS halt and wait for user input after presenting menu
-- ONLY proceed to next step when user selects 'C'
-
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected and [sync plan confirmed], will you then load and read fully `{nextStepFile}` to execute and begin project info collection.
-
----
-
-## 🚨 SYSTEM SUCCESS/FAILURE METRICS
-
-### ✅ SUCCESS:
-
-- All .env files read and parsed
-- Variables correctly extracted from each source
-- Discrepancies clearly identified with origin
-- User informed of sync plan
-- Variables typed correctly based on naming convention
-
-### ❌ SYSTEM FAILURE:
-
-- Missing any .env source file in analysis
-- Not identifying discrepancies
-- Not asking user how to handle discrepancies
-- Proceeding without sync plan confirmation
-- Wrong variable type inference
-
-**Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.

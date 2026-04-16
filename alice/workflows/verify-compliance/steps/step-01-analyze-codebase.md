@@ -10,12 +10,12 @@ nextStepFile: './step-02-validate-docker.md'
 
 Realizar análise inicial do codebase para detectar a stack tecnológica, estrutura existente, e preparar o contexto para validação de conformidade.
 
-## MANDATORY EXECUTION RULES:
+## Rules
 
-- 🛑 NEVER proceed without completing all analysis tasks
-- 📖 READ entire step before taking any action
-- 📋 DOCUMENT all findings in context for next steps
-- 🔧 FOCUS on detection, not modification
+Follow `./references/step-file-protocol.md`. Step-specific:
+- NEVER proceed without completing all analysis tasks
+- DOCUMENT all findings in context for next steps
+- FOCUS on detection, not modification
 
 ## Sequence of Instructions
 
@@ -150,11 +150,3 @@ Display: "**Select an Option:** [C] Continue to Docker Validation [X] Exit workf
 - IF C: Store all findings, then load, read entire file, then execute {nextStepFile}
 - IF X: End workflow gracefully, inform user they can restart later
 
-#### EXECUTION RULES:
-
-- ALWAYS halt and wait for user input after presenting menu
-- ONLY proceed to next step when user selects 'C'
-
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected will you then load and read fully `{nextStepFile}` to continue validation.

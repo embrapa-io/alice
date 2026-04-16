@@ -25,6 +25,7 @@ This uses **step-file architecture** for disciplined execution:
 - Read each step file completely before acting; verify each change before proceeding
 - Never modify functional code unless absolutely necessary for Sentry/Matomo; never create new endpoints
 - Halt on any error and ask user for guidance; reuse existing health check endpoints
+- **State persistence**: After each step, write progress to disk per `./references/state-persistence.md`. Track completed action items for recovery.
 
 ---
 

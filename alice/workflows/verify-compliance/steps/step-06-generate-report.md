@@ -9,12 +9,13 @@ description: 'Gerar relatório final de conformidade em {output_folder}/embrapa-
 
 Consolidar todos os findings e gerar o relatório final de conformidade em `{output_folder}/embrapa-io-compliance.md` com action items claros para implementação por assistentes de codificação em IA.
 
-## MANDATORY EXECUTION RULES:
+## Rules
 
-- 🛑 MUST generate the complete report file
-- 📖 Action items MUST be specific, implementable, and include code examples
-- 📋 Code examples MUST be adapted to the project's technology stack
-- 🎯 Report MUST be readable by both humans and AI coding assistants
+Follow `./references/step-file-protocol.md`. Step-specific:
+- MUST generate the complete report file
+- Action items MUST be specific, implementable, and include code examples
+- Code examples MUST be adapted to the project's technology stack
+- Report MUST be readable by both humans and AI coding assistants
 
 ## Sequence of Instructions
 

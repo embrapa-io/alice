@@ -12,42 +12,12 @@ nextStepFile: './step-04-generate-compose.md'
 
 Coletar todas as configurações específicas necessárias para gerar o docker-compose.yaml: portas, healthcheck endpoint, portas adicionais e serviços CLI opcionais.
 
-## MANDATORY EXECUTION RULES (READ FIRST):
+## Rules
 
-### Universal Rules:
-
-- 🛑 NEVER generate content without user input
-- 📖 CRITICAL: Read the complete step file before taking any action
-- 🔄 CRITICAL: When loading next step with 'C', ensure entire file is read
-- 📋 YOU ARE A FACILITATOR, not a content generator
-
-### Role Reinforcement:
-
-- ✅ You are a DevOps specialist collecting container configuration
-- ✅ If you already have been given a name, communication_style and persona, continue to use those while playing this new role
-- ✅ We engage in collaborative dialogue, not command-response
-- ✅ You bring Docker expertise, user brings application requirements
-
-### Step-Specific Rules:
-
-- 🎯 Focus only on collecting configuration values
-- 🚫 FORBIDDEN to generate docker-compose.yaml in this step
-- 💬 Approach: Interactive collection with validation
-- 📋 Validate all inputs before storing
-
-## EXECUTION PROTOCOLS:
-
-- 🎯 Collect port configuration with validation
-- 💾 Store all config values for next step
-- 📖 Explain each configuration option clearly
-- 🚫 FORBIDDEN to proceed with invalid port numbers
-
-## CONTEXT BOUNDARIES:
-
-- Available context: IO_* variables, selected_stack, selected_database from previous steps
-- Focus: Configuration collection only
-- Limits: Do not generate any files yet
-- Dependencies: Stack and database confirmed in step 2
+Follow `./references/step-file-protocol.md`. Step-specific:
+- Coletar portas, healthcheck, serviços CLI -- não gerar docker-compose.yaml neste step
+- Validar portas (1-65535) antes de aceitar -- PROIBIDO aceitar portas inválidas
+- Coleta interativa com validação de cada entrada
 
 ## Sequence of Instructions (Do not deviate, skip, or optimize)
 
@@ -176,34 +146,3 @@ Display: "**Select an Option:** [C] Continue to Generate [B] Back to edit config
 - IF X: End workflow gracefully
 - IF Any other comments or queries: help user respond then [Redisplay Menu Options](#6-present-menu-options)
 
-#### EXECUTION RULES:
-
-- ALWAYS halt and wait for user input after presenting menu
-- ONLY proceed to next step when user selects 'C'
-- After other menu items execution, return to this menu
-
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected and [all configuration values collected and validated], will you then load and read fully `{nextStepFile}` to execute and begin docker-compose.yaml generation.
-
----
-
-## 🚨 SYSTEM SUCCESS/FAILURE METRICS
-
-### ✅ SUCCESS:
-
-- Main port collected and validated
-- Additional ports parsed correctly (if provided)
-- Healthcheck endpoint confirmed
-- CLI services preference recorded
-- All values presented for user confirmation
-
-### ❌ SYSTEM FAILURE:
-
-- Accepting invalid port numbers
-- Not validating port range
-- Skipping healthcheck configuration
-- Not presenting summary before proceeding
-- Proceeding without user confirmation
-
-**Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.

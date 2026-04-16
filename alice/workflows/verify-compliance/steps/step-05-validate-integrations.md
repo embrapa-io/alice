@@ -14,13 +14,14 @@ Validar integrações (Sentry, Matomo), regra NO-FALLBACK de variáveis de ambie
 
 If `validate-compliance.py` JSON output is available, use `checks.code` (NO-FALLBACK, LICENSE) and `checks.integrations` (Sentry, Matomo detection) results directly. Focus LLM effort on generating stack-specific remediation code examples.
 
-## MANDATORY EXECUTION RULES:
+## Rules
 
-- 🚨 Integrações Sentry e Matomo são **OBRIGATÓRIAS** para codebases com código-fonte
-- 🚨 NO-FALLBACK: Variáveis de ambiente NUNCA devem ter valores padrão (fallback) — severidade CRITICAL
-- ❌ Integrações NÃO se aplicam a serviços de prateleira (Nginx Proxy Manager, Directus, MinIO, etc.)
-- 📖 Adaptar à stack tecnológica detectada
-- 📋 Fornecer exemplos de código específicos para a stack
+Follow `./references/step-file-protocol.md`. Step-specific:
+- Integrações Sentry e Matomo são **OBRIGATÓRIAS** para codebases com código-fonte
+- NO-FALLBACK: Variáveis de ambiente NUNCA devem ter valores padrão (fallback) -- severidade CRITICAL
+- Integrações NÃO se aplicam a serviços de prateleira (Nginx Proxy Manager, Directus, MinIO, etc.)
+- Adaptar à stack tecnológica detectada
+- Fornecer exemplos de código específicos para a stack
 
 ### Determinação de Tipo de Projeto
 
@@ -269,6 +270,3 @@ Display: "**Select an Option:** [C] Continue to Generate Report [X] Exit workflo
 - IF C: Store integration_findings, then load, read entire file, then execute {nextStepFile}
 - IF X: End workflow gracefully
 
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected will you then load and read fully `{nextStepFile}` to generate the compliance report.

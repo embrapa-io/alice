@@ -9,11 +9,12 @@ description: 'Consolidar resultados e atualizar relatório de conformidade'
 
 Consolidar todos os resultados do code review, atualizar o relatório de conformidade com o status final, e marcar todos os action items como completos (se aprovados).
 
-## MANDATORY EXECUTION RULES:
+## Rules
 
-- 🛑 MUST calculate overall PASS/FAIL
-- 📖 MUST update compliance report with review results
-- 📋 MUST mark action items as complete if all passed
+Follow `./references/step-file-protocol.md`. Step-specific:
+- MUST calculate overall PASS/FAIL
+- MUST update compliance report with review results
+- MUST mark action items as complete if all passed
 
 ## Sequence of Instructions
 

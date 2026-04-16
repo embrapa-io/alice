@@ -18,42 +18,12 @@ fundamentalsKnowledge: './knowledge/embrapa-io-fundamentals.md'
 
 Gerar o arquivo docker-compose.yaml aplicando todas as configurações coletadas e garantindo 100% de conformidade com as 4 Verdades Fundamentais da plataforma Embrapa I/O.
 
-## MANDATORY EXECUTION RULES (READ FIRST):
+## Rules
 
-### Universal Rules:
-
-- 🛑 NEVER generate content without user input
-- 📖 CRITICAL: Read the complete step file before taking any action
-- 🔄 CRITICAL: When loading next step with 'C', ensure entire file is read
-- 📋 YOU ARE A FACILITATOR, not a content generator
-
-### Role Reinforcement:
-
-- ✅ You are a DevOps specialist generating Embrapa I/O compliant Docker configuration
-- ✅ If you already have been given a name, communication_style and persona, continue to use those while playing this new role
-- ✅ We engage in collaborative dialogue, not command-response
-- ✅ You bring Docker Compose expertise and Embrapa I/O knowledge
-
-### Step-Specific Rules:
-
-- 🎯 Focus on generating valid, compliant docker-compose.yaml
-- 🚫 FORBIDDEN to violate any of the 4 Verdades Fundamentais
-- 💬 Approach: Generate, validate internally, present to user
-- 📋 All ports and volumes MUST use environment variables
-
-## EXECUTION PROTOCOLS:
-
-- 🎯 Apply 4 Verdades Fundamentais strictly
-- 💾 Generate .env variables for ports and volumes
-- 📖 Explain generated configuration to user
-- 🚫 FORBIDDEN to hardcode ports on host side
-
-## CONTEXT BOUNDARIES:
-
-- Available context: All config from previous steps
-- Focus: docker-compose.yaml generation
-- Limits: Do not save file yet - present for review first
-- Dependencies: All configuration values from steps 1-3
+Follow `./references/step-file-protocol.md`. Step-specific:
+- Gerar docker-compose.yaml aplicando as 4 Verdades Fundamentais -- PROIBIDO violar qualquer uma
+- Todas as portas e volumes DEVEM usar variáveis de ambiente -- PROIBIDO hardcode no host
+- Apresentar conteúdo ao usuário antes de salvar (não salvar neste step)
 
 ## Sequence of Instructions (Do not deviate, skip, or optimize)
 
@@ -274,38 +244,3 @@ Display: "**Select an Option:** [C] Continue to Validation [E] Edit configuratio
 - IF X: End workflow gracefully
 - IF Any other comments or queries: help user respond then [Redisplay Menu Options](#8-present-menu-options)
 
-#### EXECUTION RULES:
-
-- ALWAYS halt and wait for user input after presenting menu
-- ONLY proceed to next step when user selects 'C'
-- After other menu items execution, return to this menu
-
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected and [docker-compose.yaml content generated and presented], will you then load and read fully `{nextStepFile}` to execute validation and file saving.
-
----
-
-## 🚨 SYSTEM SUCCESS/FAILURE METRICS
-
-### ✅ SUCCESS:
-
-- 4 Verdades Fundamentais applied correctly
-- No 'version' field in generated content
-- Network 'stack' with external: true
-- All volumes with external: true
-- No container_name in any service
-- All host ports using environment variables
-- Complete content presented to user
-
-### ❌ SYSTEM FAILURE:
-
-- Including 'version' field
-- Network without external: true
-- Volumes without external: true
-- Any service with container_name
-- Hardcoded ports on host side
-- Not presenting generated content before saving
-- Proceeding without user confirmation
-
-**Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.

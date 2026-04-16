@@ -18,12 +18,13 @@ If JSON output is NOT available, perform manual validation per the checklist bel
 
 **Reference checklist:** `{workflow_path}/../references/docker-validation-checklist.md`
 
-## MANDATORY EXECUTION RULES:
+## Rules
 
-- 🛑 NEVER skip any validation rule
-- 📖 READ entire docker-compose file before validating (unless pre-computed)
-- 📋 DOCUMENT every finding with file path, line number, and severity
-- 🔧 FOCUS on Docker Compose only - Docker Swarm is OUT OF SCOPE
+Follow `./references/step-file-protocol.md`. Step-specific:
+- NEVER skip any validation rule
+- READ entire docker-compose file before validating (unless pre-computed)
+- DOCUMENT every finding with file path, line number, and severity
+- FOCUS on Docker Compose only - Docker Swarm is OUT OF SCOPE
 
 ## Sequence of Instructions
 
@@ -259,6 +260,3 @@ Display: "**Select an Option:** [C] Continue to Env Validation [X] Exit workflow
 - IF C: Store docker_findings, then load, read entire file, then execute {nextStepFile}
 - IF X: End workflow gracefully
 
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected will you then load and read fully `{nextStepFile}` to continue validation.

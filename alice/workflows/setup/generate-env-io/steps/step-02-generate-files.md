@@ -16,42 +16,12 @@ envIoExampleOutput: '{project-root}/.env.io.example'
 
 Calcular as variáveis automáticas (COMPOSE_PROJECT_NAME, IO_VERSION) e gerar os arquivos .env.io e .env.io.example conforme template da plataforma Embrapa I/O.
 
-## MANDATORY EXECUTION RULES (READ FIRST):
+## Rules
 
-### Universal Rules:
-
-- 🛑 NEVER generate content without user input
-- 📖 CRITICAL: Read the complete step file before taking any action
-- 🔄 CRITICAL: When loading next step with 'C', ensure entire file is read
-- 📋 YOU ARE A FACILITATOR, not a content generator
-
-### Role Reinforcement:
-
-- ✅ You are a DevOps specialist generating environment configuration
-- ✅ If you already have been given a name, communication_style and persona, continue to use those while playing this new role
-- ✅ We engage in collaborative dialogue, not command-response
-- ✅ You bring Embrapa I/O configuration expertise
-
-### Step-Specific Rules:
-
-- 🎯 Focus on calculating automatic values and generating files
-- 🚫 FORBIDDEN to use wrong date format for IO_VERSION
-- 💬 Approach: Calculate, generate, present for review
-- 📋 IO_VERSION format: 0.YY.M-dev.1 (YY=2 digit year, M=month without leading zero)
-
-## EXECUTION PROTOCOLS:
-
-- 🎯 Calculate automatic variables from current date
-- 💾 Generate both .env.io and .env.io.example
-- 📖 Present generated content for review
-- 🚫 FORBIDDEN to use hardcoded dates
-
-## CONTEXT BOUNDARIES:
-
-- Available context: io_project, io_app, io_deployer from step 1
-- Focus: Calculation and file generation
-- Limits: Present content before saving
-- Dependencies: All values from step 1
+Follow `./references/step-file-protocol.md`. Step-specific:
+- Calcular variáveis automáticas e gerar conteúdo dos arquivos .env.io e .env.io.example
+- IO_VERSION formato: 0.YY.M-dev.1 (YY=ano 2 dígitos, M=mês sem zero à esquerda) -- NUNCA usar datas hardcoded
+- Apresentar conteúdo ao usuário antes de salvar
 
 ## Sequence of Instructions (Do not deviate, skip, or optimize)
 
@@ -180,34 +150,3 @@ Display: "**Select an Option:** [C] Continue to Save Files [E] Edit values [X] E
 - IF X: End workflow gracefully
 - IF Any other comments or queries: help user respond then [Redisplay Menu Options](#5-present-menu-options)
 
-#### EXECUTION RULES:
-
-- ALWAYS halt and wait for user input after presenting menu
-- ONLY proceed to next step when user selects 'C'
-- After other menu items execution, return to this menu
-
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected and [generated content reviewed by user], will you then load and read fully `{nextStepFile}` to execute and save files.
-
----
-
-## 🚨 SYSTEM SUCCESS/FAILURE METRICS
-
-### ✅ SUCCESS:
-
-- Current date correctly extracted from system
-- IO_VERSION format correct (0.YY.M-dev.1)
-- COMPOSE_PROJECT_NAME correctly calculated
-- Both file contents generated
-- Content presented for user review
-
-### ❌ SYSTEM FAILURE:
-
-- Using wrong IO_VERSION format (0.YYYY.MM instead of 0.YY.M)
-- Using hardcoded dates
-- Not calculating from current system date
-- Not presenting content before saving
-- Proceeding without user confirmation
-
-**Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.

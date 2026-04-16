@@ -10,13 +10,14 @@ nextStepFile: './step-05-finalize.md'
 
 Criar os arquivos `.env` e `.env.io` a partir dos templates `.env.example` e `.env.io.example`, gerando valores aleatórios para secrets e hashes. Criar o script `bootstrap.sh` para preparar o ambiente.
 
-## MANDATORY EXECUTION RULES:
+## Rules
 
-- 🛑 MUST create .env from .env.example
-- 🛑 MUST create .env.io from .env.io.example
-- 📖 GENERATE random values for PASSWORD, SECRET types
-- 📋 CREATE bootstrap.sh with network/volume creation
-- 🔧 CALCULATE correct IO_VERSION format
+Follow `./references/step-file-protocol.md`. Step-specific:
+- MUST create .env from .env.example
+- MUST create .env.io from .env.io.example
+- GENERATE random values for PASSWORD, SECRET types
+- CREATE bootstrap.sh with network/volume creation
+- CALCULATE correct IO_VERSION format
 
 ## Sequence of Instructions
 
@@ -341,6 +342,3 @@ Display: "**Select an Option:** [C] Continue to Finalize [X] Exit"
 - IF C: Store all created files info, then load, read entire file, then execute {nextStepFile}
 - IF X: End workflow with current progress
 
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected will you proceed to finalize the implementation.

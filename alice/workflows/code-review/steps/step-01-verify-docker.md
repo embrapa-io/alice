@@ -18,12 +18,13 @@ If JSON output is NOT available, perform manual verification per the checklist b
 
 **Reference checklist:** `{workflow_path}/../references/docker-validation-checklist.md`
 
-## MANDATORY EXECUTION RULES:
+## Rules
 
-- 🛑 PASS/FAIL each verification clearly
-- 📖 Reference specific lines in files (unless pre-computed)
-- 📋 Compare against compliance report action items
-- 🔧 Do NOT suggest improvements beyond compliance
+Follow `./references/step-file-protocol.md`. Step-specific:
+- PASS/FAIL each verification clearly
+- Reference specific lines in files (unless pre-computed)
+- Compare against compliance report action items
+- Do NOT suggest improvements beyond compliance
 
 ## Sequence of Instructions
 
@@ -227,6 +228,3 @@ Display: "**Select an Option:** [C] Continue to Env Verification [F] Show Failur
 - IF F: Display only failed verifications, then return to menu
 - IF X: End review with partial results
 
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected will you proceed to verify environment files.

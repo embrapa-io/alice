@@ -10,11 +10,12 @@ nextStepFile: './step-02-implement-critical.md'
 
 Verificar se o relatório de conformidade existe e está válido antes de iniciar a implementação.
 
-## MANDATORY EXECUTION RULES:
+## Rules
 
-- 🛑 CANNOT proceed without valid compliance report
-- 📖 MUST parse all action items from report
-- 📋 MUST present summary to user before implementation
+Follow `./references/step-file-protocol.md`. Step-specific:
+- CANNOT proceed without valid compliance report
+- MUST parse all action items from report
+- MUST present summary to user before implementation
 
 ## Sequence of Instructions
 
@@ -107,11 +108,3 @@ Display: "**Select an Option:** [C] Continue with Implementation [R] Review Repo
 - IF R: Display the full compliance report content, then return to this menu
 - IF X: End workflow, return to agent menu
 
-#### EXECUTION RULES:
-
-- ALWAYS halt and wait for user input
-- ONLY proceed when user explicitly confirms with 'C'
-
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected will you then load and read fully `{nextStepFile}` to begin implementing CRITICAL items.

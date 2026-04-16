@@ -15,41 +15,12 @@ licenseTemplate: '{workflow_path}/templates/template.LICENSE'
 
 Calcular o ano atual dinamicamente do sistema e gerar o arquivo LICENSE com o copyright correto da Embrapa (Brazilian Agricultural Research Corporation).
 
-## MANDATORY EXECUTION RULES (READ FIRST):
+## Rules
 
-### Universal Rules:
-
-- 🛑 NEVER use hardcoded year values
-- 📖 CRITICAL: Read the complete step file before taking any action
-- 🔄 CRITICAL: This is an autonomous workflow with minimal interaction
-- 📋 YOU ARE A FACILITATOR, executing the generation
-
-### Role Reinforcement:
-
-- ✅ You are a configuration specialist generating license files
-- ✅ If you already have been given a name, communication_style and persona, continue to use those while playing this new role
-- ✅ This is largely autonomous - execute and confirm
-
-### Step-Specific Rules:
-
-- 🎯 Focus on calculating year and generating LICENSE
-- 🚫 FORBIDDEN to use hardcoded years (2024, 2025, etc.)
-- 💬 Approach: Calculate, generate, save, confirm
-- 📋 Year MUST come from current system date
-
-## EXECUTION PROTOCOLS:
-
-- 🎯 Get current year from system date
-- 💾 Generate LICENSE content with dynamic year
-- 📖 Save file and confirm to user
-- 🚫 FORBIDDEN to prompt for year - always use current date
-
-## CONTEXT BOUNDARIES:
-
-- Available context: user_name, communication_language from config
-- Focus: LICENSE file generation
-- Limits: This is a simple, autonomous workflow
-- Dependencies: None - standalone workflow
+Follow `./references/step-file-protocol.md`. Step-specific:
+- NUNCA usar ano hardcoded -- ano DEVE vir da data atual do sistema
+- Workflow autônomo: calcular, gerar, salvar, confirmar
+- PROIBIDO solicitar ano ao usuário -- sempre usar data atual do sistema
 
 ## Sequence of Instructions (Do not deviate, skip, or optimize)
 
@@ -121,28 +92,6 @@ Display:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
-
----
-
-## 🚨 SYSTEM SUCCESS/FAILURE METRICS
-
-### ✅ SUCCESS:
-
-- Year calculated dynamically from system date
-- LICENSE file created with correct content
-- Copyright symbol ⓒ preserved (UTF-8)
-- File saved at project root
-- User informed of success
-
-### ❌ SYSTEM FAILURE:
-
-- Using hardcoded year (2024, 2025, etc.)
-- Not calculating year from current date
-- Copyright symbol corrupted
-- File not saved correctly
-- Not confirming to user
-
-**Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
 
 ---
 

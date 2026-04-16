@@ -1,6 +1,8 @@
 ---
 name: Generate License
 description: Gera arquivo LICENSE com copyright da Embrapa automaticamente usando ano atual do sistema
+communication_language: "{communication_language}"
+document_output_language: "{document_output_language}"
 web_bundle: true
 ---
 
@@ -18,30 +20,19 @@ This uses **step-file architecture** for disciplined execution:
 
 ### Core Principles
 
-- **Micro-file Design**: Each step is a self contained instruction file that is a part of an overall workflow that must be followed exactly
-- **Just-In-Time Loading**: Only the current step file is in memory - never load future step files until told to do so
-- **Sequential Enforcement**: Sequence within the step files must be completed in order, no skipping or optimization allowed
-- **State Tracking**: Document progress in context
-- **Autonomous Execution**: This workflow is largely autonomous with minimal user interaction
+- **Step-file architecture**: Each step is a self-contained file, loaded just-in-time, executed sequentially
+- **Autonomous Execution**: Workflow autônomo com interação mínima do usuário
+- ALWAYS use dynamic year from system date — NEVER use hardcoded year values
+- Read each step file completely before acting
 
-### Step Processing Rules
+---
 
-1. **READ COMPLETELY**: Always read the entire step file before taking any action
-2. **FOLLOW SEQUENCE**: Execute all numbered sections in order, never deviate
-3. **WAIT FOR INPUT**: If a menu is presented, halt and wait for user selection
-4. **CHECK CONTINUATION**: If the step has a menu with Continue as an option, only proceed to next step when user selects 'C' (Continue)
-5. **SAVE STATE**: Track variables in context before loading next step
-6. **LOAD NEXT**: When directed, load, read entire file, then execute the next step file
+## HEADLESS MODE
 
-### Critical Rules (NO EXCEPTIONS)
-
-- 🛑 **NEVER** load multiple step files simultaneously
-- 📖 **ALWAYS** read entire step file before execution
-- 🚫 **NEVER** skip steps or optimize the sequence
-- 💾 **ALWAYS** use dynamic year from system date
-- 🎯 **ALWAYS** follow the exact instructions in the step file
-- ⏸️ **ALWAYS** halt at menus and wait for user input
-- 📋 **NEVER** use hardcoded year values
+Se `{headless_mode}=true`:
+- Pular todos os prompts de confirmação — auto-prosseguir
+- Não exibir menus de progresso nem solicitar entrada do usuário
+- Gerar resumo JSON ao final com o arquivo criado e ano utilizado
 
 ---
 
@@ -60,3 +51,9 @@ Resolve:
 ### 2. First Step EXECUTION
 
 Load, read the full file and then execute `{workflow_path}/steps/step-01-generate-license.md` to begin the workflow.
+
+---
+
+## NEXT STEP SUGGESTION
+
+Ao concluir este workflow, sugerir ao usuário executar o workflow **verify-compliance** (VC) para analisar a conformidade completa do projeto com a plataforma Embrapa I/O.

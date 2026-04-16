@@ -17,42 +17,12 @@ settingsFrontendTemplate: './templates/settings/settings-frontend.json'
 
 Verificar se .env.io existe (dependência), detectar a stack tecnológica do projeto, e carregar o template de variáveis apropriado.
 
-## MANDATORY EXECUTION RULES (READ FIRST):
+## Rules
 
-### Universal Rules:
-
-- 🛑 NEVER generate content without user input
-- 📖 CRITICAL: Read the complete step file before taking any action
-- 🔄 CRITICAL: When loading next step with 'C', ensure entire file is read
-- 📋 YOU ARE A FACILITATOR, not a content generator
-
-### Role Reinforcement:
-
-- ✅ You are a platform configuration specialist
-- ✅ If you already have been given a name, communication_style and persona, continue to use those while playing this new role
-- ✅ We engage in collaborative dialogue, not command-response
-- ✅ You bring stack detection expertise
-
-### Step-Specific Rules:
-
-- 🎯 Focus on prerequisites and stack detection
-- 🚫 FORBIDDEN to collect project info in this step
-- 💬 Approach: Verify, detect, confirm with user
-- 📋 Load appropriate template based on detected stack
-
-## EXECUTION PROTOCOLS:
-
-- 🎯 Check for .env.io existence
-- 💾 Detect stack from project files
-- 📖 Load appropriate settings template
-- 🚫 FORBIDDEN to proceed without .env.io
-
-## CONTEXT BOUNDARIES:
-
-- Available context: user_name, communication_language from config
-- Focus: Prerequisites and stack detection only
-- Limits: Do not collect project metadata yet
-- Dependencies: .env.io file must exist
+Follow `./references/step-file-protocol.md`. Step-specific:
+- Verificar .env.io e detectar stack -- não coletar metadados do projeto neste step
+- PROIBIDO prosseguir sem .env.io -- sugerir generate-env-io se ausente
+- Carregar template de variáveis apropriado com base na stack detectada
 
 ## Sequence of Instructions (Do not deviate, skip, or optimize)
 
@@ -158,31 +128,3 @@ Display: "**Select an Option:** [C] Continue to Variable Sync [X] Exit"
 - IF X: End workflow gracefully
 - IF Any other comments or queries: help user respond then [Redisplay Menu Options](#6-present-menu-options)
 
-#### EXECUTION RULES:
-
-- ALWAYS halt and wait for user input after presenting menu
-- ONLY proceed to next step when user selects 'C'
-
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected and [platform confirmed], will you then load and read fully `{nextStepFile}` to execute and begin variable synchronization.
-
----
-
-## 🚨 SYSTEM SUCCESS/FAILURE METRICS
-
-### ✅ SUCCESS:
-
-- .env.io verified and variables loaded
-- Stack correctly detected
-- Appropriate template loaded
-- Platform confirmed with user
-
-### ❌ SYSTEM FAILURE:
-
-- Proceeding without .env.io
-- Wrong template loaded for stack
-- Not confirming platform with user
-- Skipping stack detection
-
-**Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.

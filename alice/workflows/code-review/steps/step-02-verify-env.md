@@ -16,11 +16,12 @@ If `validate-compliance.py` JSON output is available, use `checks.env` results d
 
 **Reference checklist:** `{workflow_path}/../references/env-validation-checklist.md`
 
-## MANDATORY EXECUTION RULES:
+## Rules
 
-- 🛑 PASS/FAIL each verification clearly
-- 📖 Check both .example and actual files (unless pre-computed)
-- 📋 Verify no duplicates between files
+Follow `./references/step-file-protocol.md`. Step-specific:
+- PASS/FAIL each verification clearly
+- Check both .example and actual files (unless pre-computed)
+- Verify no duplicates between files
 
 ## Sequence of Instructions
 
@@ -153,6 +154,3 @@ Display: "**Select an Option:** [C] Continue to Settings Verification [F] Show F
 - IF F: Display only failed verifications, then return to menu
 - IF X: End review with partial results
 
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected will you proceed to verify settings.json.

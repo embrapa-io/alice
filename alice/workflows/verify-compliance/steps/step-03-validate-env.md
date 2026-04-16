@@ -16,11 +16,12 @@ If `validate-compliance.py` JSON output is available, use `checks.env` results d
 
 **Reference checklist:** `{workflow_path}/../references/env-validation-checklist.md`
 
-## MANDATORY EXECUTION RULES:
+## Rules
 
-- 🛑 NEVER skip any validation rule
-- 📖 DOCUMENT every finding with severity
-- 📋 Ensure no variable duplication between files
+Follow `./references/step-file-protocol.md`. Step-specific:
+- NEVER skip any validation rule
+- DOCUMENT every finding with severity
+- Ensure no variable duplication between files
 
 ## Sequence of Instructions
 
@@ -216,6 +217,3 @@ Display: "**Select an Option:** [C] Continue to Settings Validation [X] Exit wor
 - IF C: Store env_findings, then load, read entire file, then execute {nextStepFile}
 - IF X: End workflow gracefully
 
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected will you then load and read fully `{nextStepFile}` to continue validation.

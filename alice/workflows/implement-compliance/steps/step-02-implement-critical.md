@@ -10,12 +10,13 @@ nextStepFile: './step-03-implement-high.md'
 
 Executar todos os action items de severidade CRITICAL do relatório de conformidade.
 
-## MANDATORY EXECUTION RULES:
+## Rules
 
-- 🛑 MUST implement ALL critical items before proceeding
-- 📖 FOLLOW exact code examples from the report
-- 📋 VALIDATE syntax after each modification
-- 🔧 HALT on any error and ask user for guidance
+Follow `./references/step-file-protocol.md`. Step-specific:
+- MUST implement ALL critical items before proceeding
+- FOLLOW exact code examples from the report
+- VALIDATE syntax after each modification
+- HALT on any error and ask user for guidance
 
 ## Sequence of Instructions
 
@@ -173,6 +174,3 @@ Display: "**Select an Option:** [C] Continue to HIGH Items [V] View Changes [X] 
 - IF V: Show diff of all modified files, then return to menu
 - IF X: End workflow (changes already made will persist)
 
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected will you proceed to implement HIGH priority items.

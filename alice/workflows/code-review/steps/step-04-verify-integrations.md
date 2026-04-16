@@ -14,12 +14,13 @@ Verificar se integrações, regra NO-FALLBACK, Linter e bootstrap.sh estão corr
 
 If `validate-compliance.py` JSON output is available, use `checks.code` and `checks.integrations` results directly for pass/fail determination.
 
-## MANDATORY EXECUTION RULES:
+## Rules
 
-- 🛑 Integrações verificadas apenas se requeridas no relatório
-- 🛑 NO-FALLBACK: Verificar que todas as violações reportadas foram corrigidas
-- 📖 bootstrap.sh é obrigatório
-- 📋 LICENSE é obrigatório
+Follow `./references/step-file-protocol.md`. Step-specific:
+- Integrações verificadas apenas se requeridas no relatório
+- NO-FALLBACK: Verificar que todas as violações reportadas foram corrigidas
+- bootstrap.sh é obrigatório
+- LICENSE é obrigatório
 
 ## Sequence of Instructions
 
@@ -141,6 +142,3 @@ Display: "**Select an Option:** [C] Continue to Final Report [F] Show Failures O
 - IF F: Display only failed verifications, then return to menu
 - IF X: End review with partial results
 
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected will you proceed to generate final review report.

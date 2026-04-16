@@ -12,41 +12,13 @@ settingsOutput: '{project-root}/.embrapa/settings.json'
 
 Gerar o arquivo .embrapa/settings.json com toda a configuração coletada, validar a estrutura JSON, e salvar o arquivo.
 
-## MANDATORY EXECUTION RULES (READ FIRST):
+## Rules
 
-### Universal Rules:
-
-- 🛑 NEVER generate content without user input
-- 📖 CRITICAL: Read the complete step file before taking any action
-- 🔄 CRITICAL: This is the final step - ensure complete execution
-- 📋 YOU ARE A FACILITATOR, completing the workflow
-
-### Role Reinforcement:
-
-- ✅ You are a platform configuration specialist generating settings.json
-- ✅ If you already have been given a name, communication_style and persona, continue to use those while playing this new role
-- ✅ Generate valid, complete settings.json
-
-### Step-Specific Rules:
-
-- 🎯 Focus on generating valid JSON and saving
-- 🚫 FORBIDDEN to save invalid JSON
-- 💬 Approach: Generate, validate, present, save
-- 📋 Variables structure must follow type rules
-
-## EXECUTION PROTOCOLS:
-
-- 🎯 Build settings.json from collected values
-- 💾 Validate JSON syntax before saving
-- 📖 Create .embrapa directory if needed
-- 🚫 FORBIDDEN to include 'value' for PASSWORD/SECRET/PORT/EMPTY types
-
-## CONTEXT BOUNDARIES:
-
-- Available context: All values from steps 1-3 (platform, sync_plan, project_info)
-- Focus: JSON generation and file saving
-- Limits: This is the final step
-- Dependencies: All values from previous steps
+Follow `./references/step-file-protocol.md`. Step-specific:
+- PROIBIDO salvar JSON inválido
+- PROIBIDO incluir 'value' para tipos PASSWORD/SECRET/PORT/EMPTY
+- Criar diretório .embrapa se necessário, validar estrutura antes de salvar
+- Este é o step final
 
 ## Sequence of Instructions (Do not deviate, skip, or optimize)
 
@@ -213,28 +185,6 @@ se todos os arquivos do projeto estão conforme Embrapa I/O.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
-
----
-
-## 🚨 SYSTEM SUCCESS/FAILURE METRICS
-
-### ✅ SUCCESS:
-
-- Valid JSON generated
-- Variables follow type rules
-- File saved to .embrapa/settings.json
-- Directory created if needed
-- Next steps provided
-
-### ❌ SYSTEM FAILURE:
-
-- Saving invalid JSON
-- Including 'value' for PASSWORD/SECRET/PORT/EMPTY
-- Not creating .embrapa directory
-- Not validating JSON before saving
-- Leaving user without next steps
-
-**Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
 
 ---
 

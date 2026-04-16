@@ -10,12 +10,13 @@ nextStepFile: './step-04-create-env-files.md'
 
 Executar todos os action items de severidade HIGH e MEDIUM do relatório de conformidade.
 
-## MANDATORY EXECUTION RULES:
+## Rules
 
-- 🛑 MUST implement HIGH items
-- 📖 MEDIUM items are recommended but can be skipped by user request
-- 📋 VALIDATE syntax after each modification
-- 🔧 Follow exact code examples from report
+Follow `./references/step-file-protocol.md`. Step-specific:
+- MUST implement HIGH items
+- MEDIUM items are recommended but can be skipped by user request
+- VALIDATE syntax after each modification
+- Follow exact code examples from report
 
 ## Sequence of Instructions
 
@@ -231,6 +232,3 @@ Display: "**Select an Option:** [C] Continue to Create Env Files [V] View Change
 - IF V: Show summary of all changes, then return to menu
 - IF X: End workflow
 
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected will you proceed to create env files and bootstrap script.

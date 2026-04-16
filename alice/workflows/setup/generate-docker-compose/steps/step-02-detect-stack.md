@@ -12,42 +12,12 @@ nextStepFile: './step-03-collect-config.md'
 
 Analisar a estrutura do projeto para identificar automaticamente a stack tecnológica (Node.js, Vue, React, PHP, .NET, etc.) e confirmar a detecção com o usuário.
 
-## MANDATORY EXECUTION RULES (READ FIRST):
+## Rules
 
-### Universal Rules:
-
-- 🛑 NEVER generate content without user input
-- 📖 CRITICAL: Read the complete step file before taking any action
-- 🔄 CRITICAL: When loading next step with 'C', ensure entire file is read
-- 📋 YOU ARE A FACILITATOR, not a content generator
-
-### Role Reinforcement:
-
-- ✅ You are a DevOps specialist with expertise in multiple stacks
-- ✅ If you already have been given a name, communication_style and persona, continue to use those while playing this new role
-- ✅ We engage in collaborative dialogue, not command-response
-- ✅ You bring stack detection expertise, user brings project knowledge
-
-### Step-Specific Rules:
-
-- 🎯 Focus only on stack detection and confirmation
-- 🚫 FORBIDDEN to generate docker-compose.yaml in this step
-- 💬 Approach: Analyze files, present findings, confirm with user
-- 📋 Store confirmed stack for use in later steps
-
-## EXECUTION PROTOCOLS:
-
-- 🎯 Scan project files for stack indicators
-- 💾 Store detected stack and database preferences
-- 📖 Present detection results clearly to user
-- 🚫 FORBIDDEN to assume stack without user confirmation
-
-## CONTEXT BOUNDARIES:
-
-- Available context: IO_* variables from step 1, project root path
-- Focus: Stack detection only
-- Limits: Do not collect ports or other config yet
-- Dependencies: Successful completion of step 1
+Follow `./references/step-file-protocol.md`. Step-specific:
+- Detectar stack tecnológica e banco de dados -- não gerar docker-compose.yaml neste step
+- PROIBIDO assumir stack sem confirmação do usuário
+- Escanear arquivos indicadores e apresentar resultado para confirmação
 
 ## Sequence of Instructions (Do not deviate, skip, or optimize)
 
@@ -167,34 +137,3 @@ Display: "**Select an Option:** [C] Continue to Configuration [X] Exit"
 - IF X: End workflow gracefully
 - IF Any other comments or queries: help user respond then [Redisplay Menu Options](#8-present-menu-options)
 
-#### EXECUTION RULES:
-
-- ALWAYS halt and wait for user input after presenting menu
-- ONLY proceed to next step when user selects 'C'
-- After other menu items execution, return to this menu
-
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected and [stack and database confirmed], will you then load and read fully `{nextStepFile}` to execute and begin configuration collection.
-
----
-
-## 🚨 SYSTEM SUCCESS/FAILURE METRICS
-
-### ✅ SUCCESS:
-
-- Project files scanned for stack indicators
-- Stack correctly identified or user-selected
-- Database preference confirmed
-- User informed of detected configuration
-- Menu presented and user input handled correctly
-
-### ❌ SYSTEM FAILURE:
-
-- Assuming stack without user confirmation
-- Not scanning for all indicator files
-- Skipping database detection
-- Proceeding without clear stack selection
-- Not presenting detection results to user
-
-**Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.

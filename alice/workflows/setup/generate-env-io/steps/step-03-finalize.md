@@ -13,41 +13,12 @@ envIoExampleOutput: '{project-root}/.env.io.example'
 
 Salvar os arquivos .env.io e .env.io.example, e orientar o usuário sobre as regras críticas da plataforma Embrapa I/O (NO-FALLBACK, valores sem aspas, Linter obrigatório).
 
-## MANDATORY EXECUTION RULES (READ FIRST):
+## Rules
 
-### Universal Rules:
-
-- 🛑 NEVER generate content without user input
-- 📖 CRITICAL: Read the complete step file before taking any action
-- 🔄 CRITICAL: This is the final step - ensure complete execution
-- 📋 YOU ARE A FACILITATOR, completing the workflow
-
-### Role Reinforcement:
-
-- ✅ You are a DevOps specialist finalizing environment configuration
-- ✅ If you already have been given a name, communication_style and persona, continue to use those while playing this new role
-- ✅ Provide comprehensive guidance on platform rules
-
-### Step-Specific Rules:
-
-- 🎯 Focus on saving files and providing critical guidance
-- 🚫 FORBIDDEN to skip platform rules explanation
-- 💬 Approach: Save, educate, guide next steps
-- 📋 Emphasize NO-FALLBACK rule critically
-
-## EXECUTION PROTOCOLS:
-
-- 🎯 Save both files to project root
-- 💾 Confirm file creation to user
-- 📖 Explain critical platform rules in detail
-- 🚫 FORBIDDEN to complete without rules explanation
-
-## CONTEXT BOUNDARIES:
-
-- Available context: env_io_content, env_io_example_content from step 2
-- Focus: File saving and user education
-- Limits: This is the final step
-- Dependencies: Generated content from step 2
+Follow `./references/step-file-protocol.md`. Step-specific:
+- Salvar ambos os arquivos e explicar regras críticas da plataforma (especialmente NO-FALLBACK)
+- OBRIGATÓRIO explicar regras de plataforma -- não pular esta orientação
+- Este é o step final
 
 ## Sequence of Instructions (Do not deviate, skip, or optimize)
 
@@ -252,28 +223,6 @@ Display:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
-
----
-
-## 🚨 SYSTEM SUCCESS/FAILURE METRICS
-
-### ✅ SUCCESS:
-
-- Both files saved successfully
-- Critical platform rules explained
-- NO-FALLBACK rule emphasized
-- Next steps provided clearly
-- Workflow completed gracefully
-
-### ❌ SYSTEM FAILURE:
-
-- Not saving both files
-- Skipping platform rules explanation
-- Not mentioning NO-FALLBACK rule
-- Not providing next steps guidance
-- Leaving user without .gitignore guidance
-
-**Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
 
 ---
 

@@ -1,6 +1,8 @@
 ---
 name: Generate Docker Compose
 description: Gera arquivo docker-compose.yaml conforme com a plataforma Embrapa I/O através de análise de stack e coleta interativa de configurações
+communication_language: "{communication_language}"
+document_output_language: "{document_output_language}"
 web_bundle: true
 ---
 
@@ -18,30 +20,24 @@ This uses **step-file architecture** for disciplined execution:
 
 ### Core Principles
 
-- **Micro-file Design**: Each step is a self contained instruction file that is a part of an overall workflow that must be followed exactly
-- **Just-In-Time Loading**: Only the current step file is in memory - never load future step files until told to do so
-- **Sequential Enforcement**: Sequence within the step files must be completed in order, no skipping or optimization allowed
-- **State Tracking**: Document progress in context for validation tracking (no output file frontmatter needed for this workflow)
+- **Step-file architecture**: Each step is a self-contained file, loaded just-in-time, executed sequentially
 - **Append-Only Building**: Build docker-compose.yaml by accumulating configuration through steps
+- Read each step file completely before acting; halt at menus and wait for user input
+- Only proceed to next step when user selects 'C' (Continue)
+- Never load multiple step files simultaneously or skip steps
+- ALWAYS validate against 4 Verdades Fundamentais before saving docker-compose.yaml
 
-### Step Processing Rules
+---
 
-1. **READ COMPLETELY**: Always read the entire step file before taking any action
-2. **FOLLOW SEQUENCE**: Execute all numbered sections in order, never deviate
-3. **WAIT FOR INPUT**: If a menu is presented, halt and wait for user selection
-4. **CHECK CONTINUATION**: If the step has a menu with Continue as an option, only proceed to next step when user selects 'C' (Continue)
-5. **SAVE STATE**: Track collected variables in context before loading next step
-6. **LOAD NEXT**: When directed, load, read entire file, then execute the next step file
+## HEADLESS MODE
 
-### Critical Rules (NO EXCEPTIONS)
+Se `{headless_mode}=true`:
+- Pular todos os prompts [C] Continue — auto-prosseguir por cada etapa
+- Executar `uv run ./scripts/validate-compliance.py --project-path {project-root} --output json` antes do step-01 para pré-computar detecção de stack e verificações de validação
+- Não exibir menus de progresso nem solicitar entrada do usuário
+- Gerar resumo JSON ao final com a configuração gerada e resultado da validação
 
-- 🛑 **NEVER** load multiple step files simultaneously
-- 📖 **ALWAYS** read entire step file before execution
-- 🚫 **NEVER** skip steps or optimize the sequence
-- 💾 **ALWAYS** validate against 4 Verdades Fundamentais before saving docker-compose.yaml
-- 🎯 **ALWAYS** follow the exact instructions in the step file
-- ⏸️ **ALWAYS** halt at menus and wait for user input
-- 📋 **NEVER** create mental todo lists from future steps
+> **Nota:** O script `validate-compliance.py` pode pré-computar detecção de stack e verificações de validação, acelerando os steps de inicialização e detecção.
 
 ---
 
@@ -67,3 +63,9 @@ Load knowledge files for validation rules:
 ### 3. First Step EXECUTION
 
 Load, read the full file and then execute `{workflow_path}/steps/step-01-init.md` to begin the workflow.
+
+---
+
+## NEXT STEP SUGGESTION
+
+Ao concluir este workflow, sugerir ao usuário executar o workflow **generate-settings-json** para criar o arquivo .embrapa/settings.json com metadados e variáveis sincronizadas.

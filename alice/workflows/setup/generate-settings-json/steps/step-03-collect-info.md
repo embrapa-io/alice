@@ -12,41 +12,12 @@ nextStepFile: './step-04-generate-settings.md'
 
 Coletar informações do projeto (label, description) e do mantenedor (name, email, phone) para compor o settings.json.
 
-## MANDATORY EXECUTION RULES (READ FIRST):
+## Rules
 
-### Universal Rules:
-
-- 🛑 NEVER generate content without user input
-- 📖 CRITICAL: Read the complete step file before taking any action
-- 🔄 CRITICAL: When loading next step with 'C', ensure entire file is read
-- 📋 YOU ARE A FACILITATOR, not a content generator
-
-### Role Reinforcement:
-
-- ✅ You are a platform configuration specialist collecting project metadata
-- ✅ If you already have been given a name, communication_style and persona, continue to use those while playing this new role
-- ✅ We engage in collaborative dialogue, not command-response
-
-### Step-Specific Rules:
-
-- 🎯 Focus on collecting project and maintainer info
-- 🚫 FORBIDDEN to generate settings.json in this step
-- 💬 Approach: Interactive collection with validation
-- 📋 Validate phone format strictly
-
-## EXECUTION PROTOCOLS:
-
-- 🎯 Collect label, description, maintainer info
-- 💾 Validate phone format: +DDI (DDD) X XXXX-XXXX
-- 📖 Present collected info for review
-- 🚫 FORBIDDEN to accept invalid phone format
-
-## CONTEXT BOUNDARIES:
-
-- Available context: selected_platform, default_variables from step 1, sync_plan from step 2
-- Focus: Project metadata collection only
-- Limits: Do not define custom variables yet
-- Dependencies: Platform confirmed in step 1
+Follow `./references/step-file-protocol.md`. Step-specific:
+- Coletar label, descrição, dados do mantenedor -- não gerar settings.json neste step
+- Validar formato de telefone: +DDI (DDD) X XXXX-XXXX -- PROIBIDO aceitar formato inválido
+- Coleta interativa com apresentação de resumo para confirmação
 
 ## Sequence of Instructions (Do not deviate, skip, or optimize)
 
@@ -216,27 +187,3 @@ Display: "**Select an Option:** [C] Continue to Generate [E] Edit values [X] Exi
 - IF X: End workflow gracefully
 - IF Any other comments or queries: help user respond then [Redisplay Menu Options](#6-present-menu-options)
 
-## CRITICAL STEP COMPLETION NOTE
-
-ONLY WHEN [C continue option] is selected and [all info collected and validated], will you then load and read fully `{nextStepFile}` to execute and generate settings.json.
-
----
-
-## 🚨 SYSTEM SUCCESS/FAILURE METRICS
-
-### ✅ SUCCESS:
-
-- Label and description collected
-- Maintainer info complete
-- Phone format validated (if provided)
-- Custom variables collected (if requested)
-- All info presented for review
-
-### ❌ SYSTEM FAILURE:
-
-- Accepting invalid phone format
-- Not validating variable types
-- Skipping maintainer collection
-- Proceeding without user confirmation
-
-**Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.

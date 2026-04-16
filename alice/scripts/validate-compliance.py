@@ -509,7 +509,7 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
     if dc_path is None:
         findings.append(Finding(
             rule="1.1", severity="CRITICAL", category="docker",
-            message="Arquivo docker-compose.yaml nao encontrado na raiz do projeto",
+            message="Arquivo docker-compose.yaml não encontrado na raiz do projeto",
             fix="Criar docker-compose.yaml na raiz do projeto",
         ))
         return findings, dc_rel
@@ -523,7 +523,7 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
     except yaml.YAMLError as e:
         findings.append(Finding(
             rule="1.1", severity="CRITICAL", category="docker",
-            file=dc_rel, message=f"YAML invalido: {e}",
+            file=dc_rel, message=f"YAML inválido: {e}",
             fix="Corrigir sintaxe YAML do docker-compose",
         ))
         return findings, dc_rel
@@ -531,7 +531,7 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
     if not isinstance(data, dict):
         findings.append(Finding(
             rule="1.1", severity="CRITICAL", category="docker",
-            file=dc_rel, message="docker-compose.yaml nao contem estrutura valida",
+            file=dc_rel, message="docker-compose.yaml não contém estrutura válida",
             fix="Corrigir estrutura do docker-compose.yaml",
         ))
         return findings, dc_rel
@@ -553,7 +553,7 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
         findings.append(Finding(
             rule="1.3", severity="CRITICAL", category="docker",
             file=dc_rel,
-            message="Network 'stack' nao declarada em 'networks:'",
+            message="Network 'stack' não declarada em 'networks:'",
             fix="Adicionar network externa 'stack' com name: ${IO_PROJECT}_${IO_APP}_${IO_STAGE}",
             auto_fixable=True,
         ))
@@ -566,8 +566,8 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
             findings.append(Finding(
                 rule="1.4", severity="CRITICAL", category="docker",
                 file=dc_rel,
-                message="Network 'stack' nao esta marcada como 'external: true'",
-                fix="Adicionar 'external: true' na definicao da network 'stack'",
+                message="Network 'stack' não está marcada como 'external: true'",
+                fix="Adicionar 'external: true' na definição da network 'stack'",
                 auto_fixable=True,
             ))
 
@@ -614,8 +614,8 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
             findings.append(Finding(
                 rule="1.6", severity="HIGH", category="docker",
                 file=dc_rel,
-                message=f"Servico '{svc_name}' nao esta conectado a network 'stack'",
-                fix=f"Adicionar 'stack' em 'networks:' do servico '{svc_name}'",
+                message=f"Serviço '{svc_name}' não está conectado à network 'stack'",
+                fix=f"Adicionar 'stack' em 'networks:' do serviço '{svc_name}'",
             ))
 
         # Rule 1.7: container_name is FORBIDDEN
@@ -624,8 +624,8 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
             findings.append(Finding(
                 rule="1.7", severity="HIGH", category="docker",
                 file=dc_rel, line=line,
-                message=f"Servico '{svc_name}' usa 'container_name' (nao permitido)",
-                fix=f"Remover campo 'container_name' do servico '{svc_name}'",
+                message=f"Serviço '{svc_name}' usa 'container_name' (não permitido)",
+                fix=f"Remover campo 'container_name' do serviço '{svc_name}'",
             ))
 
         # Rule 1.9: Bind mounts FORBIDDEN
@@ -638,8 +638,8 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
                     findings.append(Finding(
                         rule="1.9", severity="CRITICAL", category="docker",
                         file=dc_rel,
-                        message=f"Servico '{svc_name}' usa bind mount '{vol_str}' (nao permitido)",
-                        fix="Substituir bind mount por COPY no Dockerfile. Bind mounts sao proibidos na plataforma Embrapa I/O.",
+                        message=f"Serviço '{svc_name}' usa bind mount '{vol_str}' (não permitido)",
+                        fix="Substituir bind mount por COPY no Dockerfile. Bind mounts são proibidos na plataforma Embrapa I/O.",
                     ))
 
         if is_cli:
@@ -650,8 +650,8 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
                 findings.append(Finding(
                     rule="1.13", severity="MEDIUM", category="docker",
                     file=dc_rel,
-                    message=f"Servico CLI '{svc_name}' sem 'restart: \"no\"' (tem: '{restart}')",
-                    fix=f"Definir 'restart: \"no\"' no servico CLI '{svc_name}'",
+                    message=f"Serviço CLI '{svc_name}' sem 'restart: \"no\"' (tem: '{restart}')",
+                    fix=f"Definir 'restart: \"no\"' no serviço CLI '{svc_name}'",
                 ))
         else:
             # Rule 1.10: Long-running services need restart: unless-stopped
@@ -660,8 +660,8 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
                 findings.append(Finding(
                     rule="1.10", severity="HIGH", category="docker",
                     file=dc_rel,
-                    message=f"Servico '{svc_name}' de longa duracao sem 'restart: unless-stopped' (tem: '{restart}')",
-                    fix=f"Adicionar 'restart: unless-stopped' ao servico '{svc_name}'",
+                    message=f"Serviço '{svc_name}' de longa duração sem 'restart: unless-stopped' (tem: '{restart}')",
+                    fix=f"Adicionar 'restart: unless-stopped' ao serviço '{svc_name}'",
                 ))
 
             # Rule 1.11: Long-running services need healthcheck
@@ -669,8 +669,8 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
                 findings.append(Finding(
                     rule="1.11", severity="HIGH", category="docker",
                     file=dc_rel,
-                    message=f"Servico '{svc_name}' de longa duracao sem 'healthcheck'",
-                    fix=f"Implementar healthcheck adequado para o servico '{svc_name}'",
+                    message=f"Serviço '{svc_name}' de longa duração sem 'healthcheck'",
+                    fix=f"Implementar healthcheck adequado para o serviço '{svc_name}'",
                 ))
 
     # Rule 1.12: Hardcoded ports
@@ -686,8 +686,8 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
                     findings.append(Finding(
                         rule="1.12", severity="MEDIUM", category="docker",
                         file=dc_rel,
-                        message=f"Servico '{svc_name}' usa porta hardcoded: {port_str}",
-                        fix="Usar variavel de ambiente para mapeamento de porta: ${{SERVICE_PORT}}:{}".format(port_str.split(':')[-1].rstrip('"')),
+                        message=f"Serviço '{svc_name}' usa porta hardcoded: {port_str}",
+                        fix="Usar variável de ambiente para mapeamento de porta: ${{SERVICE_PORT}}:{}".format(port_str.split(':')[-1].rstrip('"')),
                     ))
 
     # Rule 1.8: Volumes must be external
@@ -700,8 +700,8 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
                 findings.append(Finding(
                     rule="1.8", severity="HIGH", category="docker",
                     file=dc_rel,
-                    message=f"Volume '{vol_name}' nao esta marcado como 'external: true'",
-                    fix=f"Marcar volume '{vol_name}' como externo com 'external: true' e definir 'name' com padrao correto",
+                    message=f"Volume '{vol_name}' não está marcado como 'external: true'",
+                    fix=f"Marcar volume '{vol_name}' como externo com 'external: true' e definir 'name' com padrão correto",
                     auto_fixable=True,
                 ))
 
@@ -712,7 +712,7 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
             findings.append(Finding(
                 rule="1.14", severity="MEDIUM", category="docker",
                 file=dc_rel,
-                message="Volume de backup nao declarado (recomendado: backup_data)",
+                message="Volume de backup não declarado (recomendado: backup_data)",
                 fix="Adicionar volume externo 'backup_data' com name: ${IO_PROJECT}_${IO_APP}_${IO_STAGE}_backup",
             ))
 
@@ -723,8 +723,8 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
         findings.append(Finding(
             rule="1.15", severity="LOW", category="docker",
             file=dc_rel,
-            message=f"Servicos CLI recomendados nao encontrados: {', '.join(sorted(missing_cli))}",
-            fix="Implementar servicos CLI conforme embrapa-io-fundamentals.md",
+            message=f"Serviços CLI recomendados não encontrados: {', '.join(sorted(missing_cli))}",
+            fix="Implementar serviços CLI conforme embrapa-io-fundamentals.md",
         ))
 
     # Check env_file on non-CLI services
@@ -746,8 +746,8 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
                     findings.append(Finding(
                         rule="1.6b", severity="MEDIUM", category="docker",
                         file=dc_rel,
-                        message=f"Servico '{svc_name}' tem env_file mas falta '.env.io'",
-                        fix=f"Adicionar '.env.io' em env_file do servico '{svc_name}'",
+                        message=f"Serviço '{svc_name}' tem env_file mas falta '.env.io'",
+                        fix=f"Adicionar '.env.io' em env_file do serviço '{svc_name}'",
                     ))
 
     return findings, dc_rel
@@ -768,8 +768,8 @@ def validate_env(project: Path) -> List[Finding]:
     if not env_io_example.exists():
         findings.append(Finding(
             rule="2.1", severity="CRITICAL", category="env",
-            message="Arquivo .env.io.example nao encontrado na raiz do projeto",
-            fix="Criar .env.io.example com as variaveis da plataforma",
+            message="Arquivo .env.io.example não encontrado na raiz do projeto",
+            fix="Criar .env.io.example com as variáveis da plataforma",
         ))
     else:
         # Rule 2.4: Required IO_ variables present
@@ -781,8 +781,8 @@ def validate_env(project: Path) -> List[Finding]:
                 findings.append(Finding(
                     rule="2.4", severity="HIGH", category="env",
                     file=".env.io.example",
-                    message=f"Variavel obrigatoria '{required_var}' ausente em .env.io.example",
-                    fix=f"Adicionar variavel '{required_var}' ao .env.io.example",
+                    message=f"Variável obrigatória '{required_var}' ausente em .env.io.example",
+                    fix=f"Adicionar variável '{required_var}' ao .env.io.example",
                 ))
 
         # Validate COMPOSE_PROJECT_NAME format
@@ -796,7 +796,7 @@ def validate_env(project: Path) -> List[Finding]:
                     findings.append(Finding(
                         rule="2.6", severity="HIGH", category="env",
                         file=".env.io.example", line=lineno,
-                        message=f"COMPOSE_PROJECT_NAME='{value}' nao segue formato ${{IO_PROJECT}}_${{IO_APP}}_${{IO_STAGE}} (falta _${{IO_STAGE}})",
+                        message=f"COMPOSE_PROJECT_NAME='{value}' não segue formato ${{IO_PROJECT}}_${{IO_APP}}_${{IO_STAGE}} (falta _${{IO_STAGE}})",
                         fix="Corrigir COMPOSE_PROJECT_NAME para o formato: {io_project}_{io_app}_{io_stage}",
                     ))
 
@@ -806,8 +806,8 @@ def validate_env(project: Path) -> List[Finding]:
                     findings.append(Finding(
                         rule="2.4b", severity="HIGH", category="env",
                         file=".env.io.example", line=lineno,
-                        message=f"IO_VERSION='{value}' nao segue formato 0.YY.M-dev.N",
-                        fix="Corrigir IO_VERSION para formato: 0.YY.M-dev.1 (YY=ano 2 digitos, M=mes sem zero)",
+                        message=f"IO_VERSION='{value}' não segue formato 0.YY.M-dev.N",
+                        fix="Corrigir IO_VERSION para formato: 0.YY.M-dev.1 (YY=ano 2 dígitos, M=mês sem zero)",
                     ))
 
         # Rule 2.5: No spaces or quotes in values
@@ -816,16 +816,16 @@ def validate_env(project: Path) -> List[Finding]:
                 findings.append(Finding(
                     rule="2.5", severity="CRITICAL", category="env",
                     file=".env.io.example", line=lineno,
-                    message=f"Variavel '{key}' contem espacos ou aspas (nao permitido)",
-                    fix=f"Remover aspas e espacos do valor de '{key}'. Para valores complexos, usar Base64.",
+                    message=f"Variável '{key}' contém espaços ou aspas (não permitido)",
+                    fix=f"Remover aspas e espaços do valor de '{key}'. Para valores complexos, usar Base64.",
                 ))
 
     # Rule 2.2: .env.example must exist
     if not env_example.exists():
         findings.append(Finding(
             rule="2.2", severity="CRITICAL", category="env",
-            message="Arquivo .env.example nao encontrado na raiz do projeto",
-            fix="Criar .env.example com as variaveis da aplicacao",
+            message="Arquivo .env.example não encontrado na raiz do projeto",
+            fix="Criar .env.example com as variáveis da aplicação",
         ))
     else:
         app_entries = parse_env_file(env_example)
@@ -840,7 +840,7 @@ def validate_env(project: Path) -> List[Finding]:
                     findings.append(Finding(
                         rule="2.3", severity="CRITICAL", category="env",
                         file=".env.example", line=lineno,
-                        message=f"Variavel '{key}' de .env.io esta duplicada em .env.example",
+                        message=f"Variável '{key}' de .env.io está duplicada em .env.example",
                         fix=f"Remover '{key}' de .env.example (pertence ao .env.io)",
                     ))
 
@@ -850,8 +850,8 @@ def validate_env(project: Path) -> List[Finding]:
                 findings.append(Finding(
                     rule="2.5", severity="CRITICAL", category="env",
                     file=".env.example", line=lineno,
-                    message=f"Variavel '{key}' contem espacos ou aspas (nao permitido)",
-                    fix=f"Remover aspas e espacos do valor de '{key}'. Para valores complexos, usar Base64.",
+                    message=f"Variável '{key}' contém espaços ou aspas (não permitido)",
+                    fix=f"Remover aspas e espaços do valor de '{key}'. Para valores complexos, usar Base64.",
                 ))
 
     # Rule 2.7: .gitignore must ignore .env, .env.io, .env.sh and AI agent dirs
@@ -866,8 +866,8 @@ def validate_env(project: Path) -> List[Finding]:
                 findings.append(Finding(
                     rule="2.7", severity="MEDIUM", category="env",
                     file=".gitignore",
-                    message="Arquivos sensíveis nao estao no .gitignore: {}".format(", ".join(missing_env)),
-                    fix="Adicionar '.env', '.env.io' e '.env.sh' ao .gitignore, incluir diretorios de agentes de IA (.claude/, _bmad/, .cursor/, etc.)",
+                    message="Arquivos sensíveis não estão no .gitignore: {}".format(", ".join(missing_env)),
+                    fix="Adicionar '.env', '.env.io' e '.env.sh' ao .gitignore, incluir diretórios de agentes de IA (.claude/, _bmad/, .cursor/, etc.)",
                     auto_fixable=True,
                 ))
             ai_dirs_to_ignore = [
@@ -882,8 +882,8 @@ def validate_env(project: Path) -> List[Finding]:
                 findings.append(Finding(
                     rule="2.7b", severity="MEDIUM", category="env",
                     file=".gitignore",
-                    message="Diretorios de agentes de IA nao estao no .gitignore: {}".format(", ".join(missing_ai)),
-                    fix="Adicionar diretorios de agentes de IA ao .gitignore: .claude/, _bmad/, .cursor/, .windsurf/, etc.",
+                    message="Diretórios de agentes de IA não estão no .gitignore: {}".format(", ".join(missing_ai)),
+                    fix="Adicionar diretórios de agentes de IA ao .gitignore: .claude/, _bmad/, .cursor/, .windsurf/, etc.",
                     auto_fixable=True,
                 ))
         except Exception:
@@ -891,8 +891,8 @@ def validate_env(project: Path) -> List[Finding]:
     else:
         findings.append(Finding(
             rule="5.2", severity="MEDIUM", category="structure",
-            message="Arquivo .gitignore nao encontrado",
-            fix="Criar .gitignore com entradas para .env, .env.io, .env.sh e diretorios de agentes de IA",
+            message="Arquivo .gitignore não encontrado",
+            fix="Criar .gitignore com entradas para .env, .env.io, .env.sh e diretórios de agentes de IA",
         ))
 
     return findings
@@ -927,7 +927,7 @@ def validate_settings(project: Path) -> List[Finding]:
     if not settings_path.exists():
         findings.append(Finding(
             rule="3.1", severity="CRITICAL", category="settings",
-            message="Arquivo .embrapa/settings.json nao encontrado",
+            message="Arquivo .embrapa/settings.json não encontrado",
             fix="Criar .embrapa/settings.json com estrutura base",
             auto_fixable=True,
         ))
@@ -941,7 +941,7 @@ def validate_settings(project: Path) -> List[Finding]:
         findings.append(Finding(
             rule="3.2", severity="CRITICAL", category="settings",
             file=".embrapa/settings.json",
-            message=f"Arquivo .embrapa/settings.json contem JSON invalido: {e}",
+            message=f"Arquivo .embrapa/settings.json contém JSON inválido: {e}",
             fix="Corrigir sintaxe JSON do arquivo",
         ))
         return findings
@@ -950,7 +950,7 @@ def validate_settings(project: Path) -> List[Finding]:
         findings.append(Finding(
             rule="3.2", severity="CRITICAL", category="settings",
             file=".embrapa/settings.json",
-            message="settings.json nao contem objeto JSON valido",
+            message="settings.json não contém objeto JSON válido",
             fix="Corrigir estrutura do settings.json",
         ))
         return findings
@@ -961,7 +961,7 @@ def validate_settings(project: Path) -> List[Finding]:
             findings.append(Finding(
                 rule="3.3", severity="CRITICAL", category="settings",
                 file=".embrapa/settings.json",
-                message=f"Campo obrigatorio '{field}' ausente no settings.json",
+                message=f"Campo obrigatório '{field}' ausente no settings.json",
                 fix=f"Adicionar campo '{field}' ao settings.json",
             ))
 
@@ -971,8 +971,8 @@ def validate_settings(project: Path) -> List[Finding]:
         findings.append(Finding(
             rule="3.4", severity="HIGH", category="settings",
             file=".embrapa/settings.json",
-            message=f"platform '{platform}' invalida",
-            fix=f"Usar um dos valores validos: {', '.join(sorted(VALID_PLATFORMS))}",
+            message=f"platform '{platform}' inválida",
+            fix=f"Usar um dos valores válidos: {', '.join(sorted(VALID_PLATFORMS))}",
         ))
 
     # Rule 3.5: variables.default must exist and not be empty
@@ -984,7 +984,7 @@ def validate_settings(project: Path) -> List[Finding]:
                 rule="3.5", severity="HIGH", category="settings",
                 file=".embrapa/settings.json",
                 message="variables.default ausente ou vazio no settings.json",
-                fix="Adicionar array variables.default com todas as variaveis do .env",
+                fix="Adicionar array variables.default com todas as variáveis do .env",
             ))
 
         # Check stage keys exist
@@ -1011,22 +1011,22 @@ def validate_settings(project: Path) -> List[Finding]:
                             findings.append(Finding(
                                 rule="3.6", severity="HIGH", category="settings",
                                 file=".embrapa/settings.json",
-                                message=f"Variavel em variables.{stage_key} sem campo 'name'",
-                                fix="Adicionar campo 'name' a variavel",
+                                message=f"Variável em variables.{stage_key} sem campo 'name'",
+                                fix="Adicionar campo 'name' à variável",
                             ))
                         if "type" not in var_item:
                             findings.append(Finding(
                                 rule="3.6", severity="HIGH", category="settings",
                                 file=".embrapa/settings.json",
-                                message=f"Variavel '{var_name}' em variables.{stage_key} sem campo 'type'",
-                                fix=f"Adicionar campo 'type' a variavel '{var_name}'",
+                                message=f"Variável '{var_name}' em variables.{stage_key} sem campo 'type'",
+                                fix=f"Adicionar campo 'type' à variável '{var_name}'",
                             ))
                         elif var_type not in VALID_VAR_TYPES:
                             findings.append(Finding(
                                 rule="3.6", severity="HIGH", category="settings",
                                 file=".embrapa/settings.json",
-                                message=f"Tipo '{var_type}' invalido para variavel '{var_name}'",
-                                fix=f"Usar um dos tipos validos: {', '.join(sorted(VALID_VAR_TYPES))}",
+                                message=f"Tipo '{var_type}' inválido para variável '{var_name}'",
+                                fix=f"Usar um dos tipos válidos: {', '.join(sorted(VALID_VAR_TYPES))}",
                             ))
 
                         # Rule 3.7: No spaces or quotes in variable values
@@ -1035,8 +1035,8 @@ def validate_settings(project: Path) -> List[Finding]:
                             findings.append(Finding(
                                 rule="3.7", severity="HIGH", category="settings",
                                 file=".embrapa/settings.json",
-                                message=f"Variavel '{var_name}' contem espacos ou aspas no valor",
-                                fix="Remover espacos e aspas do valor. Para valores complexos, usar Base64.",
+                                message=f"Variável '{var_name}' contém espaços ou aspas no valor",
+                                fix="Remover espaços e aspas do valor. Para valores complexos, usar Base64.",
                             ))
 
     # Orchestrators must contain DockerCompose
@@ -1046,7 +1046,7 @@ def validate_settings(project: Path) -> List[Finding]:
             findings.append(Finding(
                 rule="3.8b", severity="HIGH", category="settings",
                 file=".embrapa/settings.json",
-                message="orchestrators nao contem 'DockerCompose'",
+                message="orchestrators não contém 'DockerCompose'",
                 fix="Adicionar 'DockerCompose' ao array orchestrators",
             ))
     elif orchestrators is not None:
@@ -1063,8 +1063,8 @@ def validate_settings(project: Path) -> List[Finding]:
         findings.append(Finding(
             rule="3.8", severity="MEDIUM", category="settings",
             file=".embrapa/settings.json",
-            message="Array references esta vazio",
-            fix="Adicionar referencias tecnicas relevantes ao projeto",
+            message="Array references está vazio",
+            fix="Adicionar referências técnicas relevantes ao projeto",
         ))
 
     # Rule 3.9: Phone format in maintainers
@@ -1079,7 +1079,7 @@ def validate_settings(project: Path) -> List[Finding]:
                     findings.append(Finding(
                         rule="3.9", severity="MEDIUM", category="settings",
                         file=".embrapa/settings.json",
-                        message=f"Campo 'phone' do mantenedor '{name}' nao esta no formato correto",
+                        message=f"Campo 'phone' do mantenedor '{name}' não está no formato correto",
                         fix="Corrigir formato do telefone para: +DDI (DDD) X XXXX-XXXX",
                     ))
 
@@ -1099,7 +1099,7 @@ def validate_code(project: Path, stack: Dict[str, Any]) -> List[Finding]:
     if not license_path.exists():
         findings.append(Finding(
             rule="5.4", severity="MEDIUM", category="license",
-            message="Arquivo LICENSE nao encontrado",
+            message="Arquivo LICENSE não encontrado",
             fix="Criar arquivo LICENSE com copyright da Embrapa",
         ))
     else:
@@ -1109,7 +1109,7 @@ def validate_code(project: Path, stack: Dict[str, Any]) -> List[Finding]:
                 findings.append(Finding(
                     rule="5.4b", severity="LOW", category="license",
                     file="LICENSE",
-                    message="LICENSE nao contem texto de copyright da Embrapa",
+                    message="LICENSE não contém texto de copyright da Embrapa",
                     fix=f"Atualizar LICENSE para conter: 'Copyright (c) YYYY {LICENSE_REQUIRED_TEXT}. All rights reserved.'",
                 ))
         except Exception:
@@ -1133,16 +1133,16 @@ def validate_code(project: Path, stack: Dict[str, Any]) -> List[Finding]:
                 findings.append(Finding(
                     rule="NO-FALLBACK", severity="HIGH", category="code",
                     file=rel_path, line=lineno,
-                    message=f"Variavel de ambiente com fallback/default detectada: {description}",
-                    fix="Remover valor padrao. Variaveis DEVEM ser obrigatorias - se nao definidas, o codigo DEVE falhar.",
+                    message=f"Variável de ambiente com fallback/default detectada: {description}",
+                    fix="Remover valor padrão. Variáveis DEVEM ser obrigatórias - se não definidas, o código DEVE falhar.",
                 ))
 
     # README check
     if not (project / "README.md").exists():
         findings.append(Finding(
             rule="5.1", severity="MEDIUM", category="structure",
-            message="Arquivo README.md nao encontrado",
-            fix="Criar README.md com documentacao do projeto",
+            message="Arquivo README.md não encontrado",
+            fix="Criar README.md com documentação do projeto",
         ))
 
     return findings
@@ -1229,14 +1229,14 @@ def validate_integrations(
     if is_codebase and not result["sentry"]["detected"]:
         result["sentry"]["findings"].append(Finding(
             rule="4.1", severity="CRITICAL", category="integrations",
-            message="Sentry nao configurado (obrigatorio para codebases com codigo-fonte)",
-            fix="Implementar integracao Sentry conforme stack detectada",
+            message="Sentry não configurado (obrigatório para codebases com código-fonte)",
+            fix="Implementar integração Sentry conforme stack detectada",
         ).to_dict())
     elif sentry_pkg_found and not sentry_init_found:
         result["sentry"]["findings"].append(Finding(
             rule="4.1b", severity="HIGH", category="integrations",
-            message="Pacote Sentry instalado mas Sentry.init() nao encontrado no codigo",
-            fix="Configurar inicializacao do Sentry no entry point da aplicacao",
+            message="Pacote Sentry instalado mas Sentry.init() não encontrado no código",
+            fix="Configurar inicialização do Sentry no entry point da aplicação",
         ).to_dict())
 
     # --- Matomo detection ---
@@ -1273,7 +1273,7 @@ def validate_integrations(
     if is_codebase and not result["matomo"]["detected"]:
         result["matomo"]["findings"].append(Finding(
             rule="4.2", severity="CRITICAL", category="integrations",
-            message="Matomo nao configurado (obrigatorio para codebases com codigo-fonte)",
+            message="Matomo não configurado (obrigatório para codebases com código-fonte)",
             fix="Implementar tracking do Matomo conforme stack detectada",
         ).to_dict())
 
@@ -1437,7 +1437,7 @@ def format_summary(report: Dict[str, Any]) -> str:
     stack = report.get("stack", {})
 
     grade = score.get("grade", "?")
-    grade_emoji = {"HIGH": "[CONFORME]", "MEDIUM": "[PARCIAL]", "LOW": "[NAO CONFORME]"}.get(
+    grade_emoji = {"HIGH": "[CONFORME]", "MEDIUM": "[PARCIAL]", "LOW": "[NÃO CONFORME]"}.get(
         grade, "[?]"
     )
 
@@ -1446,7 +1446,7 @@ def format_summary(report: Dict[str, Any]) -> str:
     lines.append(f"Projeto: {report.get('project_path', '?')}")
     lines.append(f"Data: {report.get('timestamp', '?')}")
     lines.append(f"Stack: {stack.get('language', '?')} / {stack.get('framework', '-')}")
-    lines.append(f"Codebase: {'Sim' if stack.get('is_codebase') else 'Nao'}")
+    lines.append(f"Codebase: {'Sim' if stack.get('is_codebase') else 'Não'}")
     lines.append(f"")
     lines.append(f"Score: {grade} {grade_emoji}")
     lines.append(f"Regras: {score.get('passed', 0)}/{score.get('total_rules', 40)} aprovadas ({score.get('percentage', 0)}%)")
