@@ -81,7 +81,7 @@ Load knowledge files on-demand when executing workflows:
 | File | Description |
 |------|-------------|
 | `./knowledge/embrapa-io-fundamentals.md` | 4 Verdades Fundamentais e regras básicas da plataforma |
-| `./knowledge/embrapa-io-validation.md` | 40 regras de validação de conformidade |
+| `./knowledge/embrapa-io-validation.md` | 41 regras de validação de conformidade |
 | `./knowledge/embrapa-io-integrations.md` | Integrações Sentry, Matomo, SonarQube, Loki |
 | `./knowledge/embrapa-io-stacks.md` | Configurações por stack tecnológica |
 | `./knowledge/embrapa-io-coding-standards.md` | Padrões de codificação: grafia PT-BR, variáveis sem fallback, LICENSE, integrações |

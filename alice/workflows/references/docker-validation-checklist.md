@@ -45,8 +45,12 @@ Para cada serviço CLI:
 - [ ] `profiles: ['cli']`
 - [ ] `restart: "no"`
 - [ ] `networks:` inclui `stack`
-- [ ] Backup gera `.tar.gz` (não `.sql` solto)
-- [ ] Nomenclatura: `{project}_{service}_{date}.tar.gz`
+- [ ] Backup gera **UM** `.tar.gz` na **RAIZ** de `/backup` (não `.sql` solto, não em subdiretório)
+- [ ] Nome EXATO: `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz` (data como SUFIXO, `$$` para o Compose)
+- [ ] Sem extensão dupla (`.sql.tar.gz`, `.dump.tar.gz` são proibidos — o dump fica DENTRO do tar)
+- [ ] Diretório temporário removido após compactar (`rm -rf` ou `trap`); só `.tar.gz` na raiz do volume
+- [ ] `restore` recebe `BACKUP_FILE_TO_RESTORE` (nome relativo a `/backup`) e valida com `test -f`
+- Motivo: o Doctor publica apenas `*.tar.gz` da raiz do volume e o Releaser (`cleaner`) lê a data do nome para a retenção 7 diários / 4 semanais / 3 mensais — sem data no nome, o arquivo fica no volume para sempre
 
 ## Resultado
 

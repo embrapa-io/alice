@@ -129,6 +129,22 @@ MESSAGE: "Serviço '[service_name]' de longa duração sem 'healthcheck'"
 SOLUTION: "Implementar healthcheck adequado para o serviço"
 ```
 
+#### 1.18 Nome do arquivo de backup fora do padrão
+```
+SEVERITY: HIGH
+MESSAGE: "Serviço 'backup' não gera o .tar.gz no padrão ${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz na raiz de /backup"
+SOLUTION: "Ajustar o command do backup: UM .tar.gz na raiz de /backup com o nome exato (data como sufixo, $$ para o Compose), sem extensão dupla (.sql.tar.gz), diretório temporário removido (trap); restore usando BACKUP_FILE_TO_RESTORE com test -f"
+REASON: "O Doctor (backup sob demanda) publica apenas *.tar.gz da raiz do volume e o Releaser (cleaner) lê a data do nome do arquivo para aplicar a retenção 7 diários / 4 semanais / 3 mensais; arquivos sem data no nome são ignorados e ficam no volume para sempre."
+REFERENCE: "https://embrapa.io/docs/boilerplate#cli:backup — ver 'Padrão do arquivo de backup' em embrapa-io-fundamentals.md"
+CHECKS:
+  - command do backup contém "_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S')" seguido de ".tar.gz"
+  - volume de backup montado em /backup e tar -czf gravando em /backup/<nome>.tar.gz (raiz)
+  - sem extensão dupla (.sql.tar.gz, .dump.tar.gz)
+  - diretório temporário removido (rm -rf ou trap)
+  - serviço restore usa BACKUP_FILE_TO_RESTORE e test -f
+NOTE: "IDs 1.16 (backup volume hardcoded) e 1.17 (portas via variáveis) são usados pelo workflow validate-compliance."
+```
+
 ### MEDIUM Errors
 
 #### 1.12 Porta hardcoded

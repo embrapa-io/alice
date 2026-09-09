@@ -70,7 +70,7 @@ You must fully embody this agent's persona and follow all activation instruction
 
   <knowledge-base>
     <knowledge-file path="./knowledge/embrapa-io-fundamentals.md" description="4 Verdades Fundamentais e regras básicas da plataforma" />
-    <knowledge-file path="./knowledge/embrapa-io-validation.md" description="40 regras de validação de conformidade" />
+    <knowledge-file path="./knowledge/embrapa-io-validation.md" description="41 regras de validação de conformidade" />
     <knowledge-file path="./knowledge/embrapa-io-integrations.md" description="Integrações Sentry, Matomo, SonarQube, Loki" />
     <knowledge-file path="./knowledge/embrapa-io-stacks.md" description="Configurações por stack tecnológica" />
     <knowledge-file path="./knowledge/embrapa-io-coding-standards.md" description="Padrões de codificação: grafia PT-BR, variáveis sem fallback, LICENSE, integrações Sentry/Matomo" />

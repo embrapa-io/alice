@@ -60,6 +60,13 @@ Follow `./references/step-file-protocol.md`. Step-specific:
 🔄 Restart Policy:
    [ ] Serviços principais: restart: unless-stopped
    [ ] Serviços CLI: restart: "no"
+
+💾 Backup (se serviços CLI incluídos):
+   [ ] Nome do .tar.gz termina em _${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz
+   [ ] Arquivo gravado na RAIZ de /backup (volume ${IO_PROJECT}_${IO_APP}_${IO_STAGE}_backup)
+   [ ] Sem extensão dupla (.sql.tar.gz, .dump.tar.gz)
+   [ ] Diretório temporário removido após compactar (rm -rf / trap)
+   [ ] Serviço restore usa BACKUP_FILE_TO_RESTORE e valida com test -f
 ```
 
 ### 2. Reportar Resultado da Validação

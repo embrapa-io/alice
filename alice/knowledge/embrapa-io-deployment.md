@@ -100,8 +100,9 @@ env $(cat .env.io) docker compose logs -f
 # Backup
 env $(cat .env.io) docker compose run --rm --no-deps backup
 
-# Restore
-env $(cat .env.io) BACKUP_FILE_TO_RESTORE=backup.tar.gz docker compose run --rm --no-deps restore
+# Restore (BACKUP_FILE_TO_RESTORE = nome do .tar.gz na raiz do volume de backup,
+# no padrão ${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_AAAA-MM-DD_HH-MM-SS.tar.gz)
+env $(cat .env.io) BACKUP_FILE_TO_RESTORE=meuprojeto_api_development_0.26.9-dev.1_2026-09-09_14-30-00.tar.gz docker compose run --rm --no-deps restore
 
 # Sanitize
 env $(cat .env.io) docker compose run --rm --no-deps sanitize

@@ -23,6 +23,7 @@ Gerar o arquivo docker-compose.yaml aplicando todas as configurações coletadas
 Follow `./references/step-file-protocol.md`. Step-specific:
 - Gerar docker-compose.yaml aplicando as 4 Verdades Fundamentais -- PROIBIDO violar qualquer uma
 - Todas as portas e volumes DEVEM usar variáveis de ambiente -- PROIBIDO hardcode no host
+- Serviço `backup` DEVE gerar o `.tar.gz` com o nome-padrão da plataforma (ver seção 5) -- PROIBIDO outro nome, extensão dupla ou subdiretório
 - Apresentar conteúdo ao usuário antes de salvar (não salvar neste step)
 
 ## Sequence of Instructions (Do not deviate, skip, or optimize)
@@ -158,49 +159,86 @@ volumes:
 
 ### 5. Adicionar Serviços CLI (se solicitado)
 
-If `{include_cli_services}` includes services:
+If `{include_cli_services}` includes services, use `{baseTemplate}` as reference and adapt the image/dump commands to `{selected_database}`.
+
+**🚨 REGRA OBRIGATÓRIA - Nome do arquivo de backup** (https://embrapa.io/docs/boilerplate#cli:backup):
+
+1. O serviço `backup` gera **UM** arquivo `.tar.gz` na **RAIZ** do volume de backup (montado em `/backup`) com o nome **EXATO**:
+   `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz`
+   (`$$` para o Compose não interpolar o `$(date ...)`; a data é **SUFIXO** no formato `AAAA-MM-DD_HH-MM-SS`)
+2. **PROIBIDO** extensão dupla (`.sql.tar.gz`, `.dump.tar.gz`): o dump e demais arquivos ficam **DENTRO** do `.tar.gz`
+3. Diretório temporário criado dentro de `/backup` com o mesmo nome-base e removido após compactar (usar `trap` para o caso de erro). Nada além dos `.tar.gz` permanece na raiz do volume
+4. Volume de backup: `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_backup`, `external: true`
+5. O serviço `restore` recebe `BACKUP_FILE_TO_RESTORE` (nome do `.tar.gz` relativo a `/backup`), valida existência (`test -f`), extrai em diretório temporário e restaura
+6. **Motivo:** o Doctor (backup sob demanda da plataforma) publica apenas `*.tar.gz` da raiz do volume, e o Releaser (`cleaner`) lê a data do nome do arquivo para aplicar a retenção 7 diários / 4 semanais / 3 mensais — arquivos sem data no nome são ignorados e ficam no volume para sempre
+
+**⚠️ Cuidado com `sh -c "..."` em `command: >`:** aspas duplas internas (ex.: `-H "Content-Type: ..."`) quebram o comando e `-exec {} \;` do `find` precisa ser `\\;`. Se o script tiver aspas, prefira `entrypoint: ["/bin/sh", "-c"]` + `command:` como lista com **um único item** em bloco literal (`- |`, como abaixo). Não use `command: |` (string): o Compose faz split por espaços e o `sh -c` receberia só a primeira palavra.
+
 ```yaml
   backup:
-    build:
-      context: .
-      dockerfile: Dockerfile.cli
-    profiles: [cli]
-    restart: "no"
-    volumes:
-      - backup_data:/backup
-    networks:
-      - stack
-    command: ["backup"]
-
-  restore:
-    build:
-      context: .
-      dockerfile: Dockerfile.cli
+    image: postgres:16-alpine   # mesma imagem/tecnologia do banco
     profiles: [cli]
     restart: "no"
     environment:
-      BACKUP_FILE_TO_RESTORE: ${BACKUP_FILE_TO_RESTORE}
+      PGPASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - backup_data:/backup
     networks:
       - stack
-    command: ["restore"]
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -e
+        BACKUP_NAME=${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S')
+        BACKUP_DIR=/backup/$$BACKUP_NAME
+        trap 'rm -rf "$$BACKUP_DIR"' EXIT
+        mkdir -p "$$BACKUP_DIR"
+        pg_dump -h postgres -U ${POSTGRES_USER} ${POSTGRES_DB} > "$$BACKUP_DIR/database.sql"
+        tar -czf "/backup/$$BACKUP_NAME.tar.gz" -C /backup "$$BACKUP_NAME"
+        echo "Backup concluído: $$BACKUP_NAME.tar.gz"
 
-  sanitize:
-    build:
-      context: .
-      dockerfile: Dockerfile.cli
+  restore:
+    image: postgres:16-alpine
     profiles: [cli]
     restart: "no"
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      BACKUP_FILE_TO_RESTORE: ${BACKUP_FILE_TO_RESTORE:-}
+    volumes:
+      - backup_data:/backup:ro
     networks:
       - stack
-    command: ["sanitize"]
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -e
+        test -f "/backup/$$BACKUP_FILE_TO_RESTORE" || { echo "Arquivo /backup/$$BACKUP_FILE_TO_RESTORE não encontrado"; exit 1; }
+        RESTORE_DIR=$$(mktemp -d)
+        trap 'rm -rf "$$RESTORE_DIR"' EXIT
+        tar -xzf "/backup/$$BACKUP_FILE_TO_RESTORE" -C "$$RESTORE_DIR" --strip-components=1
+        psql -h postgres -U ${POSTGRES_USER} ${POSTGRES_DB} < "$$RESTORE_DIR/database.sql"
+        echo "Restore concluído"
+
+  sanitize:
+    image: postgres:16-alpine
+    profiles: [cli]
+    restart: "no"
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - stack
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        psql -h postgres -U ${POSTGRES_USER} ${POSTGRES_DB} -c 'VACUUM ANALYZE;'
 
 volumes:
   backup_data:
     name: ${IO_PROJECT}_${IO_APP}_${IO_STAGE}_backup
     external: true
 ```
+
+**Validar antes de prosseguir:** o `command` do `backup` contém `_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S')` seguido de `.tar.gz`, o `tar -czf` grava direto em `/backup/`, e o `restore` usa `BACKUP_FILE_TO_RESTORE` com `test -f`.
 
 ### 6. Gerar Lista de Variáveis para .env
 

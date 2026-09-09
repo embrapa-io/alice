@@ -174,9 +174,15 @@ backup:
 - [ ] Serviço `restore` (MEDIUM se ausente)
 - [ ] Serviço `sanitize` (MEDIUM se ausente)
 
-**Verificar formato do arquivo de backup:**
-- [ ] O serviço `backup` gera arquivo `.tar.gz` (não `.sql` ou outro formato)
-- [ ] O nome do arquivo segue o padrão: `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz`
+**Verificar formato do arquivo de backup (padrão OBRIGATÓRIO — https://embrapa.io/docs/boilerplate#cli:backup):**
+- [ ] O serviço `backup` gera **UM** arquivo `.tar.gz` (não `.sql` ou outro formato)
+- [ ] O nome do arquivo segue **EXATAMENTE** o padrão: `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz` (data como SUFIXO, `$$` para o Compose)
+- [ ] O `.tar.gz` é gravado na **RAIZ** do volume de backup (montado em `/backup`), não em subdiretório
+- [ ] Sem extensão dupla (`.sql.tar.gz`, `.dump.tar.gz`): o dump fica DENTRO do tar
+- [ ] Diretório temporário removido após compactar (`rm -rf` ou `trap`) — nada além de `.tar.gz` fica na raiz
+- [ ] O serviço `restore` recebe `BACKUP_FILE_TO_RESTORE` (nome relativo a `/backup`) e valida com `test -f`
+
+Motivo: o Doctor (backup sob demanda) publica apenas `*.tar.gz` da raiz do volume e o Releaser (`cleaner`) lê a data do nome para aplicar a retenção 7 diários / 4 semanais / 3 mensais — arquivos sem data no nome são ignorados e ficam no volume para sempre.
 
 ```yaml
 # ✅ CORRETO - nomenclatura padrão do .tar.gz
@@ -201,11 +207,19 @@ command: >
   sh -c "
     BACKUP_DIR=${IO_PROJECT}_$(date +%Y%m%d).tar.gz
   "
+
+# ❌ INCORRETO - extensão dupla e fora da raiz de /backup
+command: >
+  sh -c "
+    pg_dump ... | gzip > /backup/dumps/${IO_PROJECT}_$$(date +'%Y-%m-%d_%H-%M-%S').sql.tar.gz
+  "
 ```
 
 **Se formato do backup estiver incorreto:**
-- Severidade: MEDIUM
-- Action Item: "Ajustar serviço `backup` para gerar `.tar.gz` com nomenclatura padrão `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz`"
+- Severidade: HIGH (o Doctor e a rotação de backups do Releaser dependem do nome)
+- Action Item: "Ajustar serviço `backup` para gerar UM `.tar.gz` na raiz de `/backup` com nome exato `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz`, sem extensão dupla, removendo o diretório temporário; e serviço `restore` usando `BACKUP_FILE_TO_RESTORE` com `test -f`"
+
+⚠️ Ao gerar o action item com `sh -c "..."` em `command: >`, lembrar que aspas duplas internas quebram o comando e `-exec {} \;` precisa ser `\\;`; preferir `entrypoint: ["/bin/sh", "-c"]` + `command:` como lista com um único item em bloco literal (`- |`) quando o script tiver aspas.
 
 ### 8. Validar Portas Não-Hardcoded
 

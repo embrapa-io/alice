@@ -123,6 +123,9 @@ Se usuário confirmar, implementar cada item.
 **Exemplos comuns de items MEDIUM:**
 
 **Adicionar serviços CLI (backup, restore, sanitize):**
+
+🚨 **Padrão OBRIGATÓRIO do arquivo de backup** (https://embrapa.io/docs/boilerplate#cli:backup): UM `.tar.gz` na RAIZ de `/backup` com nome EXATO `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz` (data como SUFIXO), sem extensão dupla (`.sql.tar.gz` é PROIBIDO — o dump fica DENTRO do tar), diretório temporário removido após compactar (`trap`), e `restore` recebendo `BACKUP_FILE_TO_RESTORE` validado com `test -f`. Motivo: o Doctor publica apenas `*.tar.gz` da raiz do volume e o Releaser (`cleaner`) lê a data do nome para a retenção 7 diários / 4 semanais / 3 mensais — sem data no nome, o arquivo fica no volume para sempre. Se o script precisar de aspas duplas, use `entrypoint: ["/bin/sh", "-c"]` + `command:` como lista com um único item em bloco literal (`- |`) em vez de `sh -c "..."` (ver `templates/docker-compose/base.yaml`).
+
 ```yaml
   backup:
     image: postgres:17-alpine
@@ -139,10 +142,10 @@ Se usuário confirmar, implementar cada item.
       sh -c "
         set -ex &&
         BACKUP_DIR=${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S') &&
+        trap 'rm -rf /backup/'$$BACKUP_DIR EXIT &&
         mkdir -p /backup/$$BACKUP_DIR &&
         pg_dump -h db -U ${DB_USER} ${DB_NAME} > /backup/$$BACKUP_DIR/database.sql &&
         tar -czf /backup/$$BACKUP_DIR.tar.gz -C /backup $$BACKUP_DIR &&
-        rm -rf /backup/$$BACKUP_DIR &&
         echo 'Backup concluído: '$$BACKUP_DIR'.tar.gz'
       "
 
@@ -164,9 +167,9 @@ Se usuário confirmar, implementar cada item.
         FILE_TO_RESTORE=$${BACKUP_FILE_TO_RESTORE:-no_file_to_restore} &&
         test -f /backup/$$FILE_TO_RESTORE &&
         RESTORE_DIR=$$(mktemp -d) &&
-        tar -xf /backup/$$FILE_TO_RESTORE -C $$RESTORE_DIR --strip-components=1 &&
+        trap 'rm -rf '$$RESTORE_DIR EXIT &&
+        tar -xzf /backup/$$FILE_TO_RESTORE -C $$RESTORE_DIR --strip-components=1 &&
         psql -h db -U ${DB_USER} ${DB_NAME} < $$RESTORE_DIR/database.sql &&
-        rm -rf $$RESTORE_DIR &&
         echo 'Restore concluído'
       "
 

@@ -18,7 +18,7 @@ last-redoc-date: 2026-01-20
 - [ ] Estrutura de diretórios mapeada
 - [ ] Endpoints de health check existentes detectados
 
-### Validação docker-compose.yaml (14 regras)
+### Validação docker-compose.yaml (15 regras)
 
 - [ ] Arquivo existe
 - [ ] Campo `version` ausente (obsoleto)
@@ -33,6 +33,7 @@ last-redoc-date: 2026-01-20
 - [ ] Portas do host usam variáveis de ambiente
 - [ ] Todos os serviços conectados à network `stack`
 - [ ] Serviços backup, restore, sanitize presentes (se aplicável)
+- [ ] Backup gera `.tar.gz` na raiz de `/backup` com nome `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz` (sem extensão dupla); restore usa `BACKUP_FILE_TO_RESTORE`
 - [ ] Healthchecks usam endpoints existentes
 
 ### Validação Arquivos .env (8 regras)

@@ -63,7 +63,7 @@
 
 ### 📝 Nota sobre Validações Granulares
 
-As validações específicas (docker-compose, env-files, settings, integrations) foram consolidadas no workflow único `validate-compliance`, que executa todas as 40 regras de validação em 5 steps sequenciais. Esta abordagem simplifica o uso e mantém a coerência do sistema.
+As validações específicas (docker-compose, env-files, settings, integrations) foram consolidadas no workflow único `validate-compliance`, que executa todas as 41 regras de validação em 5 steps sequenciais. Esta abordagem simplifica o uso e mantém a coerência do sistema.
 
 ---
 

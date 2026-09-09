@@ -18,9 +18,9 @@ last-redoc-date: 2025-12-03
 - [ ] Arquivos docker-compose.yaml, .embrapa/settings.json, .env.io.example verificados
 - [ ] Tipo de projeto corretamente identificado (ALREADY_COMPLIANT, EXISTING, NEW)
 
-### Validação docker-compose.yaml (14 regras)
+### Validação docker-compose.yaml (15 regras)
 
-- [ ] Todas as 14 regras de validação executadas
+- [ ] Todas as 15 regras de validação executadas (inclui 1.18: nome do arquivo de backup no padrão)
 - [ ] Erros categorizados por severidade (CRITICAL, HIGH, MEDIUM, LOW)
 - [ ] Status da categoria calculado (compliant/partial/non-compliant)
 

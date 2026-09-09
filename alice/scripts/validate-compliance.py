@@ -500,8 +500,125 @@ def detect_stack(project: Path) -> Dict[str, Any]:
 # Docker Compose validation
 # ---------------------------------------------------------------------------
 
+# Rule 1.18: exact suffix of the backup file name as written in docker-compose
+# (the '$$' keeps Compose from interpolating '$(date ...)').
+BACKUP_NAME_SUFFIX_RE = re.compile(
+    r"_\$\{IO_VERSION\}_\$\$\(date \+'%Y-%m-%d_%H-%M-%S'\)"
+)
+BACKUP_NAME_PREFIX = "${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_"
+# Double extension such as '.sql.tar.gz' or '.dump.tar.gz'
+BACKUP_DOUBLE_EXT_RE = re.compile(r"\.[A-Za-z0-9]+\.tar\.gz")
+
+
+def _service_script_text(svc_def: Dict[str, Any]) -> str:
+    """Flatten 'entrypoint' + 'command' of a service into one searchable string."""
+    parts: List[str] = []
+    for key in ("entrypoint", "command"):
+        value = svc_def.get(key)
+        if isinstance(value, list):
+            parts.append(" ".join(str(v) for v in value))
+        elif value is not None:
+            parts.append(str(value))
+    return "\n".join(parts)
+
+
+def _mounts_backup_root(svc_def: Dict[str, Any]) -> bool:
+    """True if some volume of the service is mounted exactly at /backup."""
+    svc_volumes = svc_def.get("volumes", [])
+    if not isinstance(svc_volumes, list):
+        return False
+    for vol in svc_volumes:
+        if isinstance(vol, dict):
+            target = str(vol.get("target", ""))
+        else:
+            segments = str(vol).split(":")
+            target = segments[1] if len(segments) >= 2 else ""
+        if target.rstrip("/") == "/backup":
+            return True
+    return False
+
+
+def _validate_backup_pattern(services: Dict[str, Any], dc_rel: str) -> List[Finding]:
+    """Rule 1.18: backup .tar.gz name/location pattern and restore contract."""
+    findings: List[Finding] = []
+    backup = services.get("backup")
+    if not isinstance(backup, dict):
+        return findings
+
+    ref = "Padrão: https://embrapa.io/docs/boilerplate#cli:backup"
+    script = _service_script_text(backup)
+
+    if not _mounts_backup_root(backup):
+        findings.append(Finding(
+            rule="1.18", severity="HIGH", category="docker",
+            file=dc_rel,
+            message="Serviço 'backup' não monta o volume de backup em /backup",
+            fix=f"Montar 'backup_data:/backup' no serviço 'backup' e gravar o .tar.gz na raiz. {ref}",
+        ))
+
+    if not BACKUP_NAME_SUFFIX_RE.search(script):
+        findings.append(Finding(
+            rule="1.18", severity="HIGH", category="docker",
+            file=dc_rel,
+            message="Serviço 'backup' não gera o .tar.gz com o nome-padrão "
+                    f"{BACKUP_NAME_PREFIX}$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz",
+            fix="Nomear o arquivo EXATAMENTE como "
+                f"{BACKUP_NAME_PREFIX}$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz "
+                "(data como sufixo, '$$' para o Compose). O Doctor publica apenas *.tar.gz "
+                "da raiz de /backup e o Releaser (cleaner) lê a data do nome para a retenção "
+                f"7 diários / 4 semanais / 3 mensais. {ref}",
+        ))
+    elif ".tar.gz" not in script:
+        findings.append(Finding(
+            rule="1.18", severity="HIGH", category="docker",
+            file=dc_rel,
+            message="Serviço 'backup' gera o nome-padrão mas não produz um arquivo .tar.gz",
+            fix=f"Compactar o diretório temporário com 'tar -czf /backup/<nome>.tar.gz -C /backup <nome>'. {ref}",
+        ))
+
+    if BACKUP_DOUBLE_EXT_RE.search(script):
+        findings.append(Finding(
+            rule="1.18", severity="HIGH", category="docker",
+            file=dc_rel,
+            message="Serviço 'backup' usa extensão dupla (ex.: .sql.tar.gz) no arquivo de backup",
+            fix=f"Gerar apenas '<nome>.tar.gz'; o dump e demais arquivos ficam DENTRO do tar. {ref}",
+        ))
+
+    if "mkdir" in script and not re.search(r"\brm\s+-rf\b|\btrap\b", script):
+        findings.append(Finding(
+            rule="1.18", severity="HIGH", category="docker",
+            file=dc_rel,
+            message="Serviço 'backup' cria diretório temporário mas não o remove após compactar",
+            fix=f"Remover o diretório temporário após o tar (preferir 'trap' para o caso de erro); "
+                f"só os .tar.gz devem permanecer na raiz de /backup. {ref}",
+        ))
+
+    restore = services.get("restore")
+    if isinstance(restore, dict):
+        restore_script = _service_script_text(restore)
+        restore_env = restore.get("environment", {})
+        env_text = json.dumps(restore_env) if isinstance(restore_env, (dict, list)) else str(restore_env)
+        if "BACKUP_FILE_TO_RESTORE" not in restore_script and "BACKUP_FILE_TO_RESTORE" not in env_text:
+            findings.append(Finding(
+                rule="1.18", severity="HIGH", category="docker",
+                file=dc_rel,
+                message="Serviço 'restore' não usa a variável BACKUP_FILE_TO_RESTORE",
+                fix="Receber BACKUP_FILE_TO_RESTORE (nome do .tar.gz relativo a /backup), validar com "
+                    f"'test -f /backup/$$BACKUP_FILE_TO_RESTORE', extrair em diretório temporário e restaurar. {ref}",
+            ))
+        elif "test -f" not in restore_script and "[ -f" not in restore_script and "[ ! -f" not in restore_script:
+            findings.append(Finding(
+                rule="1.18", severity="HIGH", category="docker",
+                file=dc_rel,
+                message="Serviço 'restore' não valida a existência do arquivo (test -f) antes de restaurar",
+                fix=f"Adicionar 'test -f /backup/$$BACKUP_FILE_TO_RESTORE' antes da extração. {ref}",
+            ))
+
+    return findings
+
+
 def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
-    """Validate docker-compose.yaml against Embrapa I/O rules (rules 1.1-1.15)."""
+    """Validate docker-compose.yaml against Embrapa I/O rules (rules 1.1-1.15, 1.18)."""
     findings: List[Finding] = []
     dc_path = find_docker_compose(project)
     dc_rel = ""
@@ -726,6 +843,12 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
             message=f"Serviços CLI recomendados não encontrados: {', '.join(sorted(missing_cli))}",
             fix="Implementar serviços CLI conforme embrapa-io-fundamentals.md",
         ))
+
+    # Rule 1.18: Backup file name must follow the platform pattern
+    # (https://embrapa.io/docs/boilerplate#cli:backup). The Doctor publishes only
+    # *.tar.gz from the backup volume root and the Releaser 'cleaner' reads the
+    # date suffix from the file name to apply retention (7 daily / 4 weekly / 3 monthly).
+    findings.extend(_validate_backup_pattern(services, dc_rel))
 
     # Check env_file on non-CLI services
     for svc_name, svc_def in services.items():
@@ -1579,6 +1702,52 @@ def run_self_test() -> bool:
         findings, _ = validate_docker(Path(tmpdir))
         has_version_finding = any(f.rule == "1.2" for f in findings)
         assert_true(has_version_finding, "version field detected as CRITICAL")
+
+    # ---------------------------------------------------------------
+    # Test 3b: Docker validation - backup file name pattern (rule 1.18)
+    # ---------------------------------------------------------------
+    print("\n[Test: Docker validation - backup file name pattern]", file=sys.stderr)
+    compliant_backup = {
+        "backup": {
+            "volumes": ["backup_data:/backup"],
+            "entrypoint": ["/bin/sh", "-c"],
+            "command": [
+                "set -e\n"
+                "BACKUP_NAME=${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S')\n"
+                "trap 'rm -rf /backup/$$BACKUP_NAME' EXIT\n"
+                "mkdir -p /backup/$$BACKUP_NAME\n"
+                "tar -czf /backup/$$BACKUP_NAME.tar.gz -C /backup $$BACKUP_NAME\n"
+            ],
+        },
+        "restore": {
+            "volumes": ["backup_data:/backup:ro"],
+            "environment": {"BACKUP_FILE_TO_RESTORE": "${BACKUP_FILE_TO_RESTORE:-}"},
+            "command": "sh -c 'test -f /backup/$$BACKUP_FILE_TO_RESTORE && tar -xzf /backup/$$BACKUP_FILE_TO_RESTORE'",
+        },
+    }
+    assert_eq(len(_validate_backup_pattern(compliant_backup, "docker-compose.yaml")), 0,
+              "compliant backup/restore produce no 1.18 finding")
+
+    broken_backup = {
+        "backup": {
+            "volumes": ["backup_data:/backup/dumps"],
+            "command": "sh -c \"mkdir -p /backup/tmp && pg_dump db | gzip > /backup/dumps/$$(date +%Y%m%d)_${IO_PROJECT}.sql.tar.gz\"",
+        },
+        "restore": {
+            "volumes": ["backup_data:/backup"],
+            "command": "sh -c 'psql < /backup/dump.sql'",
+        },
+    }
+    broken_findings = _validate_backup_pattern(broken_backup, "docker-compose.yaml")
+    assert_true(all(f.rule == "1.18" and f.severity == "HIGH" for f in broken_findings),
+                "all backup pattern findings are rule 1.18 HIGH")
+    assert_contains(broken_findings, lambda f: "/backup" in f.message, "backup mount outside /backup root detected")
+    assert_contains(broken_findings, lambda f: "nome-padrão" in f.message, "non-standard backup file name detected")
+    assert_contains(broken_findings, lambda f: "extensão dupla" in f.message, "double extension detected")
+    assert_contains(broken_findings, lambda f: "diretório temporário" in f.message, "temp dir not removed detected")
+    assert_contains(broken_findings, lambda f: "BACKUP_FILE_TO_RESTORE" in f.message, "restore without BACKUP_FILE_TO_RESTORE detected")
+    assert_eq(len(_validate_backup_pattern({"app": {"image": "nginx"}}, "docker-compose.yaml")), 0,
+              "no backup service means no 1.18 finding")
 
     # ---------------------------------------------------------------
     # Test 4: Docker validation - bind mount detection

@@ -86,8 +86,9 @@ Este projeto está em conformidade com a plataforma [Embrapa I/O](https://embrap
 # Backup do banco de dados
 env $(cat .env.io) docker compose run --rm backup
 
-# Restore do banco de dados
-env $(cat .env.io) BACKUP_FILE_TO_RESTORE=arquivo.sql docker compose run --rm restore
+# Restore do banco de dados (nome do .tar.gz na raiz do volume de backup,
+# no padrão {projeto}_{app}_{stage}_{versão}_AAAA-MM-DD_HH-MM-SS.tar.gz)
+env $(cat .env.io) BACKUP_FILE_TO_RESTORE=meuprojeto_api_development_0.26.9-dev.1_2026-09-09_14-30-00.tar.gz docker compose run --rm restore
 
 # Otimização do banco de dados
 env $(cat .env.io) docker compose run --rm sanitize

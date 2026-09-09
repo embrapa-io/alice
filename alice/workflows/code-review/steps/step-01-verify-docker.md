@@ -138,8 +138,14 @@ services:
 - [ ] `profiles: ['cli']` presente
 - [ ] `restart: "no"` ou `restart: no` presente
 - [ ] Conectado à network `stack`
-- [ ] Serviço `backup` gera arquivo `.tar.gz` (não `.sql` solto)
-- [ ] Nome do `.tar.gz` segue padrão: `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz`
+- [ ] Serviço `backup` gera **UM** arquivo `.tar.gz` (não `.sql` solto)
+- [ ] Nome do `.tar.gz` segue **EXATAMENTE** o padrão: `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz` (data como SUFIXO)
+- [ ] `.tar.gz` gravado na **RAIZ** de `/backup` (volume `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_backup`), não em subdiretório
+- [ ] Sem extensão dupla (`.sql.tar.gz`, `.dump.tar.gz`) — o dump fica DENTRO do tar
+- [ ] Diretório temporário removido após compactar (`rm -rf` ou `trap`)
+- [ ] Serviço `restore` recebe `BACKUP_FILE_TO_RESTORE` (nome relativo a `/backup`) e valida com `test -f`
+
+Motivo: o Doctor publica apenas `*.tar.gz` da raiz do volume e o Releaser (`cleaner`) lê a data do nome para a retenção 7 diários / 4 semanais / 3 mensais — sem data no nome, o arquivo fica no volume para sempre (https://embrapa.io/docs/boilerplate#cli:backup).
 
 ```yaml
 # ✅ CORRETO
@@ -162,6 +168,11 @@ backup:
 backup:
   command: |
     sh -c "pg_dump ... > /backup/dump.sql"
+
+# ❌ INCORRETO - extensão dupla e data como prefixo
+backup:
+  command: |
+    sh -c "pg_dump ... | gzip > /backup/$$(date +%Y%m%d)_${IO_PROJECT}.sql.tar.gz"
 ```
 
 **Resultado:** PASS ✅ / FAIL ❌

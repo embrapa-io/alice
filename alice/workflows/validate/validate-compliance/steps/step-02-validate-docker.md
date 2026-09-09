@@ -10,7 +10,7 @@ nextStepFile: './step-03-validate-env.md'
 
 ## STEP GOAL:
 
-Validar o arquivo docker-compose.yaml contra as 4 Verdades Fundamentais da plataforma Embrapa I/O e demais regras de validação (IDs 1.1-1.17).
+Validar o arquivo docker-compose.yaml contra as 4 Verdades Fundamentais da plataforma Embrapa I/O e demais regras de validação (IDs 1.1-1.18).
 
 ## MANDATORY EXECUTION RULES (READ FIRST):
 
@@ -38,7 +38,7 @@ Validar o arquivo docker-compose.yaml contra as 4 Verdades Fundamentais da plata
 
 - 🎯 Read and parse docker-compose.yaml
 - 💾 Document all errors with structured format
-- 📖 Apply all 17 validation rules (IDs 1.1-1.17)
+- 📖 Apply all 18 validation rules (IDs 1.1-1.18)
 - 🚫 FORBIDDEN to invent errors not based on rules
 
 ## CONTEXT BOUNDARIES:
@@ -149,6 +149,27 @@ Check: Volume de backup tem nome hardcoded correto
 Severity: LOW
 ```
 
+**ID 1.18 - Nome do arquivo de backup no padrão** (se serviço `backup` existir)
+```
+Check: command do backup gera o .tar.gz com nome terminando em
+       _${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz
+       (prefixo ${IO_PROJECT}_${IO_APP}_${IO_STAGE}_; data como SUFIXO; $$ para o Compose)
+Check: Volume de backup montado em /backup e .tar.gz gravado na RAIZ (não em subdiretório)
+Check: Sem extensão dupla (.sql.tar.gz, .dump.tar.gz) — o dump fica DENTRO do tar
+Check: Diretório temporário removido após compactar (rm -rf ou trap)
+Check: Serviço restore usa BACKUP_FILE_TO_RESTORE (nome relativo a /backup) e valida com test -f
+Severity: HIGH
+Auto-fixable: false
+Reason: O Doctor (backup sob demanda da plataforma) publica apenas *.tar.gz da raiz do
+        volume, e o Releaser (cleaner) lê a data do nome do arquivo para aplicar a retenção
+        7 diários / 4 semanais / 3 mensais; arquivos sem data no nome são ignorados e ficam
+        no volume para sempre. Referência: https://embrapa.io/docs/boilerplate#cli:backup
+Solution: Ajustar o command do backup para o padrão (ver knowledge/embrapa-io-fundamentals.md,
+          "Padrão do arquivo de backup"); se o script tiver aspas duplas, usar
+          entrypoint: ["/bin/sh", "-c"] + command como lista com um único item
+          em bloco literal (- |) em vez de sh -c "..."
+```
+
 ### 4. Estruturar Erros Encontrados
 
 For each error found, create structured object:
@@ -221,7 +242,7 @@ ONLY WHEN [C continue option] is selected and [docker-compose validation complet
 
 ### ✅ SUCCESS:
 
-- All 17 validation rules checked
+- All 18 validation rules checked
 - Errors documented with proper structure
 - Category status calculated
 - Results presented clearly

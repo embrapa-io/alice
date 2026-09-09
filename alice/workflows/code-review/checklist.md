@@ -32,6 +32,14 @@ last-redoc-date: 2026-01-20
 - [ ] Portas do host usam variáveis de ambiente
 - [ ] Todos os serviços conectados à network `stack`
 
+#### Arquivo de Backup (se serviço `backup` existir)
+
+- [ ] Nome do `.tar.gz` termina em `_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz` (prefixo `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_`)
+- [ ] Gravado na RAIZ de `/backup` (volume `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_backup`)
+- [ ] Sem extensão dupla (`.sql.tar.gz`, `.dump.tar.gz`)
+- [ ] Diretório temporário removido após compactar
+- [ ] `restore` usa `BACKUP_FILE_TO_RESTORE` e valida com `test -f`
+
 **Resultado Step 1:** PASS ✅ / FAIL ❌
 
 ### Step 2: Verificar Arquivos .env

@@ -21,6 +21,17 @@ services:
 
   # Serviço CLI: Backup
   # Uso: env $(cat .env.io) docker compose run --rm backup
+  #
+  # 🚨 PADRÃO OBRIGATÓRIO do arquivo de backup (https://embrapa.io/docs/boilerplate#cli:backup):
+  #   - UM arquivo .tar.gz na RAIZ do volume de backup (montado em /backup), com nome EXATO:
+  #     ${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz
+  #     ($$ para o Compose não interpolar o $(date ...); data é SUFIXO no formato AAAA-MM-DD_HH-MM-SS)
+  #   - Sem extensão dupla (.sql.tar.gz, .dump.tar.gz): o dump/arquivos ficam DENTRO do .tar.gz
+  #   - Diretório temporário criado dentro de /backup com o mesmo nome-base e removido após
+  #     compactar (trap garante remoção em caso de erro); só os .tar.gz permanecem na raiz
+  #   - Motivo: o Doctor (backup sob demanda) publica apenas *.tar.gz da raiz do volume e o
+  #     Releaser (cleaner) lê a data do nome para aplicar a retenção 7 diários / 4 semanais /
+  #     3 mensais — arquivos sem data no nome são ignorados e ficam no volume para sempre
   backup:
     image: alpine:latest
     restart: "no"
@@ -36,26 +47,27 @@ services:
       IO_APP: ${IO_APP}
       IO_STAGE: ${IO_STAGE}
       IO_VERSION: ${IO_VERSION}
-    command: >
-      sh -c "
-        set -e &&
-        echo '🔄 Iniciando backup...' &&
-        echo '📦 Projeto: ${IO_PROJECT}/${IO_APP} [${IO_STAGE}]' &&
-        echo '📌 Versão: ${IO_VERSION}' &&
-        BACKUP_NAME=${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S') &&
-        BACKUP_DIR=/backup/$$BACKUP_NAME &&
-        mkdir -p $$BACKUP_DIR &&
-        echo '📂 Copiando dados para backup...' &&
-        cp -r /data/* $$BACKUP_DIR/ 2>/dev/null || echo '⚠️ Nenhum dado em /data' &&
-        echo '📦 Compactando backup...' &&
-        cd /backup && tar -czf $$BACKUP_NAME.tar.gz $$BACKUP_NAME &&
-        rm -rf $$BACKUP_DIR &&
-        echo '✅ Backup concluído: $$BACKUP_NAME.tar.gz' &&
-        ls -lh /backup/$$BACKUP_NAME.tar.gz
-      "
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -e
+        echo '🔄 Iniciando backup...'
+        echo '📦 Projeto: ${IO_PROJECT}/${IO_APP} [${IO_STAGE}]'
+        echo '📌 Versão: ${IO_VERSION}'
+        BACKUP_NAME=${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S')
+        BACKUP_DIR=/backup/$$BACKUP_NAME
+        trap 'rm -rf "$$BACKUP_DIR"' EXIT
+        mkdir -p "$$BACKUP_DIR"
+        echo '📂 Copiando dados para backup...'
+        cp -r /data/. "$$BACKUP_DIR"/ 2>/dev/null || echo '⚠️ Nenhum dado em /data'
+        echo '📦 Compactando backup...'
+        tar -czf "/backup/$$BACKUP_NAME.tar.gz" -C /backup "$$BACKUP_NAME"
+        echo "✅ Backup concluído: $$BACKUP_NAME.tar.gz"
+        ls -lh "/backup/$$BACKUP_NAME.tar.gz"
 
   # Serviço CLI: Restore
-  # Uso: env $(cat .env.io) BACKUP_FILE=arquivo.tar.gz docker compose run --rm restore
+  # Uso: env $(cat .env.io) BACKUP_FILE_TO_RESTORE=arquivo.tar.gz docker compose run --rm restore
+  # BACKUP_FILE_TO_RESTORE = nome do .tar.gz relativo a /backup (raiz do volume de backup)
   restore:
     image: alpine:latest
     restart: "no"
@@ -67,31 +79,31 @@ services:
     networks:
       - stack
     environment:
-      BACKUP_FILE: ${BACKUP_FILE:-}
-    command: >
-      sh -c "
-        set -e &&
-        echo '🔄 Iniciando restauração...' &&
-        if [ -z \"$$BACKUP_FILE\" ]; then
-          echo '❌ Erro: Variável BACKUP_FILE não definida' &&
-          echo '💡 Uso: BACKUP_FILE=arquivo.tar.gz docker compose run --rm restore' &&
-          echo '' &&
-          echo '📋 Backups disponíveis:' &&
-          ls -lh /backup/*.tar.gz 2>/dev/null || echo '  Nenhum backup encontrado' &&
+      BACKUP_FILE_TO_RESTORE: ${BACKUP_FILE_TO_RESTORE:-}
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -e
+        echo '🔄 Iniciando restauração...'
+        if [ -z "$$BACKUP_FILE_TO_RESTORE" ]; then
+          echo '❌ Erro: Variável BACKUP_FILE_TO_RESTORE não definida'
+          echo '💡 Uso: BACKUP_FILE_TO_RESTORE=arquivo.tar.gz docker compose run --rm restore'
+          echo ''
+          echo '📋 Backups disponíveis:'
+          ls -lh /backup/*.tar.gz 2>/dev/null || echo '  Nenhum backup encontrado'
           exit 1
-        fi &&
-        if [ ! -f \"/backup/$$BACKUP_FILE\" ]; then
-          echo \"❌ Erro: Arquivo /backup/$$BACKUP_FILE não encontrado\" &&
+        fi
+        if ! test -f "/backup/$$BACKUP_FILE_TO_RESTORE"; then
+          echo "❌ Erro: Arquivo /backup/$$BACKUP_FILE_TO_RESTORE não encontrado"
           exit 1
-        fi &&
-        echo \"📦 Restaurando: $$BACKUP_FILE\" &&
-        RESTORE_DIR=$$(mktemp -d) &&
-        tar -xzf /backup/$$BACKUP_FILE -C $$RESTORE_DIR --strip-components=1 &&
-        echo '📂 Copiando dados restaurados...' &&
-        cp -r $$RESTORE_DIR/* /data/ 2>/dev/null || true &&
-        rm -rf $$RESTORE_DIR &&
+        fi
+        echo "📦 Restaurando: $$BACKUP_FILE_TO_RESTORE"
+        RESTORE_DIR=$$(mktemp -d)
+        trap 'rm -rf "$$RESTORE_DIR"' EXIT
+        tar -xzf "/backup/$$BACKUP_FILE_TO_RESTORE" -C "$$RESTORE_DIR" --strip-components=1
+        echo '📂 Copiando dados restaurados...'
+        cp -r "$$RESTORE_DIR"/. /data/ 2>/dev/null || true
         echo '✅ Restauração concluída com sucesso!'
-      "
 
   # Serviço CLI: Sanitize
   # Uso: env $(cat .env.io) docker compose run --rm sanitize

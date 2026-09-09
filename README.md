@@ -240,7 +240,7 @@ O diretório `knowledge/` contém a base de conhecimento da Alice:
 | Arquivo | Descrição |
 |---------|-----------|
 | `embrapa-io-fundamentals.md` | 4 Verdades Fundamentais da plataforma |
-| `embrapa-io-validation.md` | 40 regras de validação organizadas por categoria |
+| `embrapa-io-validation.md` | 41 regras de validação organizadas por categoria |
 | `embrapa-io-workflows.md` | Padrões de adaptação por tipo de projeto |
 | `embrapa-io-deployment.md` | Processos de deployment e ambientes |
 | `embrapa-io-stacks.md` | Configurações específicas por stack tecnológica |

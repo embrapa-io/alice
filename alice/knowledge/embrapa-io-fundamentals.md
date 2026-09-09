@@ -287,6 +287,18 @@ POSTGRES_VOLUME=meu-projeto_minha-app_development_postgres
 
 **OBRIGATÓRIO**: Três serviços CLI com `profiles: ['cli']`:
 
+#### Padrão do arquivo de backup (OBRIGATÓRIO)
+
+Definido em https://embrapa.io/docs/boilerplate#cli:backup e exigido pelo backup sob demanda do Doctor e pela rotação de backups do Releaser (`cleaner`):
+
+1. O serviço `backup` gera **UM** arquivo `.tar.gz` na **RAIZ** do volume de backup (montado em `/backup`) com o nome **EXATO**: `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz` — no compose, `$$` para o Compose não interpolar o `$(date ...)`; a data é **SUFIXO** no formato `AAAA-MM-DD_HH-MM-SS`. **Sem extensão dupla** (`.sql.tar.gz`, `.dump.tar.gz` são proibidos): o dump/arquivos ficam **DENTRO** do `.tar.gz`.
+2. Diretório temporário de trabalho criado dentro de `/backup` com o mesmo nome-base e removido após compactar (idealmente com `trap` para o caso de erro). Nada além dos `.tar.gz` deve permanecer na raiz do volume.
+3. Volume de backup: `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_backup`, `external: true`.
+4. O serviço `restore` recebe `BACKUP_FILE_TO_RESTORE` (nome do `.tar.gz`, relativo a `/backup`), valida existência (`test -f`), extrai em diretório temporário e restaura.
+5. **Motivo:** o Doctor (backup sob demanda da plataforma) publica apenas `*.tar.gz` da raiz do volume, e o Releaser (`cleaner`) lê a data do nome do arquivo para aplicar a retenção 7 diários / 4 semanais / 3 mensais; arquivos sem data no nome são ignorados e ficam no volume para sempre.
+
+⚠️ Com `sh -c "..."` em `command: >`, aspas duplas internas (ex.: `-H "Content-Type: ..."`) quebram o comando e `-exec {} \;` do `find` precisa ser `\\;`. Se o script tiver aspas, prefira `entrypoint: ["/bin/sh", "-c"]` + `command:` como lista com um único item em bloco literal (`- |`; ver `templates/docker-compose/base.yaml`). Não use `command: |` (string): o Compose faz split por espaços e o `sh -c` receberia só a primeira palavra.
+
 #### Serviço de Backup
 ```yaml
 backup:
@@ -305,10 +317,10 @@ backup:
     sh -c "
       set -ex &&
       BACKUP_DIR=${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S') &&
+      trap 'rm -rf /backup/'$$BACKUP_DIR EXIT &&
       mkdir -p /backup/$$BACKUP_DIR &&
       pg_dump -U ${DB_USER} -d ${DB_NAME} > /backup/$$BACKUP_DIR/database.sql &&
-      tar -czf /backup/$$BACKUP_DIR.tar.gz -C /backup $$BACKUP_DIR &&
-      rm -rf /backup/$$BACKUP_DIR
+      tar -czf /backup/$$BACKUP_DIR.tar.gz -C /backup $$BACKUP_DIR
     "
 ```
 
@@ -329,12 +341,12 @@ restore:
   command: >
     sh -c "
       set -ex &&
-      FILE_TO_RESTORE=${BACKUP_FILE_TO_RESTORE:-no_file_to_restore} &&
+      FILE_TO_RESTORE=$${BACKUP_FILE_TO_RESTORE:-no_file_to_restore} &&
       test -f /backup/$$FILE_TO_RESTORE &&
       RESTORE_DIR=$$(mktemp -d) &&
-      tar -xf /backup/$$FILE_TO_RESTORE -C $$RESTORE_DIR --strip-components=1 &&
-      psql -U ${DB_USER} -d ${DB_NAME} < $$RESTORE_DIR/database.sql &&
-      rm -rf $$RESTORE_DIR
+      trap 'rm -rf '$$RESTORE_DIR EXIT &&
+      tar -xzf /backup/$$FILE_TO_RESTORE -C $$RESTORE_DIR --strip-components=1 &&
+      psql -U ${DB_USER} -d ${DB_NAME} < $$RESTORE_DIR/database.sql
     "
 ```
 
@@ -491,6 +503,7 @@ env $(cat .env.io) docker compose run --rm --no-deps sanitize
 - [ ] Variáveis seguem convenção `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_[nome]`
 - [ ] `.embrapa/settings.json` presente com metadados corretos
 - [ ] Serviços CLI (backup, restore, sanitize) implementados
+- [ ] Backup gera `.tar.gz` na raiz de `/backup` com nome `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz` (sem extensão dupla)
 - [ ] Integrações Sentry e Matomo configuradas
 - [ ] Logo da Embrapa presente em interfaces visuais
 - [ ] README documenta comandos com prefixo `env $(cat .env.io)`
