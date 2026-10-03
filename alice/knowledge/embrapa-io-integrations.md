@@ -586,32 +586,11 @@ sonar.php.coverage.reportPaths=coverage/coverage-clover.xml
 sonar.cs.opencover.reportsPaths=coverage/coverage.opencover.xml
 ```
 
-#### CI/CD Integration (GitHub Actions)
+#### CI/CD: `.gitlab-io.yml` (pipeline da plataforma)
 
-```yaml
-# .github/workflows/sonarqube.yml
-name: SonarQube Analysis
+A varredura do SonarQube roda no runner da plataforma, configurada no arquivo **`.gitlab-io.yml` na raiz do repositório** — o GitLab da plataforma (git.embrapa.io) lê o pipeline das aplicações desse arquivo (`ci_config_path`), não do `.gitlab-ci.yml`. É a mesma lógica do `.env` × `.env.io`: o `.gitlab-ci.yml` é da equipe (a plataforma não o lê, não o cria e não o exige) e o `.gitlab-io.yml` é da plataforma.
 
-on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main]
-
-jobs:
-  sonarqube:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-```
+O conteúdo vem do boilerplate da pilha; o padrão genérico está em `templates/gitlab-io/gitlab-io.yml` e em `embrapa-io-fundamentals.md` ("Pipeline da plataforma: `.gitlab-io.yml`"). `SONAR_HOST_URL` e o token do SonarQube vêm das variáveis de CI/CD do GitLab da plataforma — não declarar no repositório. Regra de validação: **5.5** (MEDIUM se ausente; aviso se não contiver `sonar-scanner`).
 
 ### Thresholds Recomendados
 
@@ -743,9 +722,9 @@ logger.error('Database connection failed', { error: err.message });
 - [ ] Token configurado (backend, se aplicável)
 
 ### SonarQube
-- [ ] sonar-project.properties criado
+- [ ] `.gitlab-io.yml` na raiz com o job do `sonar-scanner` (o `.gitlab-ci.yml` é da equipe)
+- [ ] sonar-project.properties criado (opcional)
 - [ ] Coverage configurado
-- [ ] CI/CD integration configurada
 - [ ] Quality Gates definidos
 - [ ] Projeto criado no SonarQube
 

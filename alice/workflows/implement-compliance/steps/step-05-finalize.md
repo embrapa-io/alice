@@ -113,6 +113,7 @@ Para detalhes sobre a conformidade com a plataforma Embrapa I/O, consulte:
 - `bootstrap.sh` - Script de inicialização
 - `.embrapa/settings.json` - Metadados do projeto (se não existia)
 - `LICENSE` - Licença Embrapa (se não existia)
+- `.gitlab-io.yml` - Pipeline da plataforma com SonarQube (se não existia)
 
 **Modificados:**
 - `docker-compose.yaml` - Conformidade com 4 Verdades Fundamentais

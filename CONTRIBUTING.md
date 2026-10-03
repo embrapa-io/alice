@@ -24,7 +24,7 @@ O módulo é um **skill self-contained**: o installer do BMad copia `alice/` int
 - `alice/SKILL.md` — Entry point da agente (persona, capabilities, headless, escopo)
 - `alice/workflows/` — 8 workflows (3 core + 4 setup + 1 deprecated)
 - `alice/knowledge/` — 8 knowledge files com regras da plataforma
-- `alice/templates/` — Templates reutilizáveis (docker-compose, env, settings)
+- `alice/templates/` — Templates reutilizáveis (docker-compose, env, settings, gitlab-io)
 - `alice/scripts/validate-compliance.py` — Validação determinística (rodar com `uv run`)
 - `agents/alice.md` — Definição legada em formato XML (mantida para compatibilidade)
 - `.claude-plugin/marketplace.json` — Registra `./alice` como único skill instalável

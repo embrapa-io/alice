@@ -430,7 +430,53 @@ _paq.push(['trackPageView']);
 
 ### SonarQube (Qualidade de Código)
 
-**Arquivo** `sonar-project.properties`:
+#### Pipeline da plataforma: `.gitlab-io.yml` (OBRIGATÓRIO)
+
+Desde 03/10/2026, o GitLab da plataforma (git.embrapa.io) lê a configuração de pipeline das aplicações do arquivo **`.gitlab-io.yml`, na raiz do repositório** (campo `ci_config_path` de cada projeto), e **não mais** do `.gitlab-ci.yml`. É a mesma lógica do `.env` × `.env.io`: os dois arquivos ficam lado a lado e o `.io` é o da plataforma.
+
+1. **`.gitlab-io.yml` é da plataforma**: hoje roda a varredura do SonarQube no runner da plataforma; no futuro reunirá outras verificações que usam o runner (Trivy, baterias de teste). O conteúdo varia por pilha tecnológica (o do .NET, por exemplo, instala pacotes próprios) e por isso **vem do boilerplate** — no repositório de um boilerplate ele é indispensável. App nova sem o arquivo recebe do automaton-sonarqube apenas o modelo genérico, perdendo a configuração específica da pilha.
+2. **`.gitlab-ci.yml` é da equipe**: a plataforma não o lê, não o cria e não o exige. Equipes e empresas parceiras podem ter pipeline próprio ou espelhar o código de outro GitLab sem conflito. A Alice **não** reclama da presença nem da ausência dele e **nunca** o gera nem o edita.
+3. **Conteúdo padrão (genérico)** — ver `templates/gitlab-io/gitlab-io.yml`:
+
+```yaml
+image:
+    name: sonarsource/sonar-scanner-cli:11
+    entrypoint: [""]
+
+variables:
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+  GIT_DEPTH: "0"
+
+stages:
+  - build-sonar
+
+build-sonar:
+  stage: build-sonar
+
+  cache:
+    policy: pull-push
+    key: "sonar-cache-$CI_COMMIT_REF_SLUG"
+    paths:
+      - "${SONAR_USER_HOME}/cache"
+      - sonar-scanner/
+
+  script:
+    - >
+      sonar-scanner
+      -Dsonar.host.url="${SONAR_HOST_URL}"
+      -Dsonar.projectKey="${CI_PROJECT_NAMESPACE}_${CI_PROJECT_NAME}"
+      -Dsonar.qualitygate.wait=true
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
+```
+
+4. **Opcional — pipeline da equipe também no runner da plataforma**: o `.gitlab-io.yml` pode incluir o `.gitlab-ci.yml` (`include: - local: .gitlab-ci.yml`). Nesse caso, o job da plataforma deve usar `inherit: { default: false, variables: false }`, `needs: []` e `stage: .post` (com `image:` e `variables:` declarados dentro do próprio job), para não herdar imagem, `before_script`, tags e variáveis globais da equipe. Não é exigido pela regra.
+
+**Validação**: regra **5.5** (MEDIUM) quando o `.gitlab-io.yml` falta; aviso (não falha) quando existe mas não contém `sonar-scanner`.
+
+**Opcional** — arquivo `sonar-project.properties` (o `sonar-scanner` do `.gitlab-io.yml` já recebe a `projectKey` por linha de comando):
 ```properties
 sonar.projectKey=${IO_PROJECT}_${IO_APP}
 sonar.projectName=${IO_PROJECT} ${IO_APP}
@@ -504,6 +550,7 @@ env $(cat .env.io) docker compose run --rm --no-deps sanitize
 - [ ] `.embrapa/settings.json` presente com metadados corretos
 - [ ] Serviços CLI (backup, restore, sanitize) implementados
 - [ ] Backup gera `.tar.gz` na raiz de `/backup` com nome `${IO_PROJECT}_${IO_APP}_${IO_STAGE}_${IO_VERSION}_$$(date +'%Y-%m-%d_%H-%M-%S').tar.gz` (sem extensão dupla)
+- [ ] `.gitlab-io.yml` na raiz com o job do `sonar-scanner` (pipeline da plataforma; o `.gitlab-ci.yml` é da equipe e não é verificado)
 - [ ] Integrações Sentry e Matomo configuradas
 - [ ] Logo da Embrapa presente em interfaces visuais
 - [ ] README documenta comandos com prefixo `env $(cat .env.io)`

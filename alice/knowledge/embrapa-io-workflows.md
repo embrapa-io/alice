@@ -156,7 +156,7 @@ function detectProjectType(projectPath) {
 **Validações**:
 - Sentry: DSN configurado, release correto
 - Matomo: Tracking implementado, custom dimensions
-- SonarQube: sonar-project.properties existente
+- SonarQube: `.gitlab-io.yml` na raiz com o job do `sonar-scanner` (regra 5.5; o `.gitlab-ci.yml` é da equipe e não é verificado)
 - Loki: Logging driver configurado
 
 **Tipos de projeto**: EXISTING, ALREADY_COMPLIANT
@@ -474,8 +474,8 @@ projeto/
 - Stack detectada
 
 **Saída**:
-- sonar-project.properties
-- Integração com CI/CD
+- `.gitlab-io.yml` na raiz (pipeline da plataforma, conteúdo do boilerplate ou de `templates/gitlab-io/gitlab-io.yml`) — nunca o `.gitlab-ci.yml`, que é da equipe
+- sonar-project.properties (opcional)
 - Configuração em settings.json
 
 **Tipos de projeto**: EXISTING, ALREADY_COMPLIANT

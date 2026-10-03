@@ -38,6 +38,7 @@ last-redoc-date: 2026-01-20
 - [ ] Serviços CLI com `profiles: ['cli']`
 - [ ] Serviços CLI com `restart: "no"`
 - [ ] Integrações Sentry/Matomo (se aplicável)
+- [ ] `.gitlab-io.yml` gerado com o conteúdo padrão (se ausente); `.gitlab-ci.yml` intocado
 
 ### Step 4: Criar Arquivos de Ambiente
 
@@ -68,6 +69,7 @@ last-redoc-date: 2026-01-20
 - [ ] `.env` - Valores preenchidos
 - [ ] `.gitignore` - Arquivos sensíveis ignorados
 - [ ] `bootstrap.sh` - Script de inicialização
+- [ ] `.gitlab-io.yml` - Pipeline da plataforma (SonarQube) na raiz
 
 ### Relatório Atualizado
 
@@ -91,11 +93,12 @@ O workflow é considerado bem-sucedido quando:
 
 - Este workflow NÃO deve modificar código funcional da aplicação
 - Healthchecks devem usar endpoints já existentes
+- O `.gitlab-ci.yml` é da equipe: este workflow NUNCA o cria nem o edita (o pipeline da plataforma é o `.gitlab-io.yml`)
 - Valores sensíveis em `.env` devem ser gerados automaticamente
 - O projeto deve ser validado via Code Review após implementação
 
 ---
 
-**Versão:** 1.26.4-9
+**Versão:** 1.26.10-1
 **Compatível com:** BMAD Core v6
 **Última atualização:** 2026-03-30

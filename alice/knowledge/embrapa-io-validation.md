@@ -371,7 +371,7 @@ SOLUTION: "Adicionar logo da Embrapa conforme diretrizes de UI"
 ```
 SEVERITY: MEDIUM
 MESSAGE: "Projeto [type] recomenda SonarQube mas não está configurado"
-SOLUTION: "Configurar SonarQube ou documentar motivo da não-configuração"
+SOLUTION: "Configurar SonarQube pelo .gitlab-io.yml da plataforma (ver regra 5.5) ou documentar motivo da não-configuração"
 ```
 
 ### LOW Errors
@@ -399,6 +399,20 @@ SOLUTION: "Criar README.md com documentação do projeto"
 SEVERITY: MEDIUM
 MESSAGE: "Arquivo .gitignore não encontrado"
 SOLUTION: "Criar .gitignore adequado para a stack utilizada"
+```
+
+#### 5.5 Arquivo .gitlab-io.yml ausente
+```
+SEVERITY: MEDIUM
+MESSAGE: "Arquivo .gitlab-io.yml (pipeline da plataforma) não encontrado na raiz do repositório"
+SOLUTION: "Criar .gitlab-io.yml na raiz com o conteúdo padrão (templates/gitlab-io/gitlab-io.yml) ou com a versão do boilerplate da pilha; NUNCA criar nem editar o .gitlab-ci.yml"
+REASON: "Desde 03/10/2026 o GitLab da plataforma (git.embrapa.io) lê o pipeline das aplicações do .gitlab-io.yml (ci_config_path), não mais do .gitlab-ci.yml — mesma lógica do .env × .env.io. Sem o arquivo, a app nova recebe do automaton-sonarqube só o modelo genérico e perde a configuração específica da pilha (o do .NET, por exemplo, instala pacotes próprios). No repositório de um boilerplate o arquivo é indispensável: é dele que as apps herdam o pipeline. A Alice não distingue boilerplate de app, por isso a severidade é a mesma nos dois casos."
+REFERENCE: "Ver 'Pipeline da plataforma: .gitlab-io.yml' em embrapa-io-fundamentals.md"
+CHECKS:
+  - .gitlab-io.yml existe na raiz do repositório
+  - AVISO (não falha, não conta no score): .gitlab-io.yml existe mas não contém "sonar-scanner" (5.5b)
+NOT_CHECKED: ".gitlab-ci.yml é da equipe: a plataforma não o lê, não o cria e não o exige — não reportar presença nem ausência"
+NOTE: "ID 5.4 (LICENSE) é usado pelo scripts/validate-compliance.py."
 ```
 
 ### LOW Errors
@@ -475,13 +489,13 @@ Alguns erros podem ser corrigidos automaticamente. Marcar com `"auto_fixable": t
 
 Executar todas as 5 validações:
 
-- [ ] **Validação 1**: docker-compose.yaml (15 regras)
+- [ ] **Validação 1**: docker-compose.yaml (16 regras)
 - [ ] **Validação 2**: Arquivos .env (8 regras)
 - [ ] **Validação 3**: .embrapa/settings.json (9 regras)
 - [ ] **Validação 4**: Integrações (5 regras)
-- [ ] **Validação 5**: Estrutura de Projeto (3 regras)
+- [ ] **Validação 5**: Estrutura de Projeto (4 regras)
 
-**Total**: 40 regras de validação
+**Total**: 42 regras de validação
 
 ## 📊 Exemplo de Score Calculation
 

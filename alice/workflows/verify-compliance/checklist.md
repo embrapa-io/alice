@@ -59,11 +59,12 @@ last-redoc-date: 2026-01-20
 - [ ] Campo `variables` com estrutura correta
 - [ ] Campo `orchestrators` = `["DockerCompose"]`
 
-### Validação Integrações (5 regras)
+### Validação Integrações (6 regras)
 
 - [ ] Sentry configurado (se SENTRY_DSN presente)
 - [ ] Matomo configurado (se MATOMO_ID presente e frontend)
 - [ ] LICENSE presente
+- [ ] `.gitlab-io.yml` presente na raiz (MEDIUM se ausente; aviso se não contiver `sonar-scanner`) — `.gitlab-ci.yml` NÃO é verificado
 - [ ] Logo Embrapa presente (se frontend)
 - [ ] README.md documenta comandos Embrapa I/O
 
@@ -98,6 +99,6 @@ O workflow é considerado bem-sucedido quando:
 
 ---
 
-**Versão:** 1.26.4-9
+**Versão:** 1.26.10-1
 **Compatível com:** BMAD Core v6
 **Última atualização:** 2026-03-30

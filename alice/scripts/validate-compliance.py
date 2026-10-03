@@ -7,7 +7,7 @@
 
 Validates a project's compliance with the Embrapa I/O platform by checking
 docker-compose.yaml, environment files, .embrapa/settings.json, code patterns,
-integrations, and license. Outputs a structured JSON report that an LLM agent
+integrations, license, and the platform pipeline file (.gitlab-io.yml). Outputs a structured JSON report that an LLM agent
 can consume directly, replacing 3000-5000+ tokens of manual file reading.
 
 Usage:
@@ -78,6 +78,14 @@ STAGE_KEYS = ["default", "alpha", "beta", "release"]
 LICENSE_REQUIRED_TEXT = "Brazilian Agricultural Research Corporation (Embrapa)"
 
 RECOMMENDED_CLI_SERVICES = frozenset({"backup", "restore", "sanitize"})
+
+# Total de regras de validação (knowledge/embrapa-io-validation.md)
+TOTAL_RULES = 42
+
+# Pipeline da plataforma: o GitLab da plataforma lê o pipeline das aplicações
+# do .gitlab-io.yml (ci_config_path), não do .gitlab-ci.yml (que é da equipe).
+GITLAB_IO_FILE = ".gitlab-io.yml"
+GITLAB_IO_TEMPLATE = "templates/gitlab-io/gitlab-io.yml"
 
 # NO-FALLBACK patterns per language
 NO_FALLBACK_PATTERNS = {
@@ -1271,6 +1279,51 @@ def validate_code(project: Path, stack: Dict[str, Any]) -> List[Finding]:
     return findings
 
 
+def validate_gitlab_io(project: Path) -> Tuple[List[Finding], List[Finding]]:
+    """Validate the platform pipeline file .gitlab-io.yml (rule 5.5).
+
+    Returns (findings, warnings). Warnings do not fail and do not count in the
+    score. The .gitlab-ci.yml belongs to the team: the platform does not read,
+    create or require it, so its presence or absence is never reported.
+    """
+    findings: List[Finding] = []
+    warnings: List[Finding] = []
+
+    gitlab_io = project / GITLAB_IO_FILE
+    if not gitlab_io.is_file():
+        findings.append(Finding(
+            rule="5.5", severity="MEDIUM", category="structure",
+            message=(
+                "Arquivo .gitlab-io.yml (pipeline da plataforma) não encontrado na raiz; "
+                "sem ele a app recebe só o modelo genérico do automaton-sonarqube "
+                "(em boilerplate, o arquivo é indispensável)"
+            ),
+            fix=(
+                f"Criar .gitlab-io.yml na raiz com o conteúdo padrão ({GITLAB_IO_TEMPLATE}) "
+                "ou com a versão do boilerplate da pilha. Não criar nem editar o .gitlab-ci.yml (é da equipe)."
+            ),
+            auto_fixable=True,
+        ))
+        return findings, warnings
+
+    try:
+        content = gitlab_io.read_text(encoding="utf-8", errors="replace")
+    except Exception:
+        return findings, warnings
+
+    if "sonar-scanner" not in content:
+        warnings.append(Finding(
+            rule="5.5b", severity="WARNING", category="structure",
+            file=GITLAB_IO_FILE,
+            message=".gitlab-io.yml não contém o job do sonar-scanner (varredura do SonarQube da plataforma)",
+            fix=(
+                f"Conferir se a varredura foi removida de propósito; o job padrão está em {GITLAB_IO_TEMPLATE}"
+            ),
+        ))
+
+    return findings, warnings
+
+
 # ---------------------------------------------------------------------------
 # Integration detection
 # ---------------------------------------------------------------------------
@@ -1436,10 +1489,10 @@ def calculate_score(
             counts[f.severity] += 1
 
     total = sum(counts.values())
-    passed = 40 - total  # 40 total rules
+    passed = TOTAL_RULES - total
     if passed < 0:
         passed = 0
-    percentage = round((passed / 40) * 100, 1) if total <= 40 else 0.0
+    percentage = round((passed / TOTAL_RULES) * 100, 1) if total <= TOTAL_RULES else 0.0
 
     # Grade: HIGH/MEDIUM/LOW per Embrapa scoring
     if counts["CRITICAL"] > 0 or counts["HIGH"] > 3:
@@ -1450,7 +1503,7 @@ def calculate_score(
         grade = "HIGH"
 
     return {
-        "total_rules": 40,
+        "total_rules": TOTAL_RULES,
         "passed": passed,
         "failed": total,
         "percentage": percentage,
@@ -1517,14 +1570,22 @@ def build_report(
             "failed": [f.to_dict() for f in settings_findings],
         }
 
-    # Code validation
+    # Code validation (inclui estrutura: README, LICENSE, .gitlab-io.yml)
+    warnings: List[Finding] = []
     if checks_filter is None or "code" in checks_filter:
         code_findings = validate_code(project, stack)
+        gitlab_io_findings, gitlab_io_warnings = validate_gitlab_io(project)
+        code_findings.extend(gitlab_io_findings)
+        warnings.extend(gitlab_io_warnings)
         all_findings.extend(code_findings)
         report["checks"]["code"] = {
             "passed": [],
             "failed": [f.to_dict() for f in code_findings],
+            "warnings": [f.to_dict() for f in gitlab_io_warnings],
         }
+
+    # Avisos: não falham e não contam no score
+    report["warnings"] = [f.to_dict() for f in warnings]
 
     # Integration detection
     if checks_filter is None or "integrations" in checks_filter:
@@ -1572,7 +1633,7 @@ def format_summary(report: Dict[str, Any]) -> str:
     lines.append(f"Codebase: {'Sim' if stack.get('is_codebase') else 'Não'}")
     lines.append(f"")
     lines.append(f"Score: {grade} {grade_emoji}")
-    lines.append(f"Regras: {score.get('passed', 0)}/{score.get('total_rules', 40)} aprovadas ({score.get('percentage', 0)}%)")
+    lines.append(f"Regras: {score.get('passed', 0)}/{score.get('total_rules', TOTAL_RULES)} aprovadas ({score.get('percentage', 0)}%)")
     lines.append(f"")
 
     counts = report.get("summary", {})
@@ -1610,6 +1671,14 @@ def format_summary(report: Dict[str, Any]) -> str:
         for key in ("sentry", "matomo"):
             for f in integrations.get(key, {}).get("findings", []):
                 lines.append(f"  [{f.get('severity', '?')}] {f.get('message', '?')}")
+
+    report_warnings = report.get("warnings", [])
+    if report_warnings:
+        lines.append(f"")
+        lines.append(f"--- AVISOS ({len(report_warnings)}, não contam no score) ---")
+        for w in report_warnings:
+            loc = f" [{w['file']}]" if w.get("file") else ""
+            lines.append(f"  [AVISO] {w.get('message', '?')}{loc}")
 
     lines.append("")
     return "\n".join(lines)
@@ -1981,6 +2050,53 @@ def run_self_test() -> bool:
         assert_true(has_phone, "invalid phone format detected")
 
     # ---------------------------------------------------------------
+    # Test 17: .gitlab-io.yml (rule 5.5)
+    # ---------------------------------------------------------------
+    print("\n[Test: .gitlab-io.yml - pipeline da plataforma (5.5)]", file=sys.stderr)
+    template_path = Path(__file__).resolve().parent.parent / GITLAB_IO_TEMPLATE
+    assert_true(template_path.is_file(), "template gitlab-io.yml presente no skill")
+    assert_true(
+        template_path.is_file()
+        and "sonar-scanner" in template_path.read_text(encoding="utf-8"),
+        "template gitlab-io.yml contém sonar-scanner",
+    )
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Ausente (mesmo com .gitlab-ci.yml presente): MEDIUM
+        (Path(tmpdir) / ".gitlab-ci.yml").write_text("stages:\n  - test\n", encoding="utf-8")
+        findings, warns = validate_gitlab_io(Path(tmpdir))
+        assert_contains(
+            findings, lambda f: f.rule == "5.5" and f.severity == "MEDIUM",
+            ".gitlab-io.yml ausente -> 5.5 MEDIUM",
+        )
+        assert_eq(len(warns), 0, "sem aviso quando o arquivo falta")
+        assert_true(
+            not any(".gitlab-ci.yml" in f.message for f in findings),
+            ".gitlab-ci.yml (da equipe) não é reportado",
+        )
+        # Presente sem sonar-scanner: aviso, não falha
+        (Path(tmpdir) / ".gitlab-io.yml").write_text(
+            "include:\n  - local: .gitlab-ci.yml\n", encoding="utf-8",
+        )
+        findings, warns = validate_gitlab_io(Path(tmpdir))
+        assert_eq(len(findings), 0, ".gitlab-io.yml sem sonar-scanner não falha")
+        assert_contains(warns, lambda f: f.rule == "5.5b", "aviso 5.5b sem sonar-scanner")
+        # Presente com o conteúdo padrão: conforme
+        if template_path.is_file():
+            (Path(tmpdir) / ".gitlab-io.yml").write_text(
+                template_path.read_text(encoding="utf-8"), encoding="utf-8",
+            )
+            findings, warns = validate_gitlab_io(Path(tmpdir))
+            assert_eq((len(findings), len(warns)), (0, 0), "conteúdo padrão conforme")
+        # Aviso não conta no score nem no exit code
+        report = build_report(Path(tmpdir), {"code"})
+        assert_true("warnings" in report, "relatório expõe a chave warnings")
+        (Path(tmpdir) / ".gitlab-io.yml").write_text("stages: []\n", encoding="utf-8")
+        report = build_report(Path(tmpdir), {"code"})
+        failed_rules = [f["rule"] for f in report["checks"]["code"]["failed"]]
+        assert_true("5.5b" not in failed_rules, "aviso 5.5b fora de failed")
+        assert_contains(report["warnings"], lambda w: w["rule"] == "5.5b", "aviso 5.5b em warnings")
+
+    # ---------------------------------------------------------------
     # Summary
     # ---------------------------------------------------------------
     print(f"\n{'=' * 40}", file=sys.stderr)
@@ -1997,7 +2113,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
             "Embrapa I/O Compliance Validator.\n"
-            "Validates a project against 40 Embrapa I/O platform rules and outputs "
+            f"Validates a project against {TOTAL_RULES} Embrapa I/O platform rules and outputs "
             "a structured JSON report for LLM agent consumption."
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,

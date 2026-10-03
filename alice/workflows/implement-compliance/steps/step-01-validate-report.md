@@ -88,6 +88,7 @@ Este workflow irá modificar os seguintes tipos de arquivos:
 - .env.example / .env.io.example
 - .embrapa/settings.json
 - LICENSE
+- .gitlab-io.yml (pipeline da plataforma; o .gitlab-ci.yml da equipe NÃO é tocado)
 - Configurações de Sentry/Matomo (se aplicável)
 
 **Arquivos de código-fonte da aplicação NÃO serão modificados**

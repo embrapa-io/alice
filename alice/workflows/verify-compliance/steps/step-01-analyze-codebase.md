@@ -80,6 +80,7 @@ Checar presença de:
 - [ ] .env.io.example
 - [ ] .embrapa/settings.json
 - [ ] LICENSE
+- [ ] .gitlab-io.yml (pipeline da plataforma; o .gitlab-ci.yml é da equipe e não entra na verificação)
 - [ ] Dockerfile(s)
 - [ ] .gitignore
 - [ ] README.md

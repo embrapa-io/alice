@@ -1,6 +1,6 @@
 # Roadmap de Componentes - Módulo Embrapa I/O
 
-**Versão do Módulo**: 1.26.4-9
+**Versão do Módulo**: 1.26.10-1
 **Atualizado em**: 2026-03-30
 **Status Geral**: 🟢 Core Completo (85% completo)
 
@@ -63,7 +63,7 @@
 
 ### 📝 Nota sobre Validações Granulares
 
-As validações específicas (docker-compose, env-files, settings, integrations) foram consolidadas no workflow único `validate-compliance`, que executa todas as 41 regras de validação em 5 steps sequenciais. Esta abordagem simplifica o uso e mantém a coerência do sistema.
+As validações específicas (docker-compose, env-files, settings, integrations) foram consolidadas no workflow único `validate-compliance`, que executa todas as 42 regras de validação em 5 steps sequenciais. Esta abordagem simplifica o uso e mantém a coerência do sistema.
 
 ---
 
@@ -215,8 +215,8 @@ As validações específicas (docker-compose, env-files, settings, integrations)
   - **Tempo estimado**: 2 dias
 
 - [ ] **workflows/add/add-sonarqube-integration/**
-  - Criar sonar-project.properties
-  - Configurar CI/CD
+  - Criar sonar-project.properties (opcional)
+  - Ajustar o `.gitlab-io.yml` da plataforma à pilha (o `.gitlab-ci.yml` é da equipe)
   - **Prioridade**: BAIXA
   - **Tempo estimado**: 2 dias
 

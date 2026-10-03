@@ -1,6 +1,6 @@
 ---
 name: 'step-05-validate-integrations-and-code'
-description: 'Validação das integrações Sentry/Matomo, regra NO-FALLBACK e Linter'
+description: 'Validação das integrações Sentry/Matomo, regra NO-FALLBACK, Linter, LICENSE e .gitlab-io.yml'
 nextStepFile: './step-06-generate-report.md'
 ---
 
@@ -12,7 +12,7 @@ Validar integrações (Sentry, Matomo), regra NO-FALLBACK de variáveis de ambie
 
 ## PRE-COMPUTED VALIDATION
 
-If `validate-compliance.py` JSON output is available, use `checks.code` (NO-FALLBACK, LICENSE) and `checks.integrations` (Sentry, Matomo detection) results directly. Focus LLM effort on generating stack-specific remediation code examples.
+If `validate-compliance.py` JSON output is available, use `checks.code` (NO-FALLBACK, LICENSE, `.gitlab-io.yml` — incluindo `checks.code.warnings`) and `checks.integrations` (Sentry, Matomo detection) results directly. Focus LLM effort on generating stack-specific remediation code examples.
 
 ## Rules
 
@@ -212,7 +212,24 @@ Copyright © YYYY Brazilian Agricultural Research Corporation (Embrapa). All rig
 - Severidade: LOW
 - Action Item: "Atualizar LICENSE para formato padrão Embrapa"
 
-### 7. Verificar Logo Embrapa (se frontend)
+### 7. Verificar `.gitlab-io.yml` (pipeline da plataforma — ID 5.5)
+
+O GitLab da plataforma (git.embrapa.io) lê o pipeline das aplicações do `.gitlab-io.yml` na raiz (`ci_config_path`), não do `.gitlab-ci.yml` — mesma lógica do `.env` × `.env.io`. Ver "Pipeline da plataforma: `.gitlab-io.yml`" em `knowledge/embrapa-io-fundamentals.md`.
+
+- [ ] `.gitlab-io.yml` existe na raiz do repositório
+- [ ] `.gitlab-io.yml` contém o job do `sonar-scanner`
+
+**Se `.gitlab-io.yml` ausente:**
+- Severidade: MEDIUM
+- Action Item: "Criar `.gitlab-io.yml` na raiz com o conteúdo padrão (`templates/gitlab-io/gitlab-io.yml`) ou com a versão do boilerplate da pilha"
+- Motivo: sem o arquivo, a app nova recebe do automaton-sonarqube só o modelo genérico e perde a configuração específica da pilha. Se o repositório for um **boilerplate**, destacar no relatório que o arquivo é indispensável (as apps herdam dele o pipeline) — a severidade continua MEDIUM, pois a Alice não distingue boilerplate de app.
+
+**Se `.gitlab-io.yml` existe mas não contém `sonar-scanner`:**
+- Aviso (não falha, não conta no score): "`.gitlab-io.yml` sem o job do `sonar-scanner` — conferir se a varredura do SonarQube foi removida de propósito"
+
+🚫 **NÃO** reportar presença nem ausência do `.gitlab-ci.yml`: ele é da equipe (a plataforma não o lê, não o cria e não o exige). Se o `.gitlab-io.yml` incluir o `.gitlab-ci.yml` (`include: - local: .gitlab-ci.yml`), é opcional e válido.
+
+### 8. Verificar Logo Embrapa (se frontend)
 
 **Se projeto tem interface visual:**
 - [ ] Logo da Embrapa presente em assets
@@ -222,7 +239,7 @@ Copyright © YYYY Brazilian Agricultural Research Corporation (Embrapa). All rig
 - Severidade: LOW
 - Action Item: "Adicionar logo da Embrapa aos assets do projeto"
 
-### 8. Compilar Resultados
+### 9. Compilar Resultados
 
 ```markdown
 ## 🔌 Validação Integrações
@@ -253,6 +270,9 @@ Copyright © YYYY Brazilian Agricultural Research Corporation (Embrapa). All rig
 ### LICENSE
 - Status: {PRESENT | MISSING | INCORRECT_FORMAT}
 
+### .gitlab-io.yml (pipeline da plataforma)
+- Status: {PRESENT | MISSING | PRESENT_WITHOUT_SONAR (aviso)}
+
 ### Findings
 | # | Severidade | Problema | Solução |
 |---|------------|----------|---------|
@@ -261,7 +281,7 @@ Copyright © YYYY Brazilian Agricultural Research Corporation (Embrapa). All rig
 
 Store as `{integration_findings}`.
 
-### 9. Present MENU OPTIONS
+### 10. Present MENU OPTIONS
 
 Display: "**Select an Option:** [C] Continue to Generate Report [X] Exit workflow"
 

@@ -70,7 +70,7 @@ You must fully embody this agent's persona and follow all activation instruction
 
   <knowledge-base>
     <knowledge-file path="./knowledge/embrapa-io-fundamentals.md" description="4 Verdades Fundamentais e regras básicas da plataforma" />
-    <knowledge-file path="./knowledge/embrapa-io-validation.md" description="41 regras de validação de conformidade" />
+    <knowledge-file path="./knowledge/embrapa-io-validation.md" description="42 regras de validação de conformidade" />
     <knowledge-file path="./knowledge/embrapa-io-integrations.md" description="Integrações Sentry, Matomo, SonarQube, Loki" />
     <knowledge-file path="./knowledge/embrapa-io-stacks.md" description="Configurações por stack tecnológica" />
     <knowledge-file path="./knowledge/embrapa-io-coding-standards.md" description="Padrões de codificação: grafia PT-BR, variáveis sem fallback, LICENSE, integrações Sentry/Matomo" />
@@ -114,7 +114,7 @@ You must fully embody this agent's persona and follow all activation instruction
       - Melhorias de segurança, performance ou manutenibilidade do código legado
       - Docker Swarm e orquestradores além do Docker Compose
       - Testes unitários ou de integração
-      - CI/CD pipelines (SonarQube é opcional e documentado, não implementado)
+      - Pipeline CI/CD da equipe (`.gitlab-ci.yml`) — a Alice só gera e valida o `.gitlab-io.yml` da plataforma (varredura do SonarQube) e nunca toca o `.gitlab-ci.yml`
     </out-of-scope>
   </scope-boundaries>
 </agent>

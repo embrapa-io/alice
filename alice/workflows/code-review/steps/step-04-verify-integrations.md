@@ -1,6 +1,6 @@
 ---
 name: 'step-04-verify-integrations-and-code'
-description: 'Verificar integrações Sentry/Matomo, NO-FALLBACK, Linter e bootstrap.sh'
+description: 'Verificar integrações Sentry/Matomo, NO-FALLBACK, Linter, bootstrap.sh, LICENSE e .gitlab-io.yml'
 nextStepFile: './step-05-finalize-review.md'
 ---
 
@@ -21,6 +21,7 @@ Follow `./references/step-file-protocol.md`. Step-specific:
 - NO-FALLBACK: Verificar que todas as violações reportadas foram corrigidas
 - bootstrap.sh é obrigatório
 - LICENSE é obrigatório
+- `.gitlab-io.yml` é obrigatório (pipeline da plataforma); o `.gitlab-ci.yml` é da equipe e NÃO é verificado
 
 ## Sequence of Instructions
 
@@ -47,6 +48,17 @@ Copyright © {YEAR} Brazilian Agricultural Research Corporation (Embrapa). All r
 ```
 
 **Resultado:** PASS ✅ / FAIL ❌
+
+### 2b. Verificar `.gitlab-io.yml` (ID 5.5)
+
+O GitLab da plataforma lê o pipeline das aplicações do `.gitlab-io.yml` na raiz (`ci_config_path`), não do `.gitlab-ci.yml` — mesma lógica do `.env` × `.env.io`.
+
+**Verificações:**
+- [ ] Arquivo `.gitlab-io.yml` existe na raiz (MEDIUM se ausente; em boilerplate é indispensável)
+- [ ] Contém o job do `sonar-scanner` (se não contiver: aviso, não falha)
+- [ ] `.gitlab-ci.yml` não foi criado nem alterado pela implementação (é da equipe; presença ou ausência não é avaliada)
+
+**Resultado:** PASS ✅ / FAIL ❌ (aviso não reprova)
 
 ### 3. Verificar Integração Sentry (se aplicável)
 
@@ -108,6 +120,7 @@ Se sim:
 |---------|--------|
 | bootstrap.sh | ✅/❌ |
 | LICENSE | ✅/❌ |
+| .gitlab-io.yml | ✅/❌/⚠️ |
 | README.md | ✅/❌ |
 
 ### bootstrap.sh

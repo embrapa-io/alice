@@ -68,6 +68,7 @@ Load, read the full file and then execute `{workflow_path}/steps/step-01-validat
    - `.embrapa/settings.json` (created/modified)
    - `Dockerfile` (modified if needed)
    - `LICENSE` (created if needed)
+   - `.gitlab-io.yml` (created if needed — platform pipeline; `.gitlab-ci.yml` is never created or edited)
 
 2. **Environment Files (from templates):**
    - `.env` (created from `.env.example`)

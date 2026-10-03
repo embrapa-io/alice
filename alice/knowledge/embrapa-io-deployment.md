@@ -133,6 +133,10 @@ _paq.push(['setCustomDimension', 2, process.env.IO_VERSION]); // Version
 _paq.push(['trackPageView']);
 ```
 
+### SonarQube: pipeline da plataforma (`.gitlab-io.yml`)
+
+O GitLab da plataforma lê o pipeline das aplicações do **`.gitlab-io.yml` na raiz** (`ci_config_path`), não do `.gitlab-ci.yml` — mesma lógica do `.env` × `.env.io`: o `.io` é da plataforma, o outro é da equipe. Hoje o arquivo roda a varredura do SonarQube no runner da plataforma (job `build-sonar` com `sonar-scanner`, em merge requests e na `main`); no futuro reunirá outras verificações (Trivy, baterias de teste). O conteúdo vem do boilerplate da pilha; app nova sem o arquivo recebe do automaton-sonarqube só o modelo genérico. Detalhes e conteúdo padrão em `embrapa-io-fundamentals.md` ("Pipeline da plataforma: `.gitlab-io.yml`").
+
 ### Grafana Loki Logging
 
 ```yaml
@@ -218,6 +222,7 @@ echo ".env.sh" >> .gitignore
 - [ ] Network e volumes criados
 - [ ] Healthchecks funcionando
 - [ ] Integrações configuradas
+- [ ] `.gitlab-io.yml` na raiz (pipeline da plataforma com SonarQube)
 - [ ] Logs centralizados ativos
 - [ ] Monitoramento ativo
 

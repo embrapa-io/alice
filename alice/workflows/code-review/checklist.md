@@ -131,6 +131,12 @@ last-redoc-date: 2026-01-20
 - [ ] Arquivo existe
 - [ ] Contém copyright Embrapa
 
+#### .gitlab-io.yml (pipeline da plataforma)
+
+- [ ] Arquivo existe na raiz (MEDIUM se ausente)
+- [ ] Contém o job do `sonar-scanner` (aviso se não contiver)
+- [ ] `.gitlab-ci.yml` intocado (é da equipe; não é verificado)
+
 #### README.md
 
 - [ ] Arquivo existe
@@ -192,6 +198,6 @@ O workflow é considerado bem-sucedido quando:
 
 ---
 
-**Versão:** 1.26.4-9
+**Versão:** 1.26.10-1
 **Compatível com:** BMAD Core v6
 **Última atualização:** 2026-03-30

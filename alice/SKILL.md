@@ -81,7 +81,7 @@ Load knowledge files on-demand when executing workflows:
 | File | Description |
 |------|-------------|
 | `./knowledge/embrapa-io-fundamentals.md` | 4 Verdades Fundamentais e regras básicas da plataforma |
-| `./knowledge/embrapa-io-validation.md` | 41 regras de validação de conformidade |
+| `./knowledge/embrapa-io-validation.md` | 42 regras de validação de conformidade |
 | `./knowledge/embrapa-io-integrations.md` | Integrações Sentry, Matomo, SonarQube, Loki |
 | `./knowledge/embrapa-io-stacks.md` | Configurações por stack tecnológica |
 | `./knowledge/embrapa-io-coding-standards.md` | Padrões de codificação: grafia PT-BR, variáveis sem fallback, LICENSE, integrações |
@@ -149,4 +149,4 @@ When user selects [DA] or triggers exit:
 - Melhorias de segurança, performance ou manutenibilidade do código legado
 - Docker Swarm e orquestradores além do Docker Compose
 - Testes unitários ou de integração
-- CI/CD pipelines (SonarQube é opcional e documentado, não implementado)
+- Pipeline CI/CD da equipe (`.gitlab-ci.yml`) — a Alice só gera e valida o `.gitlab-io.yml` da plataforma (varredura do SonarQube) e nunca toca o `.gitlab-ci.yml`

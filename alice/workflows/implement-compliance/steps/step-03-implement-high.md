@@ -194,6 +194,48 @@ Se usuário confirmar, implementar cada item.
 Copyright © {YEAR} Brazilian Agricultural Research Corporation (Embrapa). All rights reserved.
 ```
 
+**Criar `.gitlab-io.yml` (pipeline da plataforma — ID 5.5):**
+
+Se o `.gitlab-io.yml` faltar na raiz, **gerar** o arquivo copiando literalmente `./templates/gitlab-io/gitlab-io.yml` (gravar como `.gitlab-io.yml`, com o ponto). Se houver versão específica da pilha no boilerplate de origem (`.embrapa/settings.json` → `boilerplate`), preferir a do boilerplate. Conteúdo padrão (genérico):
+
+```yaml
+image:
+    name: sonarsource/sonar-scanner-cli:11
+    entrypoint: [""]
+
+variables:
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+  GIT_DEPTH: "0"
+
+stages:
+  - build-sonar
+
+build-sonar:
+  stage: build-sonar
+
+  cache:
+    policy: pull-push
+    key: "sonar-cache-$CI_COMMIT_REF_SLUG"
+    paths:
+      - "${SONAR_USER_HOME}/cache"
+      - sonar-scanner/
+
+  script:
+    - >
+      sonar-scanner
+      -Dsonar.host.url="${SONAR_HOST_URL}"
+      -Dsonar.projectKey="${CI_PROJECT_NAMESPACE}_${CI_PROJECT_NAME}"
+      -Dsonar.qualitygate.wait=true
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
+```
+
+🚫 **NUNCA** gerar, editar, renomear ou remover o `.gitlab-ci.yml`: ele é da equipe (a plataforma não o lê, não o cria e não o exige — mesma lógica do `.env` × `.env.io`). Se a equipe pedir que o pipeline próprio rode também no runner da plataforma, o `.gitlab-io.yml` pode ter `include: - local: .gitlab-ci.yml`, e o job `build-sonar` passa a usar `inherit: { default: false, variables: false }`, `needs: []` e `stage: .post` (no lugar de `stages:`/`stage: build-sonar`), com `image:` e `variables:` declarados dentro do próprio job, para não herdar imagem, `before_script`, tags e variáveis globais da equipe — opcional, só sob pedido.
+
+Se o `.gitlab-io.yml` existir mas não tiver `sonar-scanner` (aviso 5.5b), **não** sobrescrever: apenas apontar no relatório e perguntar ao usuário.
+
 **Substituir portas hardcoded por variáveis:**
 ```yaml
 # ANTES

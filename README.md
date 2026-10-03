@@ -1,6 +1,6 @@
 # Embrapa I/O DevOps Compliance Module
 
-**Versão**: 1.26.4-9 | **Compatível com**: BMAD Core v6 | **Convenção de versão**: `1.YY.MM`
+**Versão**: 1.26.10-1 | **Compatível com**: BMAD Core v6 | **Convenção de versão**: `1.YY.MM`
 
 Módulo de conhecimento [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) para conformidade de aplicações com a plataforma [Embrapa I/O](https://embrapa.io). Inclui a agente **Alice**, 8 workflows especializados, 8 knowledge files, 6 templates e um script de validação automatizada.
 
@@ -192,7 +192,7 @@ A conformidade com Embrapa I/O é baseada em 4 regras invioláveis:
 - Melhorias de segurança, performance ou manutenibilidade
 - **Docker Swarm** (fora do escopo - apenas Docker Compose)
 - Testes unitários ou de integração
-- CI/CD pipelines (SonarQube é opcional e documentado, não implementado)
+- Pipeline CI/CD da equipe (`.gitlab-ci.yml`) — a Alice só gera e valida o `.gitlab-io.yml` da plataforma (varredura do SonarQube) e nunca toca o `.gitlab-ci.yml`
 
 ## Comandos Docker
 
@@ -240,7 +240,7 @@ O diretório `knowledge/` contém a base de conhecimento da Alice:
 | Arquivo | Descrição |
 |---------|-----------|
 | `embrapa-io-fundamentals.md` | 4 Verdades Fundamentais da plataforma |
-| `embrapa-io-validation.md` | 41 regras de validação organizadas por categoria |
+| `embrapa-io-validation.md` | 42 regras de validação organizadas por categoria |
 | `embrapa-io-workflows.md` | Padrões de adaptação por tipo de projeto |
 | `embrapa-io-deployment.md` | Processos de deployment e ambientes |
 | `embrapa-io-stacks.md` | Configurações específicas por stack tecnológica |
@@ -341,6 +341,7 @@ _bmad-output/
 
 ### Histórico
 
+- **2026-10-03**: v1.26.10-1 — Regra 5.5: `.gitlab-io.yml` na raiz (pipeline da plataforma com SonarQube; MEDIUM se ausente, aviso sem `sonar-scanner`); Alice gera o arquivo a partir de `templates/gitlab-io/gitlab-io.yml` e nunca toca o `.gitlab-ci.yml`, que passa a ser da equipe
 - **2026-04-14**: Quality analysis e otimizações — SKILL.md na raiz, `validate-compliance.py` (1892 linhas, 29 testes), modo headless, config consolidado, depreciação VCL, cobertura NO-FALLBACK/Linter no VC/CR, checklists compartilhados, cobertura `.gitignore` expandida (`.env.sh` + diretórios AI)
 - **2026-03-30**: v1.26.4-9 — Validação de módulo, criação de module-help.csv, consolidação de metadados
 - **2026-01-20**: Transformação em AGENTE com criação da Alice e 3 workflows principais
