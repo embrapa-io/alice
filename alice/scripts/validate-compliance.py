@@ -86,6 +86,8 @@ TOTAL_RULES = 42
 # do .gitlab-io.yml (ci_config_path), não do .gitlab-ci.yml (que é da equipe).
 GITLAB_IO_FILE = ".gitlab-io.yml"
 GITLAB_IO_TEMPLATE = "templates/gitlab-io/gitlab-io.yml"
+# .gitlab-io.yml de boilerplate de ferramenta: 'workflow: rules: - when: never' (sem pipeline)
+GITLAB_IO_NO_PIPELINE_RE = re.compile(r"^workflow:\s*\n(?:[ \t]+.*\n)*?[ \t]+-\s*when:\s*never\b", re.MULTILINE)
 
 # NO-FALLBACK patterns per language
 NO_FALLBACK_PATTERNS = {
@@ -1311,6 +1313,11 @@ def validate_gitlab_io(project: Path) -> Tuple[List[Finding], List[Finding]]:
     except Exception:
         return findings, warnings
 
+    # Boilerplate de ferramenta (sem código-fonte próprio): o arquivo declara que não há
+    # pipeline ('workflow: rules: - when: never'). É escolha explícita, não esquecimento.
+    if GITLAB_IO_NO_PIPELINE_RE.search(content):
+        return findings, warnings
+
     if "sonar-scanner" not in content:
         warnings.append(Finding(
             rule="5.5b", severity="WARNING", category="structure",
@@ -2080,6 +2087,13 @@ def run_self_test() -> bool:
         findings, warns = validate_gitlab_io(Path(tmpdir))
         assert_eq(len(findings), 0, ".gitlab-io.yml sem sonar-scanner não falha")
         assert_contains(warns, lambda f: f.rule == "5.5b", "aviso 5.5b sem sonar-scanner")
+        # Boilerplate de ferramenta, sem pipeline declarado: conforme e sem aviso
+        (Path(tmpdir) / ".gitlab-io.yml").write_text(
+            "# Boilerplate de ferramenta\nworkflow:\n  rules:\n    - when: never\n\n"
+            "embrapa-io-sem-analise:\n  script: [\"true\"]\n", encoding="utf-8",
+        )
+        findings, warns = validate_gitlab_io(Path(tmpdir))
+        assert_eq((len(findings), len(warns)), (0, 0), "variante sem pipeline (ferramenta) conforme")
         # Presente com o conteúdo padrão: conforme
         if template_path.is_file():
             (Path(tmpdir) / ".gitlab-io.yml").write_text(
