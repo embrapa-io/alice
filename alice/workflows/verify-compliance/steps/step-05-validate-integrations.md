@@ -224,7 +224,7 @@ O GitLab da plataforma (git.embrapa.io) lê o pipeline das aplicações do `.git
 - Action Item: "Criar `.gitlab-io.yml` na raiz com o conteúdo padrão (`templates/gitlab-io/gitlab-io.yml`) ou com a versão do boilerplate da pilha"
 - Motivo: sem o arquivo, a app nova recebe do automaton-sonarqube só o modelo genérico e perde a configuração específica da pilha. Se o repositório for um **boilerplate**, destacar no relatório que o arquivo é indispensável (as apps herdam dele o pipeline) — a severidade continua MEDIUM, pois a Alice não distingue boilerplate de app.
 
-**Se `.gitlab-io.yml` existe mas não contém `sonar-scanner`:**
+**Se `.gitlab-io.yml` existe mas não contém o scanner do SonarQube (`sonar-scanner` ou, no .NET, `dotnet sonarscanner`):**
 - Aviso (não falha, não conta no score): "`.gitlab-io.yml` sem o job do `sonar-scanner` — conferir se a varredura do SonarQube foi removida de propósito"
 
 🚫 **NÃO** reportar presença nem ausência do `.gitlab-ci.yml`: ele é da equipe (a plataforma não o lê, não o cria e não o exige). Se o `.gitlab-io.yml` incluir o `.gitlab-ci.yml` (`include: - local: .gitlab-ci.yml`), é opcional e válido.

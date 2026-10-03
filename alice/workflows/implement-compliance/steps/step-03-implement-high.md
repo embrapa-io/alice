@@ -224,7 +224,7 @@ build-sonar:
     - >
       sonar-scanner
       -Dsonar.host.url="${SONAR_HOST_URL}"
-      -Dsonar.projectKey="${CI_PROJECT_NAMESPACE}_${CI_PROJECT_NAME}"
+      -Dsonar.projectKey="${CI_PROJECT_NAMESPACE##*/}_${CI_PROJECT_NAME}"
       -Dsonar.qualitygate.wait=true
   allow_failure: true
   rules:

@@ -1318,7 +1318,8 @@ def validate_gitlab_io(project: Path) -> Tuple[List[Finding], List[Finding]]:
     if GITLAB_IO_NO_PIPELINE_RE.search(content):
         return findings, warnings
 
-    if "sonar-scanner" not in content:
+    # Genérico (sonar-scanner) ou .NET (dotnet sonarscanner).
+    if not re.search(r"sonar-?scanner", content, re.IGNORECASE):
         warnings.append(Finding(
             rule="5.5b", severity="WARNING", category="structure",
             file=GITLAB_IO_FILE,
@@ -2094,6 +2095,13 @@ def run_self_test() -> bool:
         )
         findings, warns = validate_gitlab_io(Path(tmpdir))
         assert_eq((len(findings), len(warns)), (0, 0), "variante sem pipeline (ferramenta) conforme")
+        # .NET (dotnet sonarscanner): conforme e sem aviso
+        (Path(tmpdir) / ".gitlab-io.yml").write_text(
+            "sonar-analysis:\n  image: mcr.microsoft.com/dotnet/sdk:9.0\n  script:\n"
+            "    - dotnet sonarscanner begin /k:\"x\"\n    - dotnet sonarscanner end\n", encoding="utf-8",
+        )
+        findings, warns = validate_gitlab_io(Path(tmpdir))
+        assert_eq((len(findings), len(warns)), (0, 0), "variante .NET (dotnet sonarscanner) conforme")
         # Presente com o conteúdo padrão: conforme
         if template_path.is_file():
             (Path(tmpdir) / ".gitlab-io.yml").write_text(

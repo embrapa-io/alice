@@ -464,7 +464,7 @@ build-sonar:
     - >
       sonar-scanner
       -Dsonar.host.url="${SONAR_HOST_URL}"
-      -Dsonar.projectKey="${CI_PROJECT_NAMESPACE}_${CI_PROJECT_NAME}"
+      -Dsonar.projectKey="${CI_PROJECT_NAMESPACE##*/}_${CI_PROJECT_NAME}"
       -Dsonar.qualitygate.wait=true
   allow_failure: true
   rules:
@@ -474,7 +474,9 @@ build-sonar:
 
 4. **Opcional — pipeline da equipe também no runner da plataforma**: o `.gitlab-io.yml` pode incluir o `.gitlab-ci.yml` (`include: - local: .gitlab-ci.yml`). Nesse caso, o job da plataforma deve usar `inherit: { default: false, variables: false }`, `needs: []` e `stage: .post` (com `image:` e `variables:` declarados dentro do próprio job), para não herdar imagem, `before_script`, tags e variáveis globais da equipe. Não é exigido pela regra.
 
-**Validação**: regra **5.5** (MEDIUM) quando o `.gitlab-io.yml` falta; aviso (não falha) quando existe mas não contém `sonar-scanner`.
+**Chave do projeto no SonarQube**: `${CI_PROJECT_NAMESPACE##*/}_${CI_PROJECT_NAME}`, o último nível do grupo. Nas apps (grupo de um nível) é `<projeto>_<app>`; nos boilerplates, cujo grupo é `io/boilerplate`, vira `boilerplate_<nome>` (a barra não é aceita em chave do SonarQube). Por isso `boilerplate` é nome Unix reservado na plataforma.
+
+**Validação**: regra **5.5** (MEDIUM) quando o `.gitlab-io.yml` falta; aviso (não falha) quando existe mas não contém o scanner do SonarQube (`sonar-scanner` ou, no .NET, `dotnet sonarscanner`). O `.gitlab-io.yml` sem pipeline dos boilerplates de ferramenta é conforme.
 
 **Opcional** — arquivo `sonar-project.properties` (o `sonar-scanner` do `.gitlab-io.yml` já recebe a `projectKey` por linha de comando):
 ```properties

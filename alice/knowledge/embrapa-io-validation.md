@@ -410,7 +410,7 @@ REASON: "Desde 03/10/2026 o GitLab da plataforma (git.embrapa.io) lê o pipeline
 REFERENCE: "Ver 'Pipeline da plataforma: .gitlab-io.yml' em embrapa-io-fundamentals.md"
 CHECKS:
   - .gitlab-io.yml existe na raiz do repositório
-  - AVISO (não falha, não conta no score): .gitlab-io.yml existe mas não contém "sonar-scanner" (5.5b)
+  - AVISO (não falha, não conta no score): .gitlab-io.yml existe mas não contém o scanner do SonarQube, nem `sonar-scanner` nem `dotnet sonarscanner` (5.5b)
   - Exceção: boilerplate de ferramenta (sem código-fonte próprio) declara que não há pipeline com `workflow: rules: - when: never` e um job mínimo (o GitLab exige ao menos um job visível). É escolha explícita: conforme e sem aviso. Como o arquivo existe, o automaton-sonarqube não o substitui pelo modelo com a varredura.
 NOT_CHECKED: ".gitlab-ci.yml é da equipe: a plataforma não o lê, não o cria e não o exige — não reportar presença nem ausência"
 NOTE: "ID 5.4 (LICENSE) é usado pelo scripts/validate-compliance.py."
