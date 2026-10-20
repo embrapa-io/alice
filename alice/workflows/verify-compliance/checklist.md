@@ -62,7 +62,7 @@ last-redoc-date: 2026-01-20
 ### Validação Integrações (6 regras)
 
 - [ ] Sentry configurado (se SENTRY_DSN presente)
-- [ ] Matomo configurado (se MATOMO_ID presente e frontend)
+- [ ] Matomo configurado (se MATOMO_ID presente; em backend e API, tracking server-side de «API call»)
 - [ ] LICENSE presente
 - [ ] `.gitlab-io.yml` presente na raiz (MEDIUM se ausente; aviso se não contiver `sonar-scanner`) — `.gitlab-ci.yml` NÃO é verificado
 - [ ] Logo Embrapa presente (se frontend)

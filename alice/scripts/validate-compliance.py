@@ -1401,7 +1401,12 @@ def validate_integrations(
 
     # Scan source for Sentry.init / sentry initialization
     source_exts = {".js", ".ts", ".jsx", ".tsx", ".mjs", ".py", ".php", ".cs", ".go", ".rb", ".vue"}
-    sentry_pattern = r"(Sentry\.init|sentry\.init|@sentry|sentry_sdk\.init|UseSentry|SentryInitializer)"
+    # Sem SDK (PocketBase: hooks no JSVM, que não carregam pacotes), o envio é por envelope HTTP, reconhecido pelo
+    # Content-Type próprio do Sentry (pb_hooks/sentry.pb.js do boilerplate pocketbase).
+    sentry_pattern = (
+        r"(Sentry\.init|sentry\.init|@sentry|sentry_sdk\.init|UseSentry|SentryInitializer"
+        r"|application/x-sentry-envelope)"
+    )
     sentry_matches = scan_files_for_pattern(project, source_exts, sentry_pattern)
     if sentry_matches:
         sentry_init_found = True

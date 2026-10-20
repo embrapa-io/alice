@@ -45,8 +45,9 @@ Follow `./references/step-file-protocol.md`. Step-specific:
 - SENTRY_DSN no .env.io indica que deve ser configurado
 
 **Matomo (Analytics):**
-- Aplicável a: Frontends, PWAs
-- Pode ser usado em backends para tracking server-side
+- Aplicável a: Frontends, PWAs, Backends e APIs (cada app tem o seu site no Matomo)
+- Em backends e APIs, o tracking é server-side: cada chamada vira a ação «API call», com `MATOMO_TOKEN`, como nos
+  boilerplates de API (Node, Bun, PHP, .NET) e no `pocketbase` (`pb_hooks/matomo.pb.js`)
 - MATOMO_ID no .env.io indica que deve ser configurado
 
 ### 2. Validar Integração Sentry
@@ -95,8 +96,13 @@ return [
 ];
 ```
 
+**Para PocketBase (hooks no JSVM, sem SDK):**
+`pb_hooks/sentry.pb.js` do boilerplate `pocketbase`: middleware `routerUse` que envia as exceções inesperadas por
+envelope HTTP (`Content-Type: application/x-sentry-envelope`), com DSN, `IO_STAGE` e `IO_VERSION` das variáveis de
+ambiente. O validador reconhece esse Content-Type no lugar do pacote e do `Sentry.init()`.
+
 **Validações:**
-- [ ] Pacote Sentry instalado (package.json, composer.json, etc.)
+- [ ] Pacote Sentry instalado (package.json, composer.json, etc.) ou envio por envelope (PocketBase)
 - [ ] Sentry.init() configurado
 - [ ] DSN vindo de variável de ambiente
 - [ ] Release usando IO_VERSION
@@ -109,7 +115,7 @@ return [
 
 ### 3. Validar Integração Matomo
 
-Se `MATOMO_ID` está no `.env.io.example` E projeto tem frontend:
+Se `MATOMO_ID` está no `.env.io.example` (frontend ou backend):
 
 **Para Vue.js com vue-matomo:**
 ```javascript
