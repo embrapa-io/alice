@@ -10,7 +10,7 @@ nextStepFile: './step-04-validate-code.md'
 
 ## STEP GOAL:
 
-Validar os arquivos .env.io.example, .env.example e variáveis de ambiente contra as regras da plataforma Embrapa I/O (IDs 2.1-2.10).
+Validar os arquivos .env.io.example, .env.example e variáveis de ambiente contra as regras da plataforma Embrapa I/O (IDs 2.1-2.11).
 
 ## MANDATORY EXECUTION RULES (READ FIRST):
 
@@ -38,7 +38,7 @@ Validar os arquivos .env.io.example, .env.example e variáveis de ambiente contr
 
 - 🎯 Read and validate .env files
 - 💾 Document all errors with structured format
-- 📖 Apply all validation rules (IDs 2.1-2.10)
+- 📖 Apply all validation rules (IDs 2.1-2.11)
 - 🚫 FORBIDDEN to miss format violations
 
 ## CONTEXT BOUNDARIES:
@@ -129,8 +129,17 @@ Severity: MEDIUM
 Check: .env, .env.io e .env.sh estão ignorados
 Check: .env.example e .env.io.example NÃO estão ignorados
 Check: Diretórios de agentes de IA estão ignorados (.claude/, _bmad/, etc.)
+Check: Nenhum padrão ignora os templates (ex.: `.env.*` sem `!.env.io.example`); conferir com `git check-ignore --no-index -- .env.example .env.io.example`, que deve sair vazio
 Severity: MEDIUM
 Auto-fixable: true
+```
+
+**ID 2.11 - Arquivos de ambiente versionados**
+```
+Check: `git ls-files -- .env .env.io .env.sh` sai vazio (o .gitignore não tira do Git o que já foi commitado)
+Severity: HIGH
+Solution: `git rm --cached <arquivos>`, garantir as entradas no .gitignore e commitar; se continham senhas ou chaves reais, trocá-las (continuam no histórico do Git)
+Auto-fixable: false
 ```
 
 ### 7. Estruturar Erros

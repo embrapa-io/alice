@@ -242,11 +242,30 @@ MESSAGE: "Arquivos .env, .env.io ou .env.sh não estão no .gitignore"
 SOLUTION: "Adicionar '.env', '.env.io' e '.env.sh' ao .gitignore, incluir diretórios de agentes de IA (.claude/, _bmad/, .cursor/, etc.)"
 ```
 
+#### 2.7c .gitignore ignora os templates de variáveis
+```
+SEVERITY: MEDIUM
+MESSAGE: "Templates de variáveis ignorados pelo .gitignore: [arquivos]"
+SOLUTION: "Acrescentar as exceções '!.env.example' e '!.env.io.example' depois do padrão que os ignora (ex.: '.env.*')"
+CHECK: git check-ignore --no-index -- .env.example .env.io.example (deve sair vazio)
+```
+
 #### 2.8 Variável sensível sem indicação
 ```
 SEVERITY: MEDIUM
 MESSAGE: "Variável '[var_name]' parece sensível mas não tem comentário de aviso"
 SOLUTION: "Adicionar comentário: # SENSITIVE: não commitar valor real"
+```
+
+### HIGH Errors
+
+#### 2.11 Arquivos de ambiente versionados no Git
+```
+SEVERITY: HIGH
+MESSAGE: "Arquivos de ambiente versionados no Git: [arquivos]"
+SOLUTION: "git rm --cached [arquivos], garantir as entradas no .gitignore e commitar; se continham senhas ou chaves reais, trocá-las (continuam no histórico)"
+CHECK: git ls-files -- .env .env.io .env.sh (deve sair vazio)
+NOTE: o .gitignore não remove do Git o que já foi commitado; a plataforma gera e sobrescreve esses arquivos a cada deploy
 ```
 
 ## 🔍 Validação 3: .embrapa/settings.json

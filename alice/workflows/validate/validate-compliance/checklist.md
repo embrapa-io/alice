@@ -27,6 +27,7 @@ last-redoc-date: 2025-12-03
 ### Validação Arquivos .env (8 regras)
 
 - [ ] .env.io.example e .env.example verificados
+- [ ] .env, .env.io e .env.sh ignorados e fora do Git (`git ls-files`), templates não ignorados
 - [ ] Variáveis obrigatórias validadas (IO_PROJECT, IO_APP, IO_STAGE, IO_VERSION, IO_DEPLOYER)
 - [ ] Convenções de nomenclatura verificadas (UPPER_SNAKE_CASE)
 

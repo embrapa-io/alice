@@ -26,6 +26,7 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -895,7 +896,7 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
 # ---------------------------------------------------------------------------
 
 def validate_env(project: Path) -> List[Finding]:
-    """Validate .env.example and .env.io.example (rules 2.1-2.8)."""
+    """Validate .env.example and .env.io.example (rules 2.1-2.8 and 2.11)."""
     findings: List[Finding] = []
 
     env_io_example = project / ".env.io.example"
@@ -1038,7 +1039,40 @@ def validate_env(project: Path) -> List[Finding]:
             fix="Criar .gitignore com entradas para .env, .env.io, .env.sh e diretórios de agentes de IA",
         ))
 
+    # Rule 2.7c: os templates versionados não podem cair num padrão do .gitignore (ex.: ".env.*" sem
+    # "!.env.io.example" ignora o .env.io.example, que a plataforma exige no repositório).
+    ignored_examples = _git_lines(project, ["check-ignore", "--no-index", "--", ".env.example", ".env.io.example"])
+    if ignored_examples:
+        findings.append(Finding(
+            rule="2.7c", severity="MEDIUM", category="env",
+            file=".gitignore",
+            message="Templates de variáveis ignorados pelo .gitignore: {}".format(", ".join(ignored_examples)),
+            fix="Acrescentar ao .gitignore as exceções " + " ".join("'!" + f + "'" for f in ignored_examples) + " (depois do padrão que os ignora)",
+            auto_fixable=True,
+        ))
+
+    # Rule 2.11: o .gitignore não tira do Git o que já foi commitado. Arquivos de ambiente versionados expõem
+    # segredos no histórico (a plataforma os gera e sobrescreve a cada deploy).
+    tracked_env = _git_lines(project, ["ls-files", "--", ".env", ".env.io", ".env.sh"])
+    if tracked_env:
+        findings.append(Finding(
+            rule="2.11", severity="HIGH", category="env",
+            message="Arquivos de ambiente versionados no Git: {}".format(", ".join(tracked_env)),
+            fix="Rodar 'git rm --cached {}', garantir que estão no .gitignore e commitar. Se continham senhas ou chaves reais, trocá-las: continuam no histórico do Git".format(" ".join(tracked_env)),
+        ))
+
     return findings
+
+
+def _git_lines(project: Path, args: List[str]) -> List[str]:
+    """Saída de um comando git no projeto, uma entrada por linha; lista vazia fora de um repositório."""
+    try:
+        result = subprocess.run(["git", "-C", str(project)] + args, capture_output=True, text=True, timeout=30)
+    except (OSError, subprocess.SubprocessError):
+        return []
+    if result.returncode not in (0, 1):
+        return []
+    return [l.strip() for l in result.stdout.splitlines() if l.strip()]
 
 
 def _has_spaces_or_quotes(value: str) -> bool:
