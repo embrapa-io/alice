@@ -832,8 +832,12 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
                     auto_fixable=True,
                 ))
 
+    # Rules 1.14 and 1.15 exist to back up persistent data. A compose without any top-level volume (front-end served
+    # by nginx, as the vuejs-pocketbase-pwa/spa boilerplates) keeps nothing to back up: both are not applicable.
+    stateful = isinstance(top_volumes, dict) and len(top_volumes) > 0
+
     # Rule 1.14: Backup volume recommended
-    if isinstance(top_volumes, dict):
+    if stateful and isinstance(top_volumes, dict):
         has_backup_vol = any("backup" in vn.lower() for vn in top_volumes.keys())
         if not has_backup_vol and services:
             findings.append(Finding(
@@ -846,7 +850,7 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
     # Rule 1.15: Recommended CLI services
     present_cli = cli_services.intersection(RECOMMENDED_CLI_SERVICES)
     missing_cli = RECOMMENDED_CLI_SERVICES - present_cli
-    if missing_cli:
+    if missing_cli and stateful:
         findings.append(Finding(
             rule="1.15", severity="LOW", category="docker",
             file=dc_rel,
@@ -935,7 +939,8 @@ def validate_env(project: Path) -> List[Finding]:
 
             # Validate IO_VERSION format
             if key == "IO_VERSION":
-                if not re.match(r"^0\.\d{2}\.\d{1,2}-dev\.\d+$", value):
+                # %GENESIS_VERSION% is the boilerplate placeholder that the Genesis replaces when it creates the app.
+                if value != "%GENESIS_VERSION%" and not re.match(r"^0\.\d{2}\.\d{1,2}-dev\.\d+$", value):
                     findings.append(Finding(
                         rule="2.4b", severity="HIGH", category="env",
                         file=".env.io.example", line=lineno,
@@ -1010,7 +1015,12 @@ def validate_env(project: Path) -> List[Finding]:
                 ".pi/", ".qoder/", ".qwen/", ".roo/", ".rovodev/",
                 ".trae/", ".windsurf/", "_bmad/", "_bmad-output/",
             ]
-            missing_ai = [d for d in ai_dirs_to_ignore if d not in gi_lines and d.rstrip("/") not in gi_lines]
+            # ".claude/*" (com exceções «!» para arquivos que o boilerplate distribui, como uma skill) também ignora o
+            # diretório: o vuejs-pocketbase-pwa versiona .claude/skills/pocketbase-vuetify.md desse jeito.
+            missing_ai = [
+                d for d in ai_dirs_to_ignore
+                if d not in gi_lines and d.rstrip("/") not in gi_lines and d.rstrip("/") + "/*" not in gi_lines
+            ]
             if missing_ai:
                 findings.append(Finding(
                     rule="2.7b", severity="MEDIUM", category="env",
