@@ -628,8 +628,118 @@ def _validate_backup_pattern(services: Dict[str, Any], dc_rel: str) -> List[Find
     return findings
 
 
+# Rule 1.19: the 'restore' service undoes what 'backup' does. The platform runs 'restore' with BACKUP_FILE_TO_RESTORE
+# (Backup S3 of the shared clusters, restore by the Health Check), so a restore that misses a database, a volume or a
+# directory silently brings the app back incomplete. Static heuristics; the real guarantee is the round-trip test
+# (backup, wipe, restore, compare), described in workflows/references/backup-restore-roundtrip.md.
+RESTORE_TOOL_PAIRS = [
+    (re.compile(r"\bpg_dump(all)?\b"), re.compile(r"\b(psql|pg_restore)\b"), "pg_dump", "psql ou pg_restore"),
+    (re.compile(r"\b(mysqldump|mariadb-dump)\b"), re.compile(r"\b(mysql|mariadb)\b(?!dump|-dump)"), "mysqldump", "mysql"),
+    (re.compile(r"\bmongodump\b"), re.compile(r"\bmongorestore\b"), "mongodump", "mongorestore"),
+    (re.compile(r"\bsqlite3\b[^\n]*\.(backup|dump)\b"), re.compile(r"\bsqlite3\b|\bcp\b"), "sqlite3 .backup/.dump", "sqlite3 ou cp"),
+]
+# Absolute data paths copied by 'backup' (cp/rsync/tar) that 'restore' should write back; temp, /backup and binaries out.
+DATA_PATH_RE = re.compile(r"(?:\bcp\s+-[A-Za-z]*\s+|\brsync\s+-[A-Za-z]*\s+|\btar\s+[^\n]*?-C\s+)(/[A-Za-z0-9_./-]+)")
+IGNORED_PATH_PREFIXES = ("/backup", "/tmp", "/dev", "/proc", "/usr", "/bin", "/etc")
+
+
+def _service_volume_sources(svc_def: Dict[str, Any]) -> Dict[str, str]:
+    """{target: source} of the named/bind volumes of a service (target without trailing slash)."""
+    out: Dict[str, str] = {}
+    svc_volumes = svc_def.get("volumes", [])
+    if not isinstance(svc_volumes, list):
+        return out
+    for vol in svc_volumes:
+        if isinstance(vol, dict):
+            source, target = str(vol.get("source", "")), str(vol.get("target", ""))
+        else:
+            segments = str(vol).split(":")
+            if len(segments) < 2:
+                continue
+            source, target = segments[0], segments[1]
+        if target:
+            out[target.rstrip("/") or "/"] = source
+    return out
+
+
+def _validate_restore_inverse(services: Dict[str, Any], dc_rel: str) -> List[Finding]:
+    """Rule 1.19: 'restore' exists and restores everything 'backup' copies (databases, volumes, directories)."""
+    findings: List[Finding] = []
+    backup = services.get("backup")
+    if not isinstance(backup, dict):
+        return findings
+
+    ref = "Roteiro: workflows/references/backup-restore-roundtrip.md; padrão: https://embrapa.io/docs/boilerplate#cli:backup"
+    restore = services.get("restore")
+
+    if not isinstance(restore, dict):
+        findings.append(Finding(
+            rule="1.19", severity="HIGH", category="docker",
+            file=dc_rel,
+            message="Há serviço 'backup' mas não há serviço 'restore': o backup não pode ser restaurado pela plataforma",
+            fix="Criar o serviço 'restore' (perfil cli) que recebe BACKUP_FILE_TO_RESTORE, extrai o .tar.gz e devolve "
+                f"cada banco, volume e diretório que o 'backup' copia, na ordem inversa. {ref}",
+        ))
+        return findings
+
+    b_script = _service_script_text(backup)
+    r_script = _service_script_text(restore)
+
+    for dump_re, load_re, dump_name, load_name in RESTORE_TOOL_PAIRS:
+        if dump_re.search(b_script) and not load_re.search(r_script):
+            findings.append(Finding(
+                rule="1.19", severity="HIGH", category="docker",
+                file=dc_rel,
+                message=f"O 'backup' usa {dump_name}, mas o 'restore' não usa {load_name}: o banco não volta",
+                fix=f"No 'restore', carregar o dump extraído com {load_name} (no mesmo banco e com o mesmo usuário). {ref}",
+            ))
+
+    if re.search(r"\btar\s+[^\n]*-[a-zA-Z]*c", b_script) and not re.search(r"\btar\s+[^\n]*-[a-zA-Z]*x", r_script):
+        findings.append(Finding(
+            rule="1.19", severity="HIGH", category="docker",
+            file=dc_rel,
+            message="O 'backup' gera um tar, mas o 'restore' não o extrai (tar -x)",
+            fix=f"Extrair o arquivo em diretório temporário ('tar -xzf /backup/$$BACKUP_FILE_TO_RESTORE -C $$DIR'). {ref}",
+        ))
+
+    b_vols = _service_volume_sources(backup)
+    r_vols = _service_volume_sources(restore)
+    r_sources = set(r_vols.values())
+    for target, source in sorted(b_vols.items()):
+        if target == "/backup" or not source or source.startswith((".", "/")):
+            continue
+        if source not in r_sources:
+            findings.append(Finding(
+                rule="1.19", severity="HIGH", category="docker",
+                file=dc_rel,
+                message=f"O 'backup' lê o volume '{source}' (em {target}), mas o 'restore' não o monta: esses dados não voltam",
+                fix=f"Montar '{source}' também no serviço 'restore' e devolver o conteúdo extraído a ele. {ref}",
+            ))
+
+    # Caminho copiado fora de qualquer volume montado no 'restore' (dentro de um volume montado, quem restaura é a
+    # cópia do volume, como no laço do leantime; o aviso seria ruído).
+    for path in sorted(set(DATA_PATH_RE.findall(b_script))):
+        clean = re.sub(r"(/\.)+$", "", path).rstrip("/")
+        if clean and not clean.rsplit("/", 1)[-1].replace("-", "").replace(".", "").isalnum():
+            clean = clean.rsplit("/", 1)[0]
+        clean = re.sub(r"[_-]+$", "", clean)
+        if clean.startswith(IGNORED_PATH_PREFIXES) or "$" in clean or len(clean) < 3:
+            continue
+        if any(t != "/backup" and (clean == t or clean.startswith(t + "/")) for t in r_vols):
+            continue
+        if clean not in r_script:
+            findings.append(Finding(
+                rule="1.19", severity="MEDIUM", category="docker",
+                file=dc_rel,
+                message=f"O 'backup' copia '{clean}', mas o 'restore' não menciona esse caminho",
+                fix=f"Conferir se o 'restore' devolve o conteúdo de '{clean}' (ou explicar no README por que não). {ref}",
+            ))
+
+    return findings
+
+
 def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
-    """Validate docker-compose.yaml against Embrapa I/O rules (rules 1.1-1.15, 1.18)."""
+    """Validate docker-compose.yaml against Embrapa I/O rules (rules 1.1-1.15, 1.18, 1.19)."""
     findings: List[Finding] = []
     dc_path = find_docker_compose(project)
     dc_rel = ""
@@ -864,6 +974,9 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
     # *.tar.gz from the backup volume root and the Releaser 'cleaner' reads the
     # date suffix from the file name to apply retention (7 daily / 4 weekly / 3 monthly).
     findings.extend(_validate_backup_pattern(services, dc_rel))
+
+    # Rule 1.19: 'restore' undoes 'backup' (databases, volumes, directories); see _validate_restore_inverse.
+    findings.extend(_validate_restore_inverse(services, dc_rel))
 
     # Check env_file on non-CLI services
     for svc_name, svc_def in services.items():
@@ -1874,6 +1987,34 @@ def run_self_test() -> bool:
     assert_contains(broken_findings, lambda f: "BACKUP_FILE_TO_RESTORE" in f.message, "restore without BACKUP_FILE_TO_RESTORE detected")
     assert_eq(len(_validate_backup_pattern({"app": {"image": "nginx"}}, "docker-compose.yaml")), 0,
               "no backup service means no 1.18 finding")
+
+    # ---------------------------------------------------------------
+    # Test 3c: Docker validation - restore undoes backup (rule 1.19)
+    # ---------------------------------------------------------------
+    print("\n[Test: Docker validation - restore undoes backup]", file=sys.stderr)
+    pg_ok = {
+        "backup": {"volumes": ["backup_data:/backup", "uploads:/app/uploads"],
+                   "command": "sh -c 'pg_dump -h db app > $$D/db.sql && cp -R /app/uploads $$D/ && tar -czf /backup/x.tar.gz -C /backup x'"},
+        "restore": {"volumes": ["backup_data:/backup:ro", "uploads:/app/uploads"],
+                    "command": "sh -c 'tar -xzf /backup/$$BACKUP_FILE_TO_RESTORE -C $$D && psql -h db app < $$D/db.sql && cp -R $$D/uploads/. /app/uploads/'"},
+    }
+    assert_eq(len(_validate_restore_inverse(pg_ok, "docker-compose.yaml")), 0, "restore that undoes backup produces no 1.19 finding")
+    pg_bad = {
+        "backup": {"volumes": ["backup_data:/backup", "uploads:/app/uploads"],
+                   "command": "sh -c 'pg_dump -h db app > $$D/db.sql && mongodump --out $$D/m && cp -R /app/uploads $$D/ && tar -czf /backup/x.tar.gz -C /backup x'"},
+        "restore": {"volumes": ["backup_data:/backup:ro"],
+                    "command": "sh -c 'test -f /backup/$$BACKUP_FILE_TO_RESTORE && echo nada'"},
+    }
+    bad = _validate_restore_inverse(pg_bad, "docker-compose.yaml")
+    assert_true(all(f.rule == "1.19" for f in bad), "all restore findings are rule 1.19")
+    assert_contains(bad, lambda f: "pg_dump" in f.message and f.severity == "HIGH", "pg_dump without psql/pg_restore detected")
+    assert_contains(bad, lambda f: "mongodump" in f.message, "mongodump without mongorestore detected")
+    assert_contains(bad, lambda f: "tar -x" in f.message, "tar without extraction detected")
+    assert_contains(bad, lambda f: "'uploads'" in f.message, "data volume not mounted in restore detected")
+    assert_contains(bad, lambda f: "/app/uploads" in f.message and f.severity == "MEDIUM", "copied path not mentioned in restore detected")
+    missing = _validate_restore_inverse({"backup": {"command": "true"}}, "docker-compose.yaml")
+    assert_contains(missing, lambda f: "não há serviço 'restore'" in f.message, "backup without restore detected")
+    assert_eq(len(_validate_restore_inverse({"app": {"image": "nginx"}}, "docker-compose.yaml")), 0, "no backup service means no 1.19 finding")
 
     # ---------------------------------------------------------------
     # Test 4: Docker validation - bind mount detection

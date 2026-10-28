@@ -170,6 +170,21 @@ Solution: Ajustar o command do backup para o padrão (ver knowledge/embrapa-io-f
           em bloco literal (- |) em vez de sh -c "..."
 ```
 
+**ID 1.19 - O restore desfaz o backup** (se serviço `backup` existir)
+```
+Check: Existe serviço restore quando há serviço backup
+Check: Para cada dump do backup, a ferramenta de carga no restore (pg_dump→psql/pg_restore, mysqldump→mysql,
+       mongodump→mongorestore, sqlite3 .backup→sqlite3/cp); tar -c no backup ⇒ tar -x no restore
+Check: Cada volume de dados montado no backup (exceto /backup) também montado no restore
+Check: Caminho absoluto copiado pelo backup fora dos volumes do restore é mencionado no restore (MEDIUM)
+Severity: HIGH (o último check: MEDIUM)
+Auto-fixable: false
+Reason: A plataforma executa o restore (Backup S3 dos clusters compartilhados, pelo Health Check). Um restore
+        incompleto traz a aplicação de volta sem um banco, um volume ou um diretório, sem erro.
+Solution: Restaurar na ordem inversa do backup; validar com o teste de ida e volta
+          (workflows/references/backup-restore-roundtrip.md)
+```
+
 ### 4. Estruturar Erros Encontrados
 
 For each error found, create structured object:

@@ -145,6 +145,22 @@ CHECKS:
 NOTE: "IDs 1.16 (backup volume hardcoded) e 1.17 (portas via variáveis) são usados pelo workflow validate-compliance."
 ```
 
+#### 1.19 O 'restore' não desfaz o 'backup'
+```
+SEVERITY: HIGH (caminho copiado fora de volume montado no restore: MEDIUM)
+MESSAGE: "Há serviço 'backup' mas não há serviço 'restore'" | "O 'backup' usa pg_dump, mas o 'restore' não usa psql ou pg_restore" | "O 'backup' lê o volume 'X', mas o 'restore' não o monta"
+SOLUTION: "O restore devolve, na ordem inversa, cada banco, volume e diretório que o backup copia: extrai o .tar.gz (tar -x) num diretório temporário, carrega cada dump com a ferramenta par (pg_dump→psql/pg_restore, mysqldump→mysql, mongodump→mongorestore, sqlite3 .backup→sqlite3/cp) e copia cada diretório de volta ao volume montado"
+REASON: "A plataforma executa o serviço 'restore' (Backup S3 dos clusters compartilhados, restore pelo Health Check, com BACKUP_FILE_TO_RESTORE). Um restore que esquece um banco, um volume ou um diretório traz a aplicação de volta incompleta, sem erro."
+REFERENCE: "workflows/references/backup-restore-roundtrip.md (teste de ida e volta) e https://embrapa.io/docs/boilerplate#cli:backup"
+CHECKS:
+  - serviço 'restore' existe quando há 'backup'
+  - para cada ferramenta de dump do backup, a ferramenta de carga correspondente aparece no restore
+  - tar -c no backup ⇒ tar -x no restore
+  - cada volume de dados montado no backup (exceto /backup) também montado no restore
+  - caminho absoluto copiado pelo backup (cp/rsync/tar -C) fora dos volumes do restore ⇒ mencionado no restore (MEDIUM)
+NOTE: "Checagem estática; a garantia é o teste de ida e volta. Rodada sobre os boilerplates em 28/10/2026: só caddy, minio, n8n-qdrant-waha e nodejs-mongodb-jwt-password-less acusados (sem serviço restore)."
+```
+
 ### MEDIUM Errors
 
 #### 1.12 Porta hardcoded
