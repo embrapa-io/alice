@@ -83,4 +83,6 @@ fi
   backup) e roda o teste a cada mudança no `backup`/`restore`. Correção de restore incompleto é correção de bug: vai
   aos forks pelo fluxo de propagação.
 - **Migração para a plataforma:** a estrutura do `.tar.gz` que o `restore` espera é a que o `backup` gera; o roteiro
-  mostra essa estrutura na prática (`tar -tzf` no arquivo do passo 3).
+  mostra essa estrutura na prática (`tar -tzf` no arquivo do passo 3). Documente-a no `README.md` da app: quem migra dados de fora monta
+  o arquivo nesse formato, envia à pasta `<projeto>/<app>/upload/` do bucket do Backup S3 e o restaura pelo Health
+  Check (https://embrapa.io/docs/s3#clusters-upload).

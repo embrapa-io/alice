@@ -151,7 +151,7 @@ SEVERITY: HIGH (caminho copiado fora de volume montado no restore: MEDIUM)
 MESSAGE: "Há serviço 'backup' mas não há serviço 'restore'" | "O 'backup' usa pg_dump, mas o 'restore' não usa psql ou pg_restore" | "O 'backup' lê o volume 'X', mas o 'restore' não o monta"
 SOLUTION: "O restore devolve, na ordem inversa, cada banco, volume e diretório que o backup copia: extrai o .tar.gz (tar -x) num diretório temporário, carrega cada dump com a ferramenta par (pg_dump→psql/pg_restore, mysqldump→mysql, mongodump→mongorestore, sqlite3 .backup→sqlite3/cp) e copia cada diretório de volta ao volume montado"
 REASON: "A plataforma executa o serviço 'restore' (Backup S3 dos clusters compartilhados, restore pelo Health Check, com BACKUP_FILE_TO_RESTORE). Um restore que esquece um banco, um volume ou um diretório traz a aplicação de volta incompleta, sem erro."
-REFERENCE: "workflows/references/backup-restore-roundtrip.md (teste de ida e volta) e https://embrapa.io/docs/boilerplate#cli:backup"
+REFERENCE: "workflows/references/backup-restore-roundtrip.md (teste de ida e volta), https://embrapa.io/docs/boilerplate#cli:backup e https://embrapa.io/docs/s3#clusters-restore"
 CHECKS:
   - serviço 'restore' existe quando há 'backup'
   - para cada ferramenta de dump do backup, a ferramenta de carga correspondente aparece no restore
