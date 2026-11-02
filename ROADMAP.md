@@ -1,6 +1,6 @@
 # Roadmap de Componentes - Módulo Embrapa I/O
 
-**Versão do Módulo**: 1.26.11-3
+**Versão do Módulo**: 1.26.11-4
 **Atualizado em**: 2026-03-30
 **Status Geral**: 🟢 Core Completo (85% completo)
 

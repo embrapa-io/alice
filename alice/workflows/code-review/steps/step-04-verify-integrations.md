@@ -45,7 +45,7 @@ Follow `./references/step-file-protocol.md`. Step-specific:
 - [ ] Contém copyright da Embrapa
 
 ```
-Copyright © {YEAR} Brazilian Agricultural Research Corporation (Embrapa). All rights reserved.
+Copyright ⓒ {YEAR} Brazilian Agricultural Research Corporation (Embrapa). All rights reserved.
 ```
 
 **Resultado:** PASS ✅ / FAIL ❌

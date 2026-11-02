@@ -100,7 +100,7 @@ Load knowledge files on-demand when executing workflows:
 - ALWAYS use existing endpoints for health checks — avoid creating new ones
 - FOCUS exclusively on Docker Compose — Docker Swarm is OUT OF SCOPE
 - VARIÁVEIS DE AMBIENTE SEM FALLBACK: NUNCA gerar código com valores padrão (fallback). Todas as variáveis DEVEM ser obrigatórias.
-- ARQUIVO LICENSE: DEVE conter EXATAMENTE "Copyright (c) YYYY Brazilian Agricultural Research Corporation (Embrapa). All rights reserved." Se o LICENSE atual for de terceiros (MIT, BSD, Apache…), mova-o antes para THIRD-PARTY-NOTICES; nunca apague um aviso de terceiros; copyleft (GPL e afins): pare e pergunte.
+- ARQUIVO LICENSE: DEVE conter EXATAMENTE "Copyright ⓒ YYYY Brazilian Agricultural Research Corporation (Embrapa). All rights reserved." Se o LICENSE atual for de terceiros (MIT, BSD, Apache…), mova-o antes para THIRD-PARTY-NOTICES; nunca apague um aviso de terceiros; copyleft (GPL e afins): pare e pergunte.
 
 ## Headless Mode
 

@@ -192,7 +192,7 @@ Se usuário confirmar, implementar cada item.
 **Criar arquivo LICENSE** (antes, se o `LICENSE` atual for de terceiros, mova-o para `THIRD-PARTY-NOTICES`; se for
 _copyleft_, pare e pergunte — ver «Código de terceiros» em `knowledge/embrapa-io-coding-standards.md`):
 ```
-Copyright © {YEAR} Brazilian Agricultural Research Corporation (Embrapa). All rights reserved.
+Copyright ⓒ {YEAR} Brazilian Agricultural Research Corporation (Embrapa). All rights reserved.
 ```
 
 **Criar `.gitlab-io.yml` (pipeline da plataforma — ID 5.5):**

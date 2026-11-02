@@ -1,6 +1,6 @@
 # Embrapa I/O DevOps Compliance Module
 
-**Versão**: 1.26.11-3 | **Compatível com**: BMAD Core v6 | **Convenção de versão**: `1.YY.MM`
+**Versão**: 1.26.11-4 | **Compatível com**: BMAD Core v6 | **Convenção de versão**: `1.YY.MM`
 
 Módulo de conhecimento [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) para conformidade de aplicações com a plataforma [Embrapa I/O](https://embrapa.io). Inclui a agente **Alice**, 8 workflows especializados, 8 knowledge files, 6 templates e um script de validação automatizada.
 
@@ -341,6 +341,7 @@ _bmad-output/
 
 ### Histórico
 
+- **2026-11-02**: v1.26.11-4 — Regra 5.4: o símbolo do copyright passa a ser ⓒ em todos os arquivos (havia `(c)`, `©` e `ⓒ` em regras diferentes, e a Alice pedia ao usuário para decidir); `(c)` e `©` num LICENSE existente são aceitos.
 - **2026-11-01**: v1.26.11-3 — Teste de ida e volta (`roundtrip.sh`, regra 1.19): a sonda passa por `eval`; antes, qualquer sonda com SQL entre aspas (inclusive a de PostgreSQL da tabela) era quebrada em palavras e o teste falhava.
 - **2026-11-01**: v1.26.11-2 — Regra 3.9: telefone do mantenedor aceita fixo ou ramal da Unidade (`+DDI (DDD) XXXX-XXXX`), além do celular.
 - **2026-11-01**: v1.26.11-1 — Regra 5.4: `LICENSE` de terceiros (MIT, BSD, Apache…) movido para `THIRD-PARTY-NOTICES` antes de gravar o da Embrapa; _copyleft_ pede análise. Primeira versão publicada no _marketplace_ com as regras 1.19 (_restore_ desfaz o _backup_), 2.11 e 2.7c (arquivos `.env`), 1.14, 1.15, 2.4b, 2.7b, 4.1 e 4.2, entradas na `main` depois da 1.26.10-1 sem aumento de versão (quem instalou o _plugin_ não as recebia).

@@ -82,6 +82,9 @@ O arquivo LICENSE DEVE sempre conter EXATAMENTE o seguinte conteúdo (substituin
 Copyright ⓒ YYYY Brazilian Agricultural Research Corporation (Embrapa). All rights reserved.
 ```
 
+O símbolo gerado é o ⓒ (U+24D2), o mesmo que o Genesis grava ao criar uma app a partir de repositório pré-existente.
+Ao verificar, aceite também `(c)` e `©`: não é motivo de achado nem de pergunta ao usuário.
+
 ❌ ERRADO: BSD-3-Clause, MIT, Apache, GPL ou qualquer outra licença
 ✅ CORRETO: Apenas o texto de copyright da Embrapa acima
 

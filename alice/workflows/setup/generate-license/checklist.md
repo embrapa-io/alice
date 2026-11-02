@@ -89,9 +89,9 @@ last-redoc-date: 2025-12-03
 - ✅ `Copyright ⓒ 2025 Brazilian Agricultural Research Corporation (Embrapa). All rights reserved.` (correto)
 
 ### Símbolo de Copyright
-- ❌ `Copyright (c) 2025 ...` (símbolo ASCII, não Unicode)
-- ❌ `Copyright © 2025 ...` (símbolo diferente)
-- ✅ `Copyright ⓒ 2025 ...` (símbolo correto: U+24D2)
+- ✅ `Copyright ⓒ 2025 ...` (símbolo gerado: U+24D2, o mesmo que a plataforma grava ao criar a app)
+- ⚠️ `Copyright (c) 2025 ...` ou `Copyright © 2025 ...`: aceitáveis num LICENSE já existente; não peça a troca só pelo
+  símbolo (o que importa é o titular e o «All rights reserved»)
 
 ### Formatação
 - ❌ Arquivo com uma linha única (sem quebra entre copyright e "All rights reserved")

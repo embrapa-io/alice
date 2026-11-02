@@ -1399,14 +1399,14 @@ def validate_code(project: Path, stack: Dict[str, Any]) -> List[Finding]:
         try:
             license_text = license_path.read_text(encoding="utf-8", errors="replace")
             if LICENSE_REQUIRED_TEXT not in license_text:
-                fix = f"Atualizar LICENSE para conter: 'Copyright (c) YYYY {LICENSE_REQUIRED_TEXT}. All rights reserved.'"
+                fix = f"Atualizar LICENSE para conter: 'Copyright ⓒ YYYY {LICENSE_REQUIRED_TEXT}. All rights reserved.'"
                 severity = "LOW"
                 if COPYLEFT_RE.search(license_text):
                     severity = "HIGH"
                     fix = "LICENSE de terceiros copyleft (GPL/AGPL/LGPL/MPL): analisar a licença com o usuário antes de qualquer mudança"
                 elif PERMISSIVE_RE.search(license_text):
                     fix = ("LICENSE de terceiros (licença permissiva): mover o conteúdo integral para THIRD-PARTY-NOTICES e "
-                           f"então gravar 'Copyright (c) YYYY {LICENSE_REQUIRED_TEXT}. All rights reserved.'")
+                           f"então gravar 'Copyright ⓒ YYYY {LICENSE_REQUIRED_TEXT}. All rights reserved.'")
                 findings.append(Finding(
                     rule="5.4b", severity=severity, category="license",
                     file="LICENSE",

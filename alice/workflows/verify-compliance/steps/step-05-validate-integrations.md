@@ -207,7 +207,7 @@ Escanear código-fonte em busca de padrões de fallback proibidos. Variáveis de
 
 **Formato obrigatório:**
 ```
-Copyright © YYYY Brazilian Agricultural Research Corporation (Embrapa). All rights reserved.
+Copyright ⓒ YYYY Brazilian Agricultural Research Corporation (Embrapa). All rights reserved.
 ```
 
 **Se LICENSE ausente:**
