@@ -162,7 +162,9 @@ env $(cat .env.io) docker compose up --force-recreate --build --remove-orphans -
 
 2. Atualize os valores no `.env.io` com as credenciais reais
 
-3. Faça o deploy seguindo a documentação da plataforma
+3. Se ainda não rodou, faça o teste de ida e volta do backup: **[BR] Testar Backup e Restore** no menu da Alice
+
+4. Faça o deploy seguindo a documentação da plataforma
 
 ---
 

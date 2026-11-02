@@ -7,10 +7,10 @@
   "keywords": ["bmad", "devops", "compliance", "docker", "embrapa"],
   "plugins": [
     {
-      "name": "embrapa-io",
+      "name": "compliance",
       "source": "./",
-      "description": "Módulo de conformidade com a plataforma Embrapa I/O — agente Alice, workflows de setup/validação e templates Docker.",
-      "version": "1.26.11-4",
+      "description": "Conformidade com a plataforma Embrapa I/O: a agente Alice verifica, adapta e revisa qualquer codebase (Docker Compose, variáveis de ambiente, backup e restore, Sentry, Matomo, SonarQube).",
+      "version": "1.26.11-5",
       "author": { "name": "Camilo Carromeu" },
       "skills": [
         "./alice"

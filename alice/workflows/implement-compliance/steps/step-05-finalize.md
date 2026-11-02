@@ -143,7 +143,12 @@ Este script irá:
 env $(cat .env.io) docker compose up --force-recreate --build --remove-orphans --wait
 ```
 
-### 3. Teste a aplicação
+### 3. Teste o backup e o restore
+
+Rode **[BR] Testar Backup e Restore** no menu da Alice: ela sobe a aplicação, grava dados de exemplo se a base
+estiver vazia, faz o backup, apaga os volumes, restaura e compara (regra 1.19).
+
+### 4. Teste a aplicação
 
 Verifique se:
 - [ ] A aplicação inicia sem erros

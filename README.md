@@ -1,40 +1,51 @@
-# Embrapa I/O DevOps Compliance Module
+# Embrapa I/O — Compliance (agente Alice)
 
-**Versão**: 1.26.11-4 | **Compatível com**: BMAD Core v6 | **Convenção de versão**: `1.YY.MM`
+**Versão**: 1.26.11-5 | **Funciona em**: Claude Code (plugin), e em Gemini CLI, OpenCode, GitHub Copilot, Codex e outros pelo BMAD | **Convenção de versão**: `1.YY.MM-N`
 
-Módulo de conhecimento [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) para conformidade de aplicações com a plataforma [Embrapa I/O](https://embrapa.io). Inclui a agente **Alice**, 8 workflows especializados, 8 knowledge files, 6 templates e um script de validação automatizada.
+Plugin de conformidade de aplicações com a plataforma [Embrapa I/O](https://embrapa.io). Inclui a agente **Alice**, os workflows de verificação, implementação, revisão e teste de backup, os arquivos de conhecimento da plataforma, os modelos e um script de validação automatizada.
 
 ## Alice — Agente de Conformidade
 
-**Alice** é uma agente especializada que analisa, implementa e valida projetos para a plataforma Embrapa I/O, independente de linguagem ou framework. Através de três workflows principais, Alice guia o processo completo de adequação: verificação de conformidade com geração de relatório detalhado, implementação dos ajustes necessários, e code review final para certificação.
+**Alice** é uma agente especializada que analisa, adapta e valida projetos para a plataforma Embrapa I/O, independente de linguagem ou framework. Ela guia o processo completo de adequação: verificação de conformidade com relatório detalhado, implementação dos ajustes, revisão final para certificação e o teste de ida e volta do backup.
 
 O diferencial está na abordagem agnóstica de stack: Alice detecta automaticamente a tecnologia utilizada (Node.js, Vue.js, React, PHP, .NET, Python, etc.) e adapta todas as configurações e exemplos de código ao contexto do projeto. O foco exclusivo em **Docker Compose** como orquestrador garante simplicidade e compatibilidade com a plataforma.
 
-Alice suporta **modo headless** (`-H`) para automação CI/CD, utiliza um **script de pré-validação** (`validate-compliance.py`) que economiza 3K-5K tokens por invocação ao pré-computar verificações determinísticas, e possui um **SKILL.md** padrão BMad na raiz do módulo para compatibilidade com a toolchain.
+Alice suporta **modo headless** (`-H`) para automação CI/CD e utiliza um **script de pré-validação** (`validate-compliance.py`) que economiza 3K-5K tokens por invocação ao pré-computar verificações determinísticas.
 
 ## Quick Start
 
-### 1. Instalação
+### 1. Instalação no Claude Code (recomendada)
 
-A agente é instalada juntamente com o _framework_ [**BMAD Method**](https://github.com/bmad-code-org/BMAD-METHOD):
+Este repositório é um _marketplace_ de _plugins_ do Claude Code (`embrapa-io`), e a Alice é o _plugin_ **`compliance`**. Não é preciso instalar o BMAD. No terminal:
+
+```bash
+claude plugin marketplace add embrapa-io/alice
+claude plugin install compliance@embrapa-io
+```
+
+Ou, de dentro do Claude Code:
+
+```
+/plugin marketplace add embrapa-io/alice
+/plugin install compliance@embrapa-io
+```
+
+Para receber as versões novas: `claude plugin marketplace update embrapa-io` e `claude plugin update compliance@embrapa-io`.
+
+### 1b. Instalação em outros assistentes (BMAD)
+
+Para Gemini CLI, OpenCode, GitHub Copilot, Codex e outros, a Alice é instalada como módulo do [**BMAD Method**](https://github.com/bmad-code-org/BMAD-METHOD):
 
 ```bash
 cd ~/projects/my-project/my-app
-
 npx bmad-method install
 ```
 
-No passo `Select official modules to install`, selecione "**BMad Method Agile-AI Driven-Development**".
-
-Em seguida, no passo: `Would you like to install from a custom source (Git URL or local path)?`, selecione "**Yes**".
-
-Por fim, em `Git URL or local path:` coloque a URL deste repositório: "**https://github.com/embrapa-io/alice**". Quando aparecer, selecione o módulo "**Embrapa I/O DevOps Compliance Module**".
-
-Continue a instalação auto-guiada até finalizar. A _skill_ da agente será instalada junto com os demais agentes BMAD. 
+No passo `Would you like to install from a custom source (Git URL or local path)?`, selecione "**Yes**" e informe "**https://github.com/embrapa-io/alice**"; depois, selecione o módulo "**Embrapa I/O DevOps Compliance Module**".
 
 ### 2. Invocar a Alice
 
-Inicie seu assistente de codificação em IA (Claude Code, Gemini CLI, OpenCode, GitHub Copilot, Codex, etc) e invoque a Alice:
+Abra o assistente na pasta da aplicação e chame a Alice. No Claude Code, digite `/alice` (o autocompletar mostra `/compliance:alice`):
 
 ```
 /alice
@@ -43,25 +54,29 @@ Inicie seu assistente de codificação em IA (Claude Code, Gemini CLI, OpenCode,
 ### 3. Seguir o Fluxo
 
 ```
-[VC] Verify Compliance → [IA] Implement Adjustments → [CR] Code Review
-         ↓                         ↓                         ↓
-  Gera relatório          Implementa ajustes         Valida implementação
-  com action items        do relatório               (NOVA SESSÃO!)
+[VC] Verificar → [IA] Implementar → [BR] Testar backup → [CR] Code Review
+     ↓                 ↓                    ↓                    ↓
+ Relatório com    Ajustes do         Ida e volta:          Valida a
+ action items     relatório          backup → restore      implementação
+                                     → comparar            (NOVA SESSÃO!)
 ```
 
 ## Menu da Alice
 
+Todos os comandos ficam no menu e podem ser chamados a qualquer momento, pelo código (ex.: `BR`) ou pelo nome.
+
 | Opção | Comando | Descrição |
 |-------|---------|-----------|
-| **[VC]** | Verify Compliance | Analisa o codebase e gera `{output_folder}/embrapa-io-compliance.md` com action items detalhados |
-| **[IA]** | Implement Adjustments | Executa os action items do relatório, cria `.env`, `.env.io` e `bootstrap.sh` |
+| **[VC]** | Verificar Conformidade | Analisa o codebase e gera `{output_folder}/embrapa-io-compliance.md` com action items detalhados |
+| **[IA]** | Implementar Ajustes | Executa os action items do relatório, cria `.env`, `.env.io` e `bootstrap.sh` |
+| **[BR]** | Testar Backup e Restore | Teste de ida e volta (regra 1.19): sobe a aplicação, faz o backup, apaga os volumes de dados, restaura e compara com uma sonda; só em `development` |
 | **[CR]** | Code Review | Verifica se a implementação está 100% conforme e emite veredicto APPROVED/REJECTED |
 | **[CH]** | Chat | Conversar com a Alice sobre qualquer assunto relacionado ao Embrapa I/O |
 | **[MH]** | Menu Help | Reexibir o menu de opções |
-| **[PM]** | Party Mode | Iniciar discussão multi-agente (requer módulo Core) |
+| **[PM]** | Party Mode | Iniciar discussão multi-agente (requer módulo Core do BMAD) |
 | **[DA]** | Dismiss Agent | Encerrar a sessão com resumo de ações e próximos passos |
 
-> **IMPORTANTE**: O Code Review [CR] deve ser executado em uma **NOVA SESSÃO** para garantir uma verificação imparcial, sem o contexto da implementação anterior.
+> **IMPORTANTE**: O Code Review [CR] deve ser executado em uma **NOVA SESSÃO** (no Claude Code, `/clear`) para garantir uma verificação imparcial, sem o contexto da implementação anterior.
 
 ## Workflows da Alice
 
@@ -101,6 +116,17 @@ Verifica se todas as implementações estão corretas. Pode usar `validate-compl
 5. **Finalize Review** - Emite veredicto APPROVED ✅ ou REJECTED ❌
 
 **Output**: Relatório atualizado com status final de conformidade
+
+### [BR] Testar Backup e Restore
+
+Garante, executando, que o arquivo gerado pelo serviço `backup` é restaurado por inteiro pelo `restore` — condição para usar o Backup S3 da plataforma e migrar dados entre servidores. Só roda em `development` (apaga os volumes de dados):
+
+1. Confere o ambiente (`.env.io` de development, serviços `backup` e `restore`), roda o `bootstrap.sh` e sobe a aplicação
+2. Escolhe a sonda pela pilha (contagens, títulos ordenados, _hashes_) e grava dados de exemplo se a base estiver vazia
+3. Copia `scripts/roundtrip.sh` para a raiz da aplicação e roda o teste
+4. Relata **OK** (os dados voltaram iguais) ou **FALHA** (com o _diff_ e a correção proposta para o `restore`)
+
+**Output**: `roundtrip.sh` na raiz e o resultado do teste
 
 ## Script de Validação Automatizada
 
@@ -341,6 +367,7 @@ _bmad-output/
 
 ### Histórico
 
+- **2026-11-02**: v1.26.11-5 — Plugin renomeado para **`compliance`** (`claude plugin install compliance@embrapa-io`), README com a instalação pelo Claude Code sem BMAD, e comando **[BR] Testar Backup e Restore** no menu (workflow `backup-roundtrip` e `scripts/roundtrip.sh` distribuído com o plugin).
 - **2026-11-02**: v1.26.11-4 — Regra 5.4: o símbolo do copyright passa a ser ⓒ em todos os arquivos (havia `(c)`, `©` e `ⓒ` em regras diferentes, e a Alice pedia ao usuário para decidir); `(c)` e `©` num LICENSE existente são aceitos.
 - **2026-11-01**: v1.26.11-3 — Teste de ida e volta (`roundtrip.sh`, regra 1.19): a sonda passa por `eval`; antes, qualquer sonda com SQL entre aspas (inclusive a de PostgreSQL da tabela) era quebrada em palavras e o teste falhava.
 - **2026-11-01**: v1.26.11-2 — Regra 3.9: telefone do mantenedor aceita fixo ou ramal da Unidade (`+DDI (DDD) XXXX-XXXX`), além do celular.

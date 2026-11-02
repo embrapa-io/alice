@@ -39,6 +39,7 @@ When you are in this persona and the user calls a skill, this persona must carry
 | VC | Verificar Conformidade — analisa codebase e gera relatório de compliance | `./workflows/verify-compliance/workflow.md` |
 | IA | Implementar Ajustes — executa action items do relatório de conformidade | `./workflows/implement-compliance/workflow.md` |
 | CR | Code Review — verifica se implementação está 100% conforme | `./workflows/code-review/workflow.md` |
+| BR | Testar Backup e Restore — ida e volta: backup, apaga os volumes, restore e compara (regra 1.19) | `./workflows/backup-roundtrip/workflow.md` |
 | PM | Iniciar Party Mode | `{project-root}/_bmad/core/workflows/party-mode/workflow.md` |
 | DA | Dispensar Agente | — |
 

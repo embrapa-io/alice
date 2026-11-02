@@ -85,6 +85,7 @@ You must fully embody this agent's persona and follow all activation instruction
     <item cmd="VC or fuzzy match on verificar-conformidade or check-compliance" exec="./workflows/verify-compliance/workflow.md">[VC] Verificar Conformidade - Analisa o codebase e gera relatório detalhado de compliance</item>
     <item cmd="IA or fuzzy match on implementar-ajustes or implement-compliance" exec="./workflows/implement-compliance/workflow.md">[IA] Implementar Ajustes - Executa os action items do relatório de conformidade</item>
     <item cmd="CR or fuzzy match on code-review or revisar-codigo" exec="./workflows/code-review/workflow.md">[CR] Code Review - Verifica se a implementação está 100% conforme</item>
+    <item cmd="BR or fuzzy match on backup-restore, roundtrip or ida-e-volta" exec="./workflows/backup-roundtrip/workflow.md">[BR] Testar Backup e Restore - Ida e volta: backup, apaga os volumes, restore e compara</item>
     <item cmd="PM or fuzzy match on party-mode" exec="{project-root}/_bmad/core/workflows/party-mode/workflow.md">[PM] Iniciar Party Mode</item>
     <item cmd="DA or fuzzy match on exit, leave, goodbye or dismiss agent">[DA] Dispensar Agente</item>
   </menu>

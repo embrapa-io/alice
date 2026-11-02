@@ -29,8 +29,8 @@ duas bases vazias.
 ## O roteiro (`roundtrip.sh`)
 
 Roda **só em desenvolvimento** e **apaga os volumes de dados da app** no meio do caminho: por isso exige `--yes` e
-recusa rodar se o `.env.io` não for de `development`. Copie para a raiz da app, ajuste `ROUNDTRIP_PROBE` e rode com
-`./roundtrip.sh --yes`.
+recusa rodar se o `.env.io` não for de `development`. Ele é distribuído em `scripts/roundtrip.sh` (raiz da skill) e executado pelo workflow **[BR] Testar Backup e
+Restore** do menu da Alice: copie para a raiz da app, ajuste `ROUNDTRIP_PROBE` e rode com `./roundtrip.sh --yes`.
 
 ```bash
 #!/usr/bin/env bash
@@ -78,8 +78,10 @@ fi
 
 ## Quando usar
 
-- **Workflow `implement-compliance`:** depois de criar ou corrigir `backup`/`restore`, propor a sonda da app e rodar o
-  roteiro; anotar o resultado no relatório.
+- **Menu da Alice, [BR] Testar Backup e Restore:** é o caminho para o usuário rodar o teste a qualquer momento
+  (workflow `backup-roundtrip`).
+- **Workflows `implement-compliance` e `code-review`:** ao terminar, se o `backup` ou o `restore` foram criados ou
+  mudaram, sugerir ao usuário o **[BR]**; anotar o resultado no relatório quando ele rodar.
 - **Boilerplates:** cada boilerplate com dados guarda o `roundtrip.sh` e a sonda (ex.: no `README.md`, seção de
   backup) e roda o teste a cada mudança no `backup`/`restore`. Correção de restore incompleto é correção de bug: vai
   aos forks pelo fluxo de propagação.
