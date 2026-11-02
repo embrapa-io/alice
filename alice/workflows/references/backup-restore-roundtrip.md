@@ -51,7 +51,8 @@ BACKUP_VOLUME="${PREFIX}_backup"
 DATA_VOLUMES=$(dc config --format json | python3 -c 'import json,sys; v=json.load(sys.stdin).get("volumes",{}); print(" ".join(x.get("name",k) for k,x in v.items() if x.get("external") and not x.get("name",k).endswith("_backup")))')
 
 echo "1/6 subindo a app"; dc up -d --wait
-echo "2/6 sonda antes";   dc $ROUNDTRIP_PROBE > /tmp/roundtrip-before.txt
+# eval: a sonda traz argumentos entre aspas (o SQL do psql); sem ele, o shell a quebra em palavras
+echo "2/6 sonda antes";   eval "dc $ROUNDTRIP_PROBE" > /tmp/roundtrip-before.txt
 [ -s /tmp/roundtrip-before.txt ] || { echo "A sonda não imprimiu nada: grave dados de exemplo antes"; exit 1; }
 
 echo "3/6 backup"; cli run --rm --no-deps backup
@@ -66,7 +67,7 @@ dc up -d --wait
 echo "5/6 restore"; cli run --rm --no-deps -e BACKUP_FILE_TO_RESTORE="$FILE" restore
 dc restart && dc up -d --wait
 
-echo "6/6 sonda depois"; dc $ROUNDTRIP_PROBE > /tmp/roundtrip-after.txt
+echo "6/6 sonda depois"; eval "dc $ROUNDTRIP_PROBE" > /tmp/roundtrip-after.txt
 
 if diff -u /tmp/roundtrip-before.txt /tmp/roundtrip-after.txt; then
   echo "OK: os dados voltaram iguais ($(wc -l < /tmp/roundtrip-after.txt) linhas da sonda)"
