@@ -30,7 +30,7 @@ Este é um workflow **INTERATIVO** que requer input do usuário.
 - **Application Description**: Breve descrição em uma linha
 - **Maintainer Name**: Nome do mantenedor principal
 - **Maintainer Email**: Email do mantenedor (validado)
-- **Maintainer Phone**: Telefone opcional (formato obrigatório: "+[DDI] (DDD) X XXXX-XXXX")
+- **Maintainer Phone**: Telefone opcional (formato obrigatório: "+[DDI] (DDD) X XXXX-XXXX" para celular ou "+[DDI] (DDD) XXXX-XXXX" para fixo ou ramal)
 - **Custom Variables**: Opcionalmente adicionar variáveis além das padrão da stack (com validação de tipo)
 
 ## Outputs

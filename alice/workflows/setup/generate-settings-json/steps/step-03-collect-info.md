@@ -16,7 +16,7 @@ Coletar informações do projeto (label, description) e do mantenedor (name, ema
 
 Follow `./references/step-file-protocol.md`. Step-specific:
 - Coletar label, descrição, dados do mantenedor -- não gerar settings.json neste step
-- Validar formato de telefone: +DDI (DDD) X XXXX-XXXX -- PROIBIDO aceitar formato inválido
+- Validar formato de telefone: +DDI (DDD) X XXXX-XXXX ou +DDI (DDD) XXXX-XXXX -- PROIBIDO aceitar formato inválido
 - Coleta interativa com apresentação de resumo para confirmação
 
 ## Sequence of Instructions (Do not deviate, skip, or optimize)
@@ -82,7 +82,7 @@ Ask:
 
 Qual o telefone do mantenedor?
 
-⚠️ **Formato obrigatório:** +DDI (DDD) X XXXX-XXXX
+⚠️ **Formato obrigatório:** +DDI (DDD) X XXXX-XXXX ou +DDI (DDD) XXXX-XXXX
 Exemplo: +55 (67) 9 8111-8060
 
 (Pressione Enter para pular)
@@ -91,14 +91,14 @@ Telefone:
 ```
 
 **Se telefone fornecido, validar:**
-- Regex: `^\+\d{1,3} \(\d{2}\) \d \d{4}-\d{4}$`
+- Regex: `^\+\d{1,3} \(\d{2}\) (\d )?\d{4}-\d{4}$`
 
 **Se formato inválido:**
 ```
 ❌ Formato inválido!
 
 O telefone deve seguir exatamente o formato:
-+DDI (DDD) X XXXX-XXXX
++DDI (DDD) X XXXX-XXXX ou +DDI (DDD) XXXX-XXXX
 
 Exemplo correto: +55 (67) 9 8111-8060
 

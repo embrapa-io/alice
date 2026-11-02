@@ -110,12 +110,12 @@ react-native, ruby, rust, unity, unreal
 ]
 ```
 - Cada mantenedor deve ter `name`, `email`, `phone`
-- Formato telefone: `+DDI (DDD) X XXXX-XXXX`
+- Formato telefone: `+DDI (DDD) X XXXX-XXXX ou +DDI (DDD) XXXX-XXXX`
 - Email no formato correto
 
 **Se formato telefone incorreto:**
 - Severidade: MEDIUM
-- Action Item: "Corrigir formato do telefone para: +55 (XX) X XXXX-XXXX"
+- Action Item: "Corrigir formato do telefone para: +55 (XX) X XXXX-XXXX ou +55 (XX) XXXX-XXXX"
 
 #### 3.7 Campo `variables`
 

@@ -364,15 +364,16 @@ SOLUTION: "Adicionar referências técnicas relevantes ao projeto"
 ```
 SEVERITY: MEDIUM
 MESSAGE: "Campo 'phone' do mantenedor '[name]' não está no formato correto"
-EXPECTED_FORMAT: "+DDI (DDD) X XXXX-XXXX"
-REGEX: "^\+\d{1,3} \(\d{2}\) \d \d{4}-\d{4}$"
+EXPECTED_FORMAT: "+DDI (DDD) X XXXX-XXXX ou +DDI (DDD) XXXX-XXXX"
+REGEX: "^\+\d{1,3} \(\d{2}\) (\d )?\d{4}-\d{4}$"
 EXAMPLE: "+55 (67) 9 8111-8060"
-SOLUTION: "Corrigir formato do telefone para: +DDI (DDD) X XXXX-XXXX"
+SOLUTION: "Corrigir formato do telefone para: +DDI (DDD) X XXXX-XXXX ou +DDI (DDD) XXXX-XXXX"
 NOTES:
   - DDI: Código internacional (1 a 3 dígitos, ex: 55 para Brasil)
   - DDD: Código de área entre parênteses (2 dígitos)
   - Espaços obrigatórios após DDI e após DDD
-  - Formato do número: X XXXX-XXXX (9 dígitos com hífen)
+  - Formato do número: X XXXX-XXXX (celular, 9 dígitos) ou XXXX-XXXX (fixo ou ramal da Unidade, 8 dígitos)
+  - O Dashboard oferece o botão do WhatsApp a partir desse número: com telefone fixo, o contato é só por ligação
 ```
 
 ## 🔍 Validação 4: Integrações

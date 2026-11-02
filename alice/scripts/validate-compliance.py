@@ -1363,7 +1363,7 @@ def validate_settings(project: Path) -> List[Finding]:
     # Rule 3.9: Phone format in maintainers
     maintainers = settings.get("maintainers")
     if isinstance(maintainers, list):
-        phone_re = re.compile(r"^\+\d{1,3} \(\d{2}\) \d \d{4}-\d{4}$")
+        phone_re = re.compile(r"^\+\d{1,3} \(\d{2}\) (\d )?\d{4}-\d{4}$")
         for m in maintainers:
             if isinstance(m, dict):
                 phone = m.get("phone", "")
@@ -1373,7 +1373,7 @@ def validate_settings(project: Path) -> List[Finding]:
                         rule="3.9", severity="MEDIUM", category="settings",
                         file=".embrapa/settings.json",
                         message=f"Campo 'phone' do mantenedor '{name}' não está no formato correto",
-                        fix="Corrigir formato do telefone para: +DDI (DDD) X XXXX-XXXX",
+                        fix="Corrigir formato do telefone para: +DDI (DDD) X XXXX-XXXX (celular) ou +DDI (DDD) XXXX-XXXX (fixo)",
                     ))
 
     return findings

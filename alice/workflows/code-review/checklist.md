@@ -108,7 +108,7 @@ last-redoc-date: 2026-01-20
 
 - [ ] `platform` é valor válido da lista
 - [ ] Cada maintainer tem `name`, `email`, `phone`
-- [ ] `phone` no formato `+DDI (DDD) X XXXX-XXXX`
+- [ ] `phone` no formato `+DDI (DDD) X XXXX-XXXX ou +DDI (DDD) XXXX-XXXX`
 - [ ] `variables.default`, `.alpha`, `.beta`, `.release` existem
 - [ ] `orchestrators` = `["DockerCompose"]`
 - [ ] `orchestrators` NÃO contém `"DockerSwarm"`

@@ -65,7 +65,7 @@ react-native, ruby, rust, unity, unreal
 **Para cada maintainer:**
 - [ ] Campo `name` presente
 - [ ] Campo `email` presente
-- [ ] Campo `phone` presente (formato: `+DDI (DDD) X XXXX-XXXX`)
+- [ ] Campo `phone` presente (formato: `+DDI (DDD) X XXXX-XXXX ou +DDI (DDD) XXXX-XXXX`)
 
 **Resultado:** PASS ✅ / FAIL ❌
 

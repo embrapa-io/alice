@@ -281,7 +281,7 @@ POSTGRES_VOLUME=meu-projeto_minha-app_development_postgres
 - ✅ **JAMAIS** usar espaços ou aspas nos valores das variáveis
 - ✅ Variáveis do array **default** devem mapear todas as variáveis do .env
 - ✅ Arrays **alpha**, **beta**, **release** contêm apenas OVERRIDES de valores
-- ✅ Telefone no formato: +DDI (DDD) X XXXX-XXXX (ex: +55 (67) 9 8111-8060)
+- ✅ Telefone no formato: +DDI (DDD) X XXXX-XXXX (celular, ex.: +55 (67) 9 8111-8060) ou +DDI (DDD) XXXX-XXXX (fixo ou ramal da Unidade, ex.: +55 (67) 3368-2000)
 
 ### 4. Serviços CLI Obrigatórios (Backup, Restore, Sanitize)
 
