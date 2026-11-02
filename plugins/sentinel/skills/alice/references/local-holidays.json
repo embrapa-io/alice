@@ -1,0 +1,11 @@
+{
+  "_about": "Feriados estaduais e municipais que o kanban.py soma aos nacionais (que ele calcula sozinho). Não há API aberta com feriados estaduais e municipais do Brasil, por isso a tabela. 'default_place' vale para todo projeto sem entrada em 'projects' (vazio = só os nacionais). 'projects' mapeia o slug do projeto para 'Cidade/UF'; 'states' e 'cities' listam [MM-DD, nome]. Para acrescentar um lugar ou definir o de um projeto sem mexer na skill: ~/.config/sentinel/local-holidays.json, com as mesmas chaves (é mesclado por cima deste). Contribuições com outras Unidades da Embrapa são bem-vindas por pull request.",
+  "default_place": "",
+  "projects": {},
+  "states": {
+    "MS": [["10-11", "Criação do Estado de Mato Grosso do Sul"]]
+  },
+  "cities": {
+    "Campo Grande/MS": [["06-13", "Santo Antônio, padroeiro de Campo Grande"], ["08-26", "Aniversário de Campo Grande"]]
+  }
+}

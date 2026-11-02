@@ -1,8 +1,22 @@
-# Embrapa I/O — Compliance (agente Alice)
+# Embrapa I/O — a agente Alice
 
-**Versão**: 1.26.11-6 | **Funciona em**: Claude Code (plugin), e em Gemini CLI, OpenCode, GitHub Copilot, Codex e outros pelo BMAD | **Convenção de versão**: `1.YY.MM-N`
+**Versão**: 1.26.11-7 | **Funciona em**: Claude Code (plugin), e em Gemini CLI, OpenCode, GitHub Copilot, Codex e outros pelo BMAD | **Convenção de versão**: `1.YY.MM-N`
 
-Plugin de conformidade de aplicações com a plataforma [Embrapa I/O](https://embrapa.io). Inclui a agente **Alice**, os workflows de verificação, implementação, revisão e teste de backup, os arquivos de conhecimento da plataforma, os modelos e um script de validação automatizada.
+Marketplace `embrapa-io` de plugins do Claude Code com a agente **Alice** da plataforma [Embrapa I/O](https://embrapa.io). A agente é uma só; cada plugin é uma tarefa, com um menu próprio, e se instala à parte:
+
+| Plugin | Comando | Para quem | O que faz |
+| --- | --- | --- | --- |
+| `compliance@embrapa-io` | `/compliance:alice` | toda equipe | conformidade de qualquer código com a plataforma: verificação, implementação, revisão e teste de backup e restore (este documento) |
+| `boilerplate@embrapa-io` | `/boilerplate:alice` | quem mantém _boilerplates_ | transforma uma app aderente num _boilerplate_ do catálogo ([`plugins/boilerplate`](plugins/boilerplate)) |
+| `sentinel@embrapa-io` | `/sentinel:alice` | arquitetos de um projeto | trata os relatórios da Sentinela: triagem, Kanban, correções, Sentry e SonarQube ([`plugins/sentinel`](plugins/sentinel)) |
+| `critical-cves@embrapa-io` | `/critical-cves:alice` | arquitetos de um projeto | trata os alertas de CVE crítico das builds ([`plugins/critical-cves`](plugins/critical-cves)) |
+
+```bash
+claude plugin marketplace add embrapa-io/alice
+claude plugin install compliance@embrapa-io       # e os outros, conforme a necessidade
+```
+
+Digitar `/alice` no Claude Code lista as Alices instaladas. O plugin `compliance` inclui os workflows de verificação, implementação, revisão e teste de backup, os arquivos de conhecimento da plataforma, os modelos e um script de validação automatizada.
 
 ## Alice — Agente de Conformidade
 
@@ -367,6 +381,7 @@ _bmad-output/
 
 ### Histórico
 
+- **2026-11-02**: v1.26.11-7 — O repositório vira o marketplace da Alice com um plugin por tarefa: entram `boilerplate` (vindo de `github.com/embrapa-io/skills`, agora arquivado), `sentinel` e `critical-cves`, cada um com a skill `alice` e menu próprio.
 - **2026-11-02**: v1.26.11-6 — Ao abrir, a Alice lembra que qualquer código do menu (VC, IA, CR, BR) vale a qualquer momento e que `MH` reexibe o menu; `/bmad-help` só é citado quando o BMAD está instalado.
 - **2026-11-02**: v1.26.11-5 — Plugin renomeado para **`compliance`** (`claude plugin install compliance@embrapa-io`), README com a instalação pelo Claude Code sem BMAD, e comando **[BR] Testar Backup e Restore** no menu (workflow `backup-roundtrip` e `scripts/roundtrip.sh` distribuído com o plugin).
 - **2026-11-02**: v1.26.11-4 — Regra 5.4: o símbolo do copyright passa a ser ⓒ em todos os arquivos (havia `(c)`, `©` e `ⓒ` em regras diferentes, e a Alice pedia ao usuário para decidir); `(c)` e `©` num LICENSE existente são aceitos.

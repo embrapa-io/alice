@@ -1,20 +1,73 @@
 {
   "name": "embrapa-io",
-  "owner": { "name": "Camilo Carromeu" },
+  "owner": {
+    "name": "Camilo Carromeu"
+  },
   "license": "MIT",
   "homepage": "https://github.com/embrapa-io/alice",
   "repository": "https://github.com/embrapa-io/alice",
-  "keywords": ["bmad", "devops", "compliance", "docker", "embrapa"],
+  "keywords": [
+    "bmad",
+    "boilerplate",
+    "compliance",
+    "devops",
+    "docker",
+    "embrapa"
+  ],
   "plugins": [
     {
       "name": "compliance",
       "source": "./",
       "description": "Conformidade com a plataforma Embrapa I/O: a agente Alice verifica, adapta e revisa qualquer codebase (Docker Compose, variáveis de ambiente, backup e restore, Sentry, Matomo, SonarQube).",
-      "version": "1.26.11-6",
-      "author": { "name": "Camilo Carromeu" },
+      "version": "1.26.11-7",
+      "author": {
+        "name": "Camilo Carromeu"
+      },
       "skills": [
         "./alice"
       ]
+    },
+    {
+      "name": "boilerplate",
+      "source": "./plugins/boilerplate",
+      "description": "A Alice criando boilerplates: transforma uma app aderente ao Embrapa I/O num boilerplate do catálogo (palavras-chave %GENESIS_*%, licença MIT, .gitlab-io.yml, SonarQube e catálogo).",
+      "version": "1.26.11-7",
+      "author": {
+        "name": "Camilo Carromeu"
+      },
+      "homepage": "https://embrapa.io/docs/boilerplate",
+      "skills": [
+        "./skills/alice"
+      ]
+    },
+    {
+      "name": "critical-cves",
+      "source": "./plugins/critical-cves",
+      "description": "A Alice tratando os alertas de CVE crítico (exploração ativa) das builds de um projeto: confere cada CVE contra o código implantado e executa, build a build e com confirmação, a correção recomendada.",
+      "version": "1.26.11-7",
+      "author": {
+        "name": "Camilo Carromeu"
+      },
+      "homepage": "https://embrapa.io/docs/mcp",
+      "skills": [
+        "./skills/alice"
+      ]
+    },
+    {
+      "name": "sentinel",
+      "source": "./plugins/sentinel",
+      "description": "A Alice tratando os relatórios da Sentinela de um projeto: confere cada achado contra o código, registra e organiza o Kanban no GitLab, guia as correções e mantém o Sentry e o SonarQube coerentes, sempre com aprovação.",
+      "version": "1.26.11-7",
+      "author": {
+        "name": "Camilo Carromeu"
+      },
+      "homepage": "https://embrapa.io/docs/sentinel",
+      "skills": [
+        "./skills/alice"
+      ]
     }
-  ]
+  ],
+  "metadata": {
+    "description": "A agente Alice do Embrapa I/O no Claude Code: um plugin por tarefa (conformidade, boilerplates e outros)."
+  }
 }

@@ -1,0 +1,13 @@
+# Configuração do GitLab da plataforma Embrapa I/O (https://embrapa.io/docs/boilerplate#code).
+#
+# Este boilerplate apenas sobe uma ferramenta de terceiros e não tem código-fonte
+# próprio para analisar: nenhum pipeline é criado. Se a aplicação passar a ter
+# código próprio, troque este arquivo pelo padrão, com a análise do SonarQube.
+
+workflow:
+  rules:
+    - when: never
+
+# O GitLab exige ao menos um job visível, mesmo que ele nunca rode.
+embrapa-io-sem-analise:
+  script: ["true"]
