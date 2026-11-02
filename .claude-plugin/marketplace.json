@@ -10,7 +10,7 @@
       "name": "compliance",
       "source": "./",
       "description": "Conformidade com a plataforma Embrapa I/O: a agente Alice verifica, adapta e revisa qualquer codebase (Docker Compose, variáveis de ambiente, backup e restore, Sentry, Matomo, SonarQube).",
-      "version": "1.26.11-5",
+      "version": "1.26.11-6",
       "author": { "name": "Camilo Carromeu" },
       "skills": [
         "./alice"

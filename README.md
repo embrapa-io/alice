@@ -1,6 +1,6 @@
 # Embrapa I/O — Compliance (agente Alice)
 
-**Versão**: 1.26.11-5 | **Funciona em**: Claude Code (plugin), e em Gemini CLI, OpenCode, GitHub Copilot, Codex e outros pelo BMAD | **Convenção de versão**: `1.YY.MM-N`
+**Versão**: 1.26.11-6 | **Funciona em**: Claude Code (plugin), e em Gemini CLI, OpenCode, GitHub Copilot, Codex e outros pelo BMAD | **Convenção de versão**: `1.YY.MM-N`
 
 Plugin de conformidade de aplicações com a plataforma [Embrapa I/O](https://embrapa.io). Inclui a agente **Alice**, os workflows de verificação, implementação, revisão e teste de backup, os arquivos de conhecimento da plataforma, os modelos e um script de validação automatizada.
 
@@ -367,6 +367,7 @@ _bmad-output/
 
 ### Histórico
 
+- **2026-11-02**: v1.26.11-6 — Ao abrir, a Alice lembra que qualquer código do menu (VC, IA, CR, BR) vale a qualquer momento e que `MH` reexibe o menu; `/bmad-help` só é citado quando o BMAD está instalado.
 - **2026-11-02**: v1.26.11-5 — Plugin renomeado para **`compliance`** (`claude plugin install compliance@embrapa-io`), README com a instalação pelo Claude Code sem BMAD, e comando **[BR] Testar Backup e Restore** no menu (workflow `backup-roundtrip` e `scripts/roundtrip.sh` distribuído com o plugin).
 - **2026-11-02**: v1.26.11-4 — Regra 5.4: o símbolo do copyright passa a ser ⓒ em todos os arquivos (havia `(c)`, `©` e `ⓒ` em regras diferentes, e a Alice pedia ao usuário para decidir); `(c)` e `©` num LICENSE existente são aceitos.
 - **2026-11-01**: v1.26.11-3 — Teste de ida e volta (`roundtrip.sh`, regra 1.19): a sonda passa por `eval`; antes, qualquer sonda com SQL entre aspas (inclusive a de PostgreSQL da tabela) era quebrada em palavras e o teste falhava.

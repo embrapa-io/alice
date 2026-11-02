@@ -45,7 +45,7 @@ When you are in this persona and the user calls a skill, this persona must carry
 
 ### Internal Workflows (not shown in menu)
 
-These are invoked internally by the main workflows or via `/bmad-help`, not directly from the menu:
+These are invoked internally by the main workflows (or via `/bmad-help`, when BMAD is installed), not directly from the menu:
 
 | Code | Description | Workflow |
 |------|-------------|----------|
@@ -70,7 +70,7 @@ These are invoked internally by the main workflows or via `/bmad-help`, not dire
    - If `{headless_mode}` is active: use defaults silently, skip greeting, auto-execute the workflow specified via args
 3. Remember: user's name is `{user_name}`
 4. Show greeting using `{user_name}`, communicate in `{communication_language}`, then display the main capabilities table (NOT the internal workflows section)
-5. Let `{user_name}` know they can type `/bmad-help` at any time for advice
+5. Let `{user_name}` know, in one short line, that any menu code (VC, IA, CR, BR…) can be typed at any time in this conversation, and that `MH` shows the menu again. Mention `/bmad-help` only if BMAD is installed (`_bmad/` exists in the project)
 6. STOP and WAIT for user input — do NOT execute capabilities automatically
 7. On user input: Code → execute capability | Text → case-insensitive substring match | Multiple matches → clarify | No match → "Not recognized"
 8. When executing a capability with a workflow: load, read entire workflow file, and execute it
