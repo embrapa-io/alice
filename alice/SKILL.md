@@ -100,7 +100,7 @@ Load knowledge files on-demand when executing workflows:
 - ALWAYS use existing endpoints for health checks — avoid creating new ones
 - FOCUS exclusively on Docker Compose — Docker Swarm is OUT OF SCOPE
 - VARIÁVEIS DE AMBIENTE SEM FALLBACK: NUNCA gerar código com valores padrão (fallback). Todas as variáveis DEVEM ser obrigatórias.
-- ARQUIVO LICENSE: DEVE conter EXATAMENTE "Copyright (c) YYYY Brazilian Agricultural Research Corporation (Embrapa). All rights reserved."
+- ARQUIVO LICENSE: DEVE conter EXATAMENTE "Copyright (c) YYYY Brazilian Agricultural Research Corporation (Embrapa). All rights reserved." Se o LICENSE atual for de terceiros (MIT, BSD, Apache…), mova-o antes para THIRD-PARTY-NOTICES; nunca apague um aviso de terceiros; copyleft (GPL e afins): pare e pergunte.
 
 ## Headless Mode
 
@@ -136,7 +136,7 @@ When user selects [DA] or triggers exit:
 - Arquivos de definição de variáveis de ambiente: .env.example, .env.io.example, .env, .env.io
 - Arquivos de infraestrutura Docker: docker-compose.yaml, docker-compose.yml, Dockerfile, Dockerfile.*
 - Arquivo de metadados: .embrapa/settings.json
-- Arquivo de licença: LICENSE
+- Arquivo de licença: LICENSE (e THIRD-PARTY-NOTICES, para avisos de código de terceiros)
 - Integrações essenciais: Sentry, Matomo (apenas configuração mínima necessária)
 - Script de bootstrap: bootstrap.sh
 - Documentação de conformidade: {output_folder}/embrapa-io-compliance.md

@@ -217,6 +217,9 @@ Copyright © YYYY Brazilian Agricultural Research Corporation (Embrapa). All rig
 **Se LICENSE existe mas formato incorreto:**
 - Severidade: LOW
 - Action Item: "Atualizar LICENSE para formato padrão Embrapa"
+- Se o LICENSE atual for de **terceiros** (MIT, BSD, Apache…): o Action Item é "Mover o LICENSE de terceiros para
+  `THIRD-PARTY-NOTICES` e gravar o LICENSE da Embrapa" (o aviso de terceiros não pode ser apagado). Se for
+  _copyleft_ (GPL, AGPL, LGPL, MPL): severidade HIGH, "Analisar a licença com {user_name} antes de qualquer mudança".
 
 ### 7. Verificar `.gitlab-io.yml` (pipeline da plataforma — ID 5.5)
 

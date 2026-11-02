@@ -87,6 +87,20 @@ Copyright ⓒ YYYY Brazilian Agricultural Research Corporation (Embrapa). All ri
 
 Projetos Embrapa I/O são propriedade da Embrapa e NÃO são open source.
 
+### Código de terceiros: os avisos ficam em `THIRD-PARTY-NOTICES`
+
+Antes de gravar o `LICENSE` da Embrapa, leia o `LICENSE` atual. Se a aplicação nasceu de código de terceiros com
+licença permissiva (um _template_ da comunidade, um sistema de código aberto adaptado), **o aviso de _copyright_ e o
+texto dessa licença não podem desaparecer**: MIT, BSD e Apache exigem que acompanhem todas as cópias. Por isso:
+
+| `LICENSE` atual | O que fazer |
+| --- | --- |
+| Ausente, ou já da Embrapa | gravar o `LICENSE` da Embrapa |
+| MIT, BSD, ISC, Apache 2.0 ou outra permissiva de terceiros | **mover** o conteúdo integral para `THIRD-PARTY-NOTICES` (raiz), com uma linha de cabeçalho dizendo de onde veio o código (repositório de origem); depois gravar o `LICENSE` da Embrapa |
+| GPL, AGPL, LGPL, MPL ou outra _copyleft_ | **parar** e avisar o usuário: o código não pode ficar «All rights reserved» sem análise da licença (ver o capítulo de licenciamento em https://embrapa.io/docs/licensing) |
+
+O `THIRD-PARTY-NOTICES` é mantido também quando a app virar _boilerplate_. Nunca apague um aviso de terceiros.
+
 ---
 
 ## Integrações Sentry e Matomo - Exceção de Código Funcional

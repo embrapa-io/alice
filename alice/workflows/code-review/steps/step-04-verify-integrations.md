@@ -41,6 +41,7 @@ Follow `./references/step-file-protocol.md`. Step-specific:
 
 **Verificações:**
 - [ ] Arquivo `LICENSE` existe
+- [ ] Se havia licença de terceiros, o texto original está em `THIRD-PARTY-NOTICES` (nenhum aviso de terceiros apagado)
 - [ ] Contém copyright da Embrapa
 
 ```

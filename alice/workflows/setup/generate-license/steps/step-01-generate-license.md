@@ -24,6 +24,18 @@ Follow `./references/step-file-protocol.md`. Step-specific:
 
 ## Sequence of Instructions (Do not deviate, skip, or optimize)
 
+### 0. Preservar avisos de terceiros
+
+Se `{project-root}/LICENSE` já existe e **não** contém `Brazilian Agricultural Research Corporation (Embrapa)`:
+
+- **Licença permissiva de terceiros** (MIT, BSD, ISC, Apache 2.0…): mova o conteúdo **integral** para
+  `{project-root}/THIRD-PARTY-NOTICES`, precedido da linha `Código de terceiros incorporado a esta aplicação: <origem>`
+  (a origem vem do remoto do git, do `README.md` ou do próprio aviso). Se o arquivo já existir, acrescente ao fim.
+- **Licença _copyleft_** (GPL, AGPL, LGPL, MPL…) ou texto que você não reconhece: **PARE** e pergunte a {user_name}
+  antes de qualquer gravação. Não sobrescreva.
+
+Informe a {user_name} o que foi movido e por quê (as licenças permissivas exigem que o aviso acompanhe as cópias).
+
 ### 1. Calcular Ano Atual
 
 **Obter data atual do sistema:**
@@ -53,7 +65,7 @@ Save to `{project-root}/LICENSE`:
 - Ensure trailing newline
 
 **Se arquivo LICENSE já existir:**
-- Sobrescrever silenciosamente (comportamento esperado)
+- Sobrescrever, **depois** de cumprido o passo 0 (avisos de terceiros preservados em `THIRD-PARTY-NOTICES`)
 
 ### 4. Confirmar Criação
 

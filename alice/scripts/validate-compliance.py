@@ -77,6 +77,9 @@ REQUIRED_SETTINGS_FIELDS = [
 STAGE_KEYS = ["default", "alpha", "beta", "release"]
 
 LICENSE_REQUIRED_TEXT = "Brazilian Agricultural Research Corporation (Embrapa)"
+# Licenças de terceiros: permissivas vão para THIRD-PARTY-NOTICES; copyleft exige análise antes
+PERMISSIVE_RE = re.compile(r"MIT License|Permission is hereby granted|Apache License|Redistribution and use in source|ISC License", re.IGNORECASE)
+COPYLEFT_RE = re.compile(r"GNU (Affero |Lesser )?General Public License|Mozilla Public License", re.IGNORECASE)
 
 RECOMMENDED_CLI_SERVICES = frozenset({"backup", "restore", "sanitize"})
 
@@ -1396,11 +1399,19 @@ def validate_code(project: Path, stack: Dict[str, Any]) -> List[Finding]:
         try:
             license_text = license_path.read_text(encoding="utf-8", errors="replace")
             if LICENSE_REQUIRED_TEXT not in license_text:
+                fix = f"Atualizar LICENSE para conter: 'Copyright (c) YYYY {LICENSE_REQUIRED_TEXT}. All rights reserved.'"
+                severity = "LOW"
+                if COPYLEFT_RE.search(license_text):
+                    severity = "HIGH"
+                    fix = "LICENSE de terceiros copyleft (GPL/AGPL/LGPL/MPL): analisar a licença com o usuário antes de qualquer mudança"
+                elif PERMISSIVE_RE.search(license_text):
+                    fix = ("LICENSE de terceiros (licença permissiva): mover o conteúdo integral para THIRD-PARTY-NOTICES e "
+                           f"então gravar 'Copyright (c) YYYY {LICENSE_REQUIRED_TEXT}. All rights reserved.'")
                 findings.append(Finding(
-                    rule="5.4b", severity="LOW", category="license",
+                    rule="5.4b", severity=severity, category="license",
                     file="LICENSE",
                     message="LICENSE não contém texto de copyright da Embrapa",
-                    fix=f"Atualizar LICENSE para conter: 'Copyright (c) YYYY {LICENSE_REQUIRED_TEXT}. All rights reserved.'",
+                    fix=fix,
                 ))
         except Exception:
             pass
