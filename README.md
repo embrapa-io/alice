@@ -1,6 +1,6 @@
 # Embrapa I/O DevOps Compliance Module
 
-**Versão**: 1.26.10-1 | **Compatível com**: BMAD Core v6 | **Convenção de versão**: `1.YY.MM`
+**Versão**: 1.26.11-1 | **Compatível com**: BMAD Core v6 | **Convenção de versão**: `1.YY.MM`
 
 Módulo de conhecimento [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) para conformidade de aplicações com a plataforma [Embrapa I/O](https://embrapa.io). Inclui a agente **Alice**, 8 workflows especializados, 8 knowledge files, 6 templates e um script de validação automatizada.
 
@@ -341,6 +341,7 @@ _bmad-output/
 
 ### Histórico
 
+- **2026-11-01**: v1.26.11-1 — Regra 5.4: `LICENSE` de terceiros (MIT, BSD, Apache…) movido para `THIRD-PARTY-NOTICES` antes de gravar o da Embrapa; _copyleft_ pede análise. Primeira versão publicada no _marketplace_ com as regras 1.19 (_restore_ desfaz o _backup_), 2.11 e 2.7c (arquivos `.env`), 1.14, 1.15, 2.4b, 2.7b, 4.1 e 4.2, entradas na `main` depois da 1.26.10-1 sem aumento de versão (quem instalou o _plugin_ não as recebia).
 - **2026-10-03**: v1.26.10-1 — Regra 5.5: `.gitlab-io.yml` na raiz (pipeline da plataforma com SonarQube; MEDIUM se ausente, aviso sem `sonar-scanner`); Alice gera o arquivo a partir de `templates/gitlab-io/gitlab-io.yml` e nunca toca o `.gitlab-ci.yml`, que passa a ser da equipe
 - **2026-04-14**: Quality analysis e otimizações — SKILL.md na raiz, `validate-compliance.py` (1892 linhas, 29 testes), modo headless, config consolidado, depreciação VCL, cobertura NO-FALLBACK/Linter no VC/CR, checklists compartilhados, cobertura `.gitignore` expandida (`.env.sh` + diretórios AI)
 - **2026-03-30**: v1.26.4-9 — Validação de módulo, criação de module-help.csv, consolidação de metadados
