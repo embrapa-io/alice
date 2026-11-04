@@ -26,7 +26,7 @@ Regras de segurança que a Alice segue sempre:
 
 ```bash
 claude plugin marketplace add embrapa-io/alice
-claude plugin install critical-cves@embrapa-io
+claude plugin install cve@embrapa-io
 ```
 
 ## Uso
@@ -34,7 +34,7 @@ claude plugin install critical-cves@embrapa-io
 Abra o Claude Code na pasta da app (ou numa pasta com os clones das apps do projeto) e digite:
 
 ```
-/critical-cves:alice
+/cve:alice
 ```
 
 A Alice se apresenta, mostra o menu e espera a sua escolha. Qualquer código vale a qualquer momento da conversa; `MH`

@@ -173,7 +173,7 @@ Cuidados:
   quando a ação é que foi fraca.
 - **CVE de dependência** procede se o lockfile ainda tem a versão afetada. App de loja só entrega a correção
   publicando versão nova: diga isso na issue. CVE em exploração ativa (alerta de CVE crítico) é tratada pelo plugin
-  `critical-cves`.
+  `cve` (`/cve:alice`).
 - **Crash/ANR** com pilha e nenhuma linha do app é do sistema ou do fabricante; se a ação pediu mudança no código, é
   «ação inadequada».
 - **SonarQube:** confira se o arquivo é código da equipe ou gerado/de terceiros (`build/`, bundles). Métrica
