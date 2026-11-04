@@ -1,6 +1,6 @@
 ---
 name: alice
-description: Transforma uma aplicação Embrapa I/O já validada/conforme pela agente Alice em um boilerplate genérico e reutilizável pela plataforma. Invocada como /boilerplate:alice (a agente Alice com o chapéu de boilerplates). Use sempre que o usuário mencionar "gerar boilerplate", "criar boilerplate Embrapa I/O", "transformar app em boilerplate", "genericar app", "preparar app para fork pela plataforma Embrapa I/O", ou quiser substituir valores reais (nome do projeto, versão, slugs) por placeholders `%GENESIS_*%` em `.env.io.example`, `.env.example` e `README.md`, ou preparar o `.gitlab-io.yml` (pipeline da plataforma) de um boilerplate. Use mesmo quando o usuário não disser explicitamente "boilerplate" — qualquer pedido para tornar uma app Embrapa I/O reutilizável como template cai aqui. Esta skill assume que a app já passou pela validação da Alice (github.com/embrapa-io/alice) e foca apenas na etapa de genericação.
+description: "Turns an Embrapa I/O-compliant app into a reusable boilerplate for the platform catalog."
 ---
 
 # Alice — Boilerplates do Embrapa I/O

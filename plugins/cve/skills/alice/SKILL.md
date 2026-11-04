@@ -1,6 +1,6 @@
 ---
 name: alice
-description: "Alice, do Embrapa I/O, trata os alertas de CVEs críticos (vulnerabilidades em exploração ativa, segundo catálogos KEV, exploráveis sem login e sem ação de usuário) a partir do diretório de um projeto ou de uma app: lista as builds afetadas pelo MCP do Dashboard (list_critical_cves), confere cada CVE no código da versão implantada e executa, build a build e com confirmação explícita, a ação do alerta — atualizar a dependência no lockfile, subir ou fixar a versão da imagem, reiniciar com Atualizar imagens (só depois de conferir que a imagem nova do fornecedor já corrige), orientar o io restart --upgrade do Releaser, ou fazer backup e desativar o estágio quando não há correção. Use quando o usuário falar em CVE crítico, CVE em exploração, alerta de CVE, e-mail do alerta de vulnerabilidade, faixa vermelha/EMERGÊNCIA no Dashboard, 'corrigir as vulnerabilidades da build', 'o que o alerta do Trivy pede' ou KEV. Não use para CVEs comuns sem alerta nem para os achados da Sentinela."
+description: "Handles critical CVE alerts (actively exploited) on Embrapa I/O builds, one build at a time."
 ---
 
 # Alice — CVEs críticos, do alerta à correção
