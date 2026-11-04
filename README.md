@@ -13,8 +13,13 @@ Marketplace `embrapa-io` de plugins do Claude Code com a agente **Alice** da pla
 
 ```bash
 claude plugin marketplace add embrapa-io/alice
-claude plugin install compliance@embrapa-io       # e os outros, conforme a necessidade
+claude plugin install compliance@embrapa-io       # conformidade (toda equipe)
+claude plugin install sentinel@embrapa-io         # relatórios da Sentinela
+claude plugin install cve@embrapa-io              # alertas de CVE crítico
+claude plugin install boilerplate@embrapa-io      # app → boilerplate do catálogo
 ```
+
+Guia de instalação e uso, com exemplos de cada plugin: https://embrapa.io/docs/alice.
 
 Digitar `/alice` no Claude Code lista as Alices instaladas. O plugin `compliance` inclui os workflows de verificação, implementação, revisão e teste de backup, os arquivos de conhecimento da plataforma, os modelos e um script de validação automatizada.
 
@@ -44,7 +49,7 @@ Ou, de dentro do Claude Code:
 /plugin install compliance@embrapa-io
 ```
 
-Para receber as versões novas: `claude plugin marketplace update embrapa-io` e `claude plugin update compliance@embrapa-io`.
+Para receber as versões novas: `claude plugin marketplace update embrapa-io` e, para cada plugin instalado, `claude plugin update <plugin>@embrapa-io` (ex.: `claude plugin update cve@embrapa-io`). Os outros plugins (`sentinel`, `cve`, `boilerplate`) se instalam do mesmo jeito; cada um tem o seu README em [`plugins/`](plugins).
 
 ### 1b. Instalação em outros assistentes (BMAD)
 
