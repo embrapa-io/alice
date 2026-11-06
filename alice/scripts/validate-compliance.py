@@ -836,11 +836,22 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
         if isinstance(profiles, list) and "cli" in profiles:
             cli_services.add(svc_name)
 
+    # Identify one-shot init services: another service waits for them with
+    # 'condition: service_completed_successfully' (e.g. chown of a volume)
+    oneshot_services: set = set()
+    for svc_def in services.values():
+        deps = svc_def.get("depends_on", {}) if isinstance(svc_def, dict) else {}
+        if isinstance(deps, dict):
+            for dep_name, dep_def in deps.items():
+                if isinstance(dep_def, dict) and dep_def.get("condition") == "service_completed_successfully":
+                    oneshot_services.add(dep_name)
+
     for svc_name, svc_def in services.items():
         if not isinstance(svc_def, dict):
             continue
 
         is_cli = svc_name in cli_services
+        is_oneshot = svc_name in oneshot_services and not is_cli
 
         # Rule 1.6: All services connected to network 'stack'
         svc_networks = svc_def.get("networks", [])
@@ -893,6 +904,16 @@ def validate_docker(project: Path) -> Tuple[List[Finding], Optional[str]]:
                     file=dc_rel,
                     message=f"Serviço CLI '{svc_name}' sem 'restart: \"no\"' (tem: '{restart}')",
                     fix=f"Definir 'restart: \"no\"' no serviço CLI '{svc_name}'",
+                ))
+        elif is_oneshot:
+            # One-shot init service: runs once per 'up' and exits; must not restart
+            restart = svc_def.get("restart")
+            if restart not in ("no", '"no"', "'no'", None):
+                findings.append(Finding(
+                    rule="1.10", severity="MEDIUM", category="docker",
+                    file=dc_rel,
+                    message=f"Serviço de inicialização '{svc_name}' com 'restart: {restart}' (esperado: \"no\")",
+                    fix=f"Definir 'restart: \"no\"' no serviço '{svc_name}', que roda uma vez e termina",
                 ))
         else:
             # Rule 1.10: Long-running services need restart: unless-stopped

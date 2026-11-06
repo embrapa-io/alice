@@ -39,6 +39,14 @@ Para cada serviço não-CLI:
 - [ ] `healthcheck:` configurado (test, interval, timeout, retries, start_period)
 - [ ] Portas usam variáveis (`${APP_PORT}:{internal}`) — sem hardcoding
 
+## Serviços de Inicialização
+
+Serviço que roda uma vez a cada `up` e termina (ex.: `chown` de um volume, criação de bucket), reconhecido por outro
+serviço depender dele com `condition: service_completed_successfully`:
+- [ ] `restart: "no"`
+- [ ] Sem `healthcheck` (não fica de pé) e sem `profiles: ['cli']` (precisa rodar no `up`)
+- [ ] `networks:` inclui `stack`
+
 ## Serviços CLI (backup, restore, sanitize)
 
 Para cada serviço CLI:
