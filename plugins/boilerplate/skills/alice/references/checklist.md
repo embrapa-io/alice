@@ -42,6 +42,7 @@ grep -n '\${[A-Z_]*:-' docker-compose.yaml && echo "⚠️  FALLBACKS ENCONTRADO
 - [ ] JSON válido (`jq . .embrapa/settings.json` sem erro)
 - [ ] Campos mínimos esperados pela plataforma presentes (nome, tipo, stack)
 - [ ] Textos descritivos em **português brasileiro correto, com acentos**
+- [ ] `audience` é `developer` (ou ausente) ou `end-user`; com `end-user`, `summary` de 120 a 600 caracteres, sem Markdown, com `Exemplo:` (ver `audience-summary.md`)
 
 ## `.gitignore` — ajustes da genericação
 

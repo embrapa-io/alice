@@ -1,6 +1,6 @@
 # Embrapa I/O — a agente Alice
 
-**Versão**: 1.26.11-9 | **Funciona em**: Claude Code (plugin), e em Gemini CLI, OpenCode, GitHub Copilot, Codex e outros pelo BMAD | **Convenção de versão**: `1.YY.MM-N`
+**Versão**: 1.26.11-10 | **Funciona em**: Claude Code (plugin), e em Gemini CLI, OpenCode, GitHub Copilot, Codex e outros pelo BMAD | **Convenção de versão**: `1.YY.MM-N`
 
 Marketplace `embrapa-io` de plugins do Claude Code com a agente **Alice** da plataforma [Embrapa I/O](https://embrapa.io). A agente é uma só; cada plugin é uma tarefa, com um menu próprio, e se instala à parte:
 
@@ -386,6 +386,7 @@ _bmad-output/
 
 ### Histórico
 
+- **2026-11-13**: v1.26.11-10 — `/boilerplate:alice` classifica o público do boilerplate (`audience`: `developer` ou `end-user`) e, para usuário final, cobra o `summary` em linguagem simples e o que a vitrine dos laboratórios do Forge promete (`references/audience-summary.md`); `/compliance:alice` reconhece serviços de inicialização (`service_completed_successfully`).
 - **2026-11-03**: v1.26.11-9 — Descrições das skills em inglês e curtas, para caber nas duas linhas do seletor de comandos do Claude Code (`/alice`).
 - **2026-11-03**: v1.26.11-8 — Plugin `critical-cves` renomeado para **`cve`** (`claude plugin install cve@embrapa-io`, comando `/cve:alice`), no padrão curto dos outros plugins. Quem instalou o nome antigo: `claude plugin uninstall critical-cves@embrapa-io` e instale `cve@embrapa-io`.
 - **2026-11-02**: v1.26.11-7 — O repositório vira o marketplace da Alice com um plugin por tarefa: entram `boilerplate` (vindo de `github.com/embrapa-io/skills`, agora arquivado), `sentinel` e `critical-cves`, cada um com a skill `alice` e menu próprio.

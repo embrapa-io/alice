@@ -58,6 +58,7 @@ Este plugin cobre **apenas a etapa de genericação** — transformar uma app **
 6. Atualiza o `.gitignore` para ignorar artefatos de agentes/IDEs e saídas do BMAD.
 7. **Grava o `.gitlab-io.yml` adequado** (pipeline da plataforma, lido pelo GitLab da Embrapa no lugar do `.gitlab-ci.yml`): classifica a app como **com código-fonte próprio** (análise do SonarQube, preservando o ajuste da pilha, como no .NET) ou **de prateleira** (arquivo que declara não haver pipeline), e retira o `.gitlab-ci.yml` do boilerplate. Ver `references/gitlab-io.md`.
 8. **Fecha com a análise do SonarQube** (boilerplate com código): orienta o usuário a ligar o MCP do SonarQube e a usar a análise do projeto `boilerplate_<nome>` para corrigir os erros **antes** de publicar o boilerplate no catálogo (`metadata/boilerplates.json`). Ver `references/sonarqube-antes-do-catalogo.md`.
+9. **Classifica o público** (`audience` no `.embrapa/settings.json`: `developer` ou `end-user`) e, quando o boilerplate é para usuário final, **cobra o `summary`** em linguagem simples e o que a vitrine dos laboratórios do Forge promete (login próprio, backup íntegro, nada a configurar à mão). Ver `references/audience-summary.md`.
 
 ### Pré-checagens obrigatórias
 
@@ -96,6 +97,7 @@ Leia em detalhe conforme for editar cada tipo:
 - `LICENSE` → `references/license-template.md` (substituição por MIT com ano atual).
 - `.gitlab-io.yml` e `.gitlab-ci.yml` → `references/gitlab-io.md` (classificação, os dois modelos em `assets/`, chave do SonarQube, o que fazer com o `.gitlab-ci.yml`).
 - Análise do SonarQube e MCP antes do catálogo → `references/sonarqube-antes-do-catalogo.md`.
+- `audience` e `summary` do `.embrapa/settings.json` (público e vitrine dos laboratórios) → `references/audience-summary.md`.
 - Checklist de conformidade e `.gitignore` → `references/checklist.md`.
 
 ### Português brasileiro correto — regra permanente
@@ -132,9 +134,10 @@ Este passo é **parte do boilerplate**: um boilerplate nascido com versão defas
    `AGENTS.md` de um boilerplate de referência da mesma família, adaptado à pilha desta app; se existir, revisar. Ver
    `references/agents-md.md`.
 8. **Ajuste do `.gitignore`** para ignorar `_bmad/`, `_bmad-output/`, pastas de agentes e arquivos de editor (ver checklist).
+8c. **Público do boilerplate**: perguntar se é para desenvolvedores ou para usuário final e gravar `audience`; se `end-user`, escrever o `summary` com o usuário e conferir login próprio, backup íntegro e ausência de configuração manual. Ver `references/audience-summary.md`.
 9. **Revisão final de PT-BR** — passe nos arquivos modificados procurando palavras sem acento e corrija.
 10. **Análise do SonarQube antes do catálogo** (boilerplate com código; obrigatório ao final do desenvolvimento): orientar o usuário a ligar o MCP do SonarQube se ele ainda não estiver na sessão, garantir o projeto `boilerplate_<nome>`, disparar a análise e corrigir vulnerabilidades, hotspots e bugs até o quality gate passar — só então publicar em `metadata/boilerplates.json`. Ver `references/sonarqube-antes-do-catalogo.md`.
-11. **Diff resumido** ao usuário: quais arquivos mudaram, quais placeholders foram inseridos, quais upgrades foram aplicados, confirmação de que o `LICENSE` virou MIT qual variante do `.gitlab-io.yml` foi gravada e o estado da análise do SonarQube (quality gate e o que restou).
+11. **Diff resumido** ao usuário: quais arquivos mudaram, quais placeholders foram inseridos, quais upgrades foram aplicados, confirmação de que o `LICENSE` virou MIT, o `audience` gravado (e o `summary`, se `end-user`, com as pendências da vitrine), qual variante do `.gitlab-io.yml` foi gravada e o estado da análise do SonarQube (quality gate e o que restou).
 
 ### O que a skill NÃO faz
 
