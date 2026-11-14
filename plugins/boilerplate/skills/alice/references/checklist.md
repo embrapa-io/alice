@@ -43,6 +43,7 @@ grep -n '\${[A-Z_]*:-' docker-compose.yaml && echo "⚠️  FALLBACKS ENCONTRADO
 - [ ] Campos mínimos esperados pela plataforma presentes (nome, tipo, stack)
 - [ ] Textos descritivos em **português brasileiro correto, com acentos**
 - [ ] `audience` é `developer` (ou ausente) ou `end-user`; com `end-user`, `summary` de 120 a 600 caracteres, sem Markdown, com `Exemplo:` (ver `audience-summary.md`)
+- [ ] Ferramenta com servidor MCP **oficial**: ligado no mesmo endereço da app, com token `SECRET` obrigatório, chave `mcp` declarada e `test/mcp.py` verde; sem oficial, nada de `mcp` (ver `mcp-server.md`)
 
 ## `.gitignore` — ajustes da genericação
 

@@ -59,6 +59,7 @@ Este plugin cobre **apenas a etapa de genericação** — transformar uma app **
 7. **Grava o `.gitlab-io.yml` adequado** (pipeline da plataforma, lido pelo GitLab da Embrapa no lugar do `.gitlab-ci.yml`): classifica a app como **com código-fonte próprio** (análise do SonarQube, preservando o ajuste da pilha, como no .NET) ou **de prateleira** (arquivo que declara não haver pipeline), e retira o `.gitlab-ci.yml` do boilerplate. Ver `references/gitlab-io.md`.
 8. **Fecha com a análise do SonarQube** (boilerplate com código): orienta o usuário a ligar o MCP do SonarQube e a usar a análise do projeto `boilerplate_<nome>` para corrigir os erros **antes** de publicar o boilerplate no catálogo (`metadata/boilerplates.json`). Ver `references/sonarqube-antes-do-catalogo.md`.
 9. **Classifica o público** (`audience` no `.embrapa/settings.json`: `developer` ou `end-user`) e, quando o boilerplate é para usuário final, **cobra o `summary`** em linguagem simples e o que a vitrine dos laboratórios do Forge promete (login próprio, backup íntegro, nada a configurar à mão). Ver `references/audience-summary.md`.
+10. **Liga o servidor MCP oficial**, quando a ferramenta tem um: no mesmo endereço da app (`/mcp`), sempre com token (`SECRET`), declarado na chave `mcp` do `.embrapa/settings.json` e com teste em `test/mcp.py`. Servidor da comunidade não entra. Ver `references/mcp-server.md`.
 
 ### Pré-checagens obrigatórias
 
@@ -98,6 +99,7 @@ Leia em detalhe conforme for editar cada tipo:
 - `.gitlab-io.yml` e `.gitlab-ci.yml` → `references/gitlab-io.md` (classificação, os dois modelos em `assets/`, chave do SonarQube, o que fazer com o `.gitlab-ci.yml`).
 - Análise do SonarQube e MCP antes do catálogo → `references/sonarqube-antes-do-catalogo.md`.
 - `audience` e `summary` do `.embrapa/settings.json` (público e vitrine dos laboratórios) → `references/audience-summary.md`.
+- `mcp` do `.embrapa/settings.json` (servidor MCP oficial ligado por padrão, com token) → `references/mcp-server.md`.
 - Checklist de conformidade e `.gitignore` → `references/checklist.md`.
 
 ### Português brasileiro correto — regra permanente
@@ -135,9 +137,10 @@ Este passo é **parte do boilerplate**: um boilerplate nascido com versão defas
    `references/agents-md.md`.
 8. **Ajuste do `.gitignore`** para ignorar `_bmad/`, `_bmad-output/`, pastas de agentes e arquivos de editor (ver checklist).
 8c. **Público do boilerplate**: perguntar se é para desenvolvedores ou para usuário final e gravar `audience`; se `end-user`, escrever o `summary` com o usuário e conferir login próprio, backup íntegro e ausência de configuração manual. Ver `references/audience-summary.md`.
+8d. **MCP oficial**: pesquisar se a ferramenta tem servidor MCP oficial; se tiver, ligá-lo no mesmo endereço da app, com token `SECRET` e proxy que confira o cabeçalho quando preciso, declarar a chave `mcp`, escrever `test/mcp.py` e rodar de novo o `test/backup-roundtrip.sh`. Se não tiver, registrar a pesquisa. Ver `references/mcp-server.md`.
 9. **Revisão final de PT-BR** — passe nos arquivos modificados procurando palavras sem acento e corrija.
 10. **Análise do SonarQube antes do catálogo** (boilerplate com código; obrigatório ao final do desenvolvimento): orientar o usuário a ligar o MCP do SonarQube se ele ainda não estiver na sessão, garantir o projeto `boilerplate_<nome>`, disparar a análise e corrigir vulnerabilidades, hotspots e bugs até o quality gate passar — só então publicar em `metadata/boilerplates.json`. Ver `references/sonarqube-antes-do-catalogo.md`.
-11. **Diff resumido** ao usuário: quais arquivos mudaram, quais placeholders foram inseridos, quais upgrades foram aplicados, confirmação de que o `LICENSE` virou MIT, o `audience` gravado (e o `summary`, se `end-user`, com as pendências da vitrine), qual variante do `.gitlab-io.yml` foi gravada e o estado da análise do SonarQube (quality gate e o que restou).
+11. **Diff resumido** ao usuário: quais arquivos mudaram, quais placeholders foram inseridos, quais upgrades foram aplicados, confirmação de que o `LICENSE` virou MIT, o `audience` gravado (e o `summary`, se `end-user`, com as pendências da vitrine), o MCP (oficial ligado, com o resultado do `test/mcp.py`, ou o motivo de não haver), qual variante do `.gitlab-io.yml` foi gravada e o estado da análise do SonarQube (quality gate e o que restou).
 
 ### O que a skill NÃO faz
 
