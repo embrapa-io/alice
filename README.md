@@ -386,6 +386,7 @@ _bmad-output/
 
 ### Histórico
 
+- **2026-11-14**: v1.26.11-12 — servidor MCP **da comunidade** aceito por exceção, com aval do Camilo: respaldo comprovado, código lido, versão fixada, mesmo contrato do oficial e `"maintainer": "community"` (`references/mcp-server.md`).
 - **2026-11-14**: v1.26.11-11 — `/boilerplate:alice` liga o servidor MCP **oficial** da ferramenta por padrão (mesmo endereço da app, token `SECRET` obrigatório, chave `mcp` no `settings.json`, `test/mcp.py`); servidor da comunidade não entra (`references/mcp-server.md`).
 - **2026-11-13**: v1.26.11-10 — `/boilerplate:alice` classifica o público do boilerplate (`audience`: `developer` ou `end-user`) e, para usuário final, cobra o `summary` em linguagem simples e o que a vitrine dos laboratórios do Forge promete (`references/audience-summary.md`); `/compliance:alice` reconhece serviços de inicialização (`service_completed_successfully`).
 - **2026-11-03**: v1.26.11-9 — Descrições das skills em inglês e curtas, para caber nas duas linhas do seletor de comandos do Claude Code (`/alice`).

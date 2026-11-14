@@ -9,10 +9,22 @@ via MCP, e não por cliques. Documentação pública: https://embrapa.io/docs/bo
 
 Pesquise na documentação e no GitHub **da própria ferramenta** (não em agregadores). Conta como oficial o servidor
 mantido pelo projeto ou pela empresa da ferramenta: embutido na aplicação (n8n, Metabase), plugin oficial (WordPress
-`mcp-adapter`) ou pacote oficial (Posit `mcptools` para o R). Servidor da comunidade **não** entra no boilerplate, mesmo
-que popular: sem garantia de manutenção nem de correção de falhas. Registre a pesquisa no diff final (o que achou, URL).
+`mcp-adapter`) ou pacote oficial (Posit `mcptools` para o R). Servidor da comunidade só entra pela exceção abaixo:
+sem garantia de manutenção nem de correção de falhas, ele precisa de revisão e versão fixada. Registre a pesquisa no diff final (o que achou, URL).
 
-Se não houver oficial, não declare `mcp` e diga isso no diff final. Se o oficial exigir licença paga no self-hosted ou
+### Exceção: servidor da comunidade
+
+Sem oficial, ou com um oficial muito limitado, um servidor da comunidade pode entrar, **só com o aval do Camilo** e se
+cumprir tudo isto (decisão de 14/11/2026; primeiro caso: AFFiNE com `affine-mcp-server`):
+
+- respaldo comprovado: versão publicada nos últimos seis meses, mais de um mantenedor ou adoção ampla, licença aberta;
+- código da versão escolhida **lido** antes de entrar: fala só com a própria instância, sem telemetria, sem envio para
+  fora, sem segredo em log; registre no README o que conferiu;
+- **versão fixada** (exceção ao `latest`: é código de terceiro com acesso total); atualização só por MR, com nova leitura;
+- o mesmo contrato do oficial (seção 2) e `"maintainer": "community"` na declaração (seção 3);
+- README dizendo que é da comunidade; quando o oficial passar a atender, ele substitui o da comunidade.
+
+Se não houver servidor aceitável, não declare `mcp` e diga isso no diff final. Se o oficial exigir licença paga no self-hosted ou
 for só local (stdio, sem como chegar pela rede), também não ligue; anote o motivo.
 
 ## 2. Como ligar
@@ -39,8 +51,8 @@ for só local (stdio, sem como chegar pela rede), também não ligue; anote o mo
 }
 ```
 
-`port` é o **nome** de uma variável `PORT`; `token`, o **nome** de uma variável `SECRET`; `docs`, endereço `https`.
-Nenhum outro atributo é aceito.
+`port` é o **nome** de uma variável `PORT`; `token`, o **nome** de uma variável `SECRET`; `docs`, endereço `https`;
+`maintainer`, opcional, `official` (padrão) ou `community`. Nenhum outro atributo é aceito.
 
 ## 4. README e aviso de dados
 
