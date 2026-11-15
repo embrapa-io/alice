@@ -58,7 +58,7 @@ Este plugin cobre **apenas a etapa de genericação** — transformar uma app **
 6. Atualiza o `.gitignore` para ignorar artefatos de agentes/IDEs e saídas do BMAD.
 7. **Grava o `.gitlab-io.yml` adequado** (pipeline da plataforma, lido pelo GitLab da Embrapa no lugar do `.gitlab-ci.yml`): classifica a app como **com código-fonte próprio** (análise do SonarQube, preservando o ajuste da pilha, como no .NET) ou **de prateleira** (arquivo que declara não haver pipeline), e retira o `.gitlab-ci.yml` do boilerplate. Ver `references/gitlab-io.md`.
 8. **Fecha com a análise do SonarQube** (boilerplate com código): orienta o usuário a ligar o MCP do SonarQube e a usar a análise do projeto `boilerplate_<nome>` para corrigir os erros **antes** de publicar o boilerplate no catálogo (`metadata/boilerplates.json`). Ver `references/sonarqube-antes-do-catalogo.md`.
-9. **Classifica o público** (`audience` no `.embrapa/settings.json`: `developer` ou `end-user`) e, quando o boilerplate é para usuário final, **cobra o `summary`** em linguagem simples e o que a vitrine dos laboratórios do Forge promete (login próprio, backup íntegro, nada a configurar à mão). Ver `references/audience-summary.md`.
+9. **Classifica o público** (desenvolvimento ou público final) e, quando o boilerplate é para o público final, cobra o que o Hub do Forge promete (login próprio, backup íntegro, nada a configurar à mão) e **propõe a entrada da ferramenta no `hub.json` do `io/boilerplate/metadata`, por MR** (resumo em linguagem simples, exemplo, papel, ícone, endereços, acesso, primeiros passos). Nada de `audience` nem `summary` no `.embrapa/settings.json`. Ver `references/hub.md`.
 10. **Liga o servidor MCP oficial**, quando a ferramenta tem um: no mesmo endereço da app (`/mcp`), sempre com token (`SECRET`), declarado na chave `mcp` do `.embrapa/settings.json` e com teste em `test/mcp.py`. Servidor da comunidade não entra. Ver `references/mcp-server.md`.
 
 ### Pré-checagens obrigatórias
@@ -98,7 +98,7 @@ Leia em detalhe conforme for editar cada tipo:
 - `LICENSE` → `references/license-template.md` (substituição por MIT com ano atual).
 - `.gitlab-io.yml` e `.gitlab-ci.yml` → `references/gitlab-io.md` (classificação, os dois modelos em `assets/`, chave do SonarQube, o que fazer com o `.gitlab-ci.yml`).
 - Análise do SonarQube e MCP antes do catálogo → `references/sonarqube-antes-do-catalogo.md`.
-- `audience` e `summary` do `.embrapa/settings.json` (público e vitrine dos laboratórios) → `references/audience-summary.md`.
+- Público do boilerplate e entrada no `hub.json` do metadata (Hub do Forge) → `references/hub.md`.
 - `mcp` do `.embrapa/settings.json` (servidor MCP oficial ligado por padrão, com token) → `references/mcp-server.md`.
 - Checklist de conformidade e `.gitignore` → `references/checklist.md`.
 
@@ -136,11 +136,11 @@ Este passo é **parte do boilerplate**: um boilerplate nascido com versão defas
    `AGENTS.md` de um boilerplate de referência da mesma família, adaptado à pilha desta app; se existir, revisar. Ver
    `references/agents-md.md`.
 8. **Ajuste do `.gitignore`** para ignorar `_bmad/`, `_bmad-output/`, pastas de agentes e arquivos de editor (ver checklist).
-8c. **Público do boilerplate**: perguntar se é para desenvolvedores ou para usuário final e gravar `audience`; se `end-user`, escrever o `summary` com o usuário e conferir login próprio, backup íntegro e ausência de configuração manual. Ver `references/audience-summary.md`.
+8c. **Público do boilerplate**: perguntar se é para desenvolvedores ou para o público final; se for público final, conferir login próprio, backup íntegro e ausência de configuração manual, escrever com o usuário a entrada no `hub.json` e abrir o MR no `io/boilerplate/metadata` (depois de o boilerplate estar na `main`), com o `validate.py` verde. Não gravar `audience` nem `summary` no `settings.json`. Ver `references/hub.md`.
 8d. **MCP oficial**: pesquisar se a ferramenta tem servidor MCP oficial; se tiver, ligá-lo no mesmo endereço da app, com token `SECRET` e proxy que confira o cabeçalho quando preciso, declarar a chave `mcp`, escrever `test/mcp.py` e rodar de novo o `test/backup-roundtrip.sh`. Se não tiver, registrar a pesquisa. Ver `references/mcp-server.md`.
 9. **Revisão final de PT-BR** — passe nos arquivos modificados procurando palavras sem acento e corrija.
 10. **Análise do SonarQube antes do catálogo** (boilerplate com código; obrigatório ao final do desenvolvimento): orientar o usuário a ligar o MCP do SonarQube se ele ainda não estiver na sessão, garantir o projeto `boilerplate_<nome>`, disparar a análise e corrigir vulnerabilidades, hotspots e bugs até o quality gate passar — só então publicar em `metadata/boilerplates.json`. Ver `references/sonarqube-antes-do-catalogo.md`.
-11. **Diff resumido** ao usuário: quais arquivos mudaram, quais placeholders foram inseridos, quais upgrades foram aplicados, confirmação de que o `LICENSE` virou MIT, o `audience` gravado (e o `summary`, se `end-user`, com as pendências da vitrine), o MCP (oficial ligado, com o resultado do `test/mcp.py`, ou o motivo de não haver), qual variante do `.gitlab-io.yml` foi gravada e o estado da análise do SonarQube (quality gate e o que restou).
+11. **Diff resumido** ao usuário: quais arquivos mudaram, quais placeholders foram inseridos, quais upgrades foram aplicados, confirmação de que o `LICENSE` virou MIT, o público (e, se for público final, o MR do `hub.json` com as pendências do Hub), o MCP (oficial ligado, com o resultado do `test/mcp.py`, ou o motivo de não haver), qual variante do `.gitlab-io.yml` foi gravada e o estado da análise do SonarQube (quality gate e o que restou).
 
 ### O que a skill NÃO faz
 

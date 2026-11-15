@@ -1,6 +1,6 @@
 # Embrapa I/O — a agente Alice
 
-**Versão**: 1.26.11-11 | **Funciona em**: Claude Code (plugin), e em Gemini CLI, OpenCode, GitHub Copilot, Codex e outros pelo BMAD | **Convenção de versão**: `1.YY.MM-N`
+**Versão**: 1.26.11-13 | **Funciona em**: Claude Code (plugin), e em Gemini CLI, OpenCode, GitHub Copilot, Codex e outros pelo BMAD | **Convenção de versão**: `1.YY.MM-N`
 
 Marketplace `embrapa-io` de plugins do Claude Code com a agente **Alice** da plataforma [Embrapa I/O](https://embrapa.io). A agente é uma só; cada plugin é uma tarefa, com um menu próprio, e se instala à parte:
 
@@ -386,6 +386,7 @@ _bmad-output/
 
 ### Histórico
 
+- **2026-11-15**: v1.26.11-13 — `/boilerplate:alice` não grava mais `audience` nem `summary` no `settings.json`: para boilerplate de público final, cobra o que o Hub do Forge promete e propõe a entrada da ferramenta no `hub.json` do `io/boilerplate/metadata`, por MR, com o `validate.py` verde (`references/hub.md`, no lugar de `audience-summary.md`).
 - **2026-11-14**: v1.26.11-12 — servidor MCP **da comunidade** aceito por exceção, com aval do Camilo: respaldo comprovado, código lido, versão fixada, mesmo contrato do oficial e `"maintainer": "community"` (`references/mcp-server.md`).
 - **2026-11-14**: v1.26.11-11 — `/boilerplate:alice` liga o servidor MCP **oficial** da ferramenta por padrão (mesmo endereço da app, token `SECRET` obrigatório, chave `mcp` no `settings.json`, `test/mcp.py`); servidor da comunidade não entra (`references/mcp-server.md`).
 - **2026-11-13**: v1.26.11-10 — `/boilerplate:alice` classifica o público do boilerplate (`audience`: `developer` ou `end-user`) e, para usuário final, cobra o `summary` em linguagem simples e o que a vitrine dos laboratórios do Forge promete (`references/audience-summary.md`); `/compliance:alice` reconhece serviços de inicialização (`service_completed_successfully`).

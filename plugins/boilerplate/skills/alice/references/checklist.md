@@ -42,7 +42,7 @@ grep -n '\${[A-Z_]*:-' docker-compose.yaml && echo "⚠️  FALLBACKS ENCONTRADO
 - [ ] JSON válido (`jq . .embrapa/settings.json` sem erro)
 - [ ] Campos mínimos esperados pela plataforma presentes (nome, tipo, stack)
 - [ ] Textos descritivos em **português brasileiro correto, com acentos**
-- [ ] `audience` é `developer` (ou ausente) ou `end-user`; com `end-user`, `summary` de 120 a 600 caracteres, sem Markdown, com `Exemplo:` (ver `audience-summary.md`)
+- [ ] Sem `audience` nem `summary` (a curadoria do Hub fica no `hub.json` do metadata); boilerplate de público final com a entrada proposta no `hub.json` por MR e o `validate.py` verde (ver `hub.md`)
 - [ ] Ferramenta com servidor MCP **oficial**: ligado no mesmo endereço da app, com token `SECRET` obrigatório, chave `mcp` declarada e `test/mcp.py` verde; sem oficial, nada de `mcp` (ver `mcp-server.md`)
 
 ## `.gitignore` — ajustes da genericação
